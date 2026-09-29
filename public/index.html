@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIP Manager & Script Installer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0b0f19; color: #e2e8f0; font-family: ui-sans-serif, system-ui, sans-serif; }
+    .card-glass { background: rgba(17, 24, 39, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); }
+  </style>
+</head>
+<body class="min-h-screen py-10 px-4">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-gray-800">
+      <div>
+        <h1 class="text-2xl font-bold text-cyan-400 flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i> VIP License & Script Portal
+        </h1>
+        <p class="text-sm text-gray-400">Kelola izin IP autoscript dan salin perintah instalasi domain</p>
+      </div>
+      <button onclick="loadIPs()" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-cyan-400 rounded-lg text-sm transition">
+        <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh Data
+      </button>
+    </div>
+
+    <!-- Kotak Perintah Salin Instalasi -->
+    <div class="card-glass p-5 rounded-2xl border-cyan-500/30">
+      <h2 class="text-sm font-semibold uppercase tracking-wider text-cyan-400 mb-2 flex items-center gap-2">
+        <i class="fa-solid fa-terminal"></i> Perintah Instalasi VPS (Menggunakan Domain Ini)
+      </h2>
+      <div class="relative bg-black/70 rounded-xl p-4 font-mono text-sm border border-gray-800 overflow-x-auto text-green-400">
+        <span id="installCmd">apt update && apt install -y wget curl && wget -q <span id="domainUrl"></span>/setup.sh && chmod +x setup.sh && ./setup.sh</span>
+        <button onclick="copyCmd()" class="absolute right-3 top-3 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs transition">
+          <i class="fa-solid fa-copy mr-1"></i> Salin
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Tambah IP -->
+    <div class="card-glass p-6 rounded-2xl">
+      <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-user-plus text-cyan-400"></i> Daftarkan Izin IP Baru
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-gray-400 mb-1">Alamat IP VPS Client</label>
+          <input id="inputIp" type="text" placeholder="Contoh: 103.123.45.67" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1">Nama Client / Catatan</label>
+          <input id="inputName" type="text" placeholder="Contoh: Budi-VIP" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1">Masa Aktif Berakhir (YYYY-MM-DD)</label>
+          <input id="inputExp" type="date" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
+        </div>
+      </div>
+      <div class="flex items-center justify-between mt-4">
+        <div class="flex gap-2">
+          <button type="button" onclick="setExp(7)" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 rounded text-gray-300">+7 Hari</button>
+          <button type="button" onclick="setExp(30)" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 rounded text-gray-300">+30 Hari</button>
+          <button type="button" onclick="setExp(365)" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 rounded text-gray-300">+1 Tahun</button>
+        </div>
+        <button onclick="addIp()" id="btnSave" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 font-medium text-white text-sm rounded-lg transition flex items-center gap-2">
+          <i class="fa-solid fa-plus"></i> Simpan ke GitHub
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabel Daftar Izin IP -->
+    <div class="card-glass rounded-2xl overflow-hidden">
+      <div class="p-4 border-b border-gray-800 flex justify-between items-center">
+        <h3 class="font-bold text-white text-sm">Daftar IP Aktif Terdaftar</h3>
+        <span id="ipCount" class="text-xs px-2 py-1 bg-gray-800 rounded text-cyan-400">0 IP</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-gray-900/60 text-gray-400 text-xs uppercase border-b border-gray-800">
+            <tr>
+              <th class="py-3 px-4">Alamat IP</th>
+              <th class="py-3 px-4">Nama Client</th>
+              <th class="py-3 px-4">Expired</th>
+              <th class="py-3 px-4 text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="ipTableBody" class="divide-y divide-gray-800/60 text-gray-300">
+            <tr>
+              <td colspan="4" class="text-center py-8 text-gray-500">Memuat data dari GitHub...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let rawContentCache = "";
+
+    // Set domain saat ini secara otomatis
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("domainUrl").innerText = window.location.origin;
+      setExp(30);
+      loadIPs();
+    });
+
+    function setExp(days) {
+      const d = new Date();
+      d.setDate(d.getDate() + days);
+      document.getElementById("inputExp").value = d.toISOString().split("T")[0];
+    }
+
+    function copyCmd() {
+      const cmdText = document.getElementById("installCmd").innerText;
+      navigator.clipboard.writeText(cmdText);
+      alert("Perintah instalasi berhasil disalin!");
+    }
+
+    async function loadIPs() {
+      const tbody = document.getElementById("ipTableBody");
+      try {
+        const res = await fetch("/api/ip");
+        const data = await res.json();
+
+        if (!data.success) {
+          tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-red-400">${data.message}</td></tr>`;
+          return;
+        }
+
+        rawContentCache = data.rawContent;
+        renderTable(data.rawContent);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-red-400">Gagal mengambil data: ${err.message}</td></tr>`;
+      }
+    }
+
+    function renderTable(content) {
+      const tbody = document.getElementById("ipTableBody");
+      const lines = content.split("\n").filter(l => l.trim().length > 0);
+      document.getElementById("ipCount").innerText = `${lines.length} IP`;
+
+      if (lines.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-gray-500">Belum ada IP yang terdaftar.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = lines.map((line, idx) => {
+        // Mendukung format: IP NAME EXPDATE atau ### IP NAME EXPDATE
+        const cleaned = line.replace(/^###\s*/, "").trim();
+        const parts = cleaned.split(/\s+/);
+        const ip = parts[0] || "-";
+        const name = parts[1] || "-";
+        const exp = parts[2] || "-";
+
+        return `
+          <tr class="hover:bg-white/[0.02]">
+            <td class="py-3 px-4 font-mono text-cyan-300">${ip}</td>
+            <td class="py-3 px-4 font-medium">${name}</td>
+            <td class="py-3 px-4 font-mono text-xs text-gray-400">${exp}</td>
+            <td class="py-3 px-4 text-center">
+              <button onclick="deleteLine(${idx})" class="text-xs text-red-400 hover:text-red-300 px-2 py-1 bg-red-500/10 rounded transition">
+                <i class="fa-solid fa-trash mr-1"></i> Cabut
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function addIp() {
+      const ip = document.getElementById("inputIp").value.trim();
+      const name = document.getElementById("inputName").value.trim() || "Client";
+      const exp = document.getElementById("inputExp").value.trim();
+
+      if (!ip) {
+        alert("Alamat IP tidak boleh kosong!");
+        return;
+      }
+
+      const newLine = `### ${ip} ${name} ${exp}`;
+      const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
+
+      await saveToGitHub(updatedContent, `Menambahkan IP izin: ${ip} (${name})`);
+    }
+
+    async function deleteLine(index) {
+      if (!confirm("Apakah Anda yakin ingin mencabut izin IP ini?")) return;
+
+      const lines = rawContentCache.split("\n").filter(l => l.trim().length > 0);
+      lines.splice(index, 1);
+      const updatedContent = lines.length > 0 ? `${lines.join("\n")}\n` : "";
+
+      await saveToGitHub(updatedContent, "Menghapus IP izin");
+    }
+
+    async function saveToGitHub(content, commitMsg) {
+      const btn = document.getElementById("btnSave");
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
+
+      try {
+        const res = await fetch("/api/ip", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newContent: content, message: commitMsg })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          alert("Berhasil memperbarui file izin IP di GitHub!");
+          document.getElementById("inputIp").value = "";
+          loadIPs();
+        } else {
+          alert(`Gagal: ${data.message}`);
+        }
+      } catch (err) {
+        alert(`Error: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-plus"></i> Simpan ke GitHub`;
+      }
+    }
+  </script>
+</body>
+</html>
