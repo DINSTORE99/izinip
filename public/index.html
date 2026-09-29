@@ -20,24 +20,11 @@
         <h1 class="text-2xl font-bold text-cyan-400 flex items-center gap-2">
           <i class="fa-solid fa-shield-halved"></i> VIP License & Script Portal
         </h1>
-        <p class="text-sm text-gray-400">Kelola izin IP autoscript dan salin perintah instalasi domain</p>
+        <p class="text-sm text-gray-400">Manij IP izin autoscript na GitHub</p>
       </div>
       <button onclick="loadIPs()" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-cyan-400 rounded-lg text-sm transition">
         <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh Data
       </button>
-    </div>
-
-    <!-- Kotak Perintah Salin Instalasi -->
-    <div class="card-glass p-5 rounded-2xl border-cyan-500/30">
-      <h2 class="text-sm font-semibold uppercase tracking-wider text-cyan-400 mb-2 flex items-center gap-2">
-        <i class="fa-solid fa-terminal"></i> Perintah Instalasi VPS (Menggunakan Domain Ini)
-      </h2>
-      <div class="relative bg-black/70 rounded-xl p-4 font-mono text-sm border border-gray-800 overflow-x-auto text-green-400">
-        <span id="installCmd">apt update && apt install -y wget curl && wget -q <span id="domainUrl"></span>/setup.sh && chmod +x setup.sh && ./setup.sh</span>
-        <button onclick="copyCmd()" class="absolute right-3 top-3 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs transition">
-          <i class="fa-solid fa-copy mr-1"></i> Salin
-        </button>
-      </div>
     </div>
 
     <!-- Form Tambah IP -->
@@ -67,6 +54,22 @@
         </div>
         <button onclick="addIp()" id="btnSave" class="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 font-medium text-white text-sm rounded-lg transition flex items-center gap-2">
           <i class="fa-solid fa-plus"></i> Simpan ke GitHub
+        </button>
+      </div>
+    </div>
+
+    <!-- Kotak Perintah Salin Instalasi (Go show nɔmɔ wen i dɔn sef sɔksɛsful) -->
+    <div id="successCard" class="hidden card-glass p-5 rounded-2xl border border-green-500/50 bg-green-950/20">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-green-400 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check"></i> IP Dɔn Sef! Kɔpi Perintah Instalasi VPS Ya:
+        </h2>
+        <span id="savedTargetIp" class="text-xs px-2 py-0.5 bg-green-900/60 text-green-300 rounded font-mono"></span>
+      </div>
+      <div class="relative bg-black/80 rounded-xl p-4 font-mono text-sm border border-green-800/60 overflow-x-auto text-green-300">
+        <span id="installCmd">apt update && apt install -y wget curl && wget -q <span id="domainUrl"></span>/setup.sh && chmod +x setup.sh && ./setup.sh</span>
+        <button onclick="copyCmd()" class="absolute right-3 top-3 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white rounded text-xs transition font-sans">
+          <i class="fa-solid fa-copy mr-1"></i> Salin
         </button>
       </div>
     </div>
@@ -116,7 +119,7 @@
     function copyCmd() {
       const cmdText = document.getElementById("installCmd").innerText;
       navigator.clipboard.writeText(cmdText);
-      alert("Perintah instalasi berhasil disalin!");
+      alert("Perintah instalasi dɔn kɔpi!");
     }
 
     async function loadIPs() {
@@ -133,7 +136,7 @@
         rawContentCache = data.rawContent;
         renderTable(data.rawContent);
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-red-400">Gagal mengambil data: ${err.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-red-400">Gagal load data: ${err.message}</td></tr>`;
       }
     }
 
@@ -143,7 +146,7 @@
       document.getElementById("ipCount").innerText = `${lines.length} IP`;
 
       if (lines.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-gray-500">Belum ada IP yang terdaftar.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-gray-500">Nɔ get IP we de ya yet.</td></tr>`;
         return;
       }
 
@@ -177,31 +180,37 @@
       const ip   = document.getElementById("inputIp").value.trim();
 
       if (!ip) {
-        alert("Alamat IP tidak boleh kosong!");
+        alert("IP adres nɔ fɔ lefte emti!");
         return;
       }
 
-      // Format susunan: ### USERNAME TANGGAL IP
+      // Format GitHub: ### USERNAME EXPDATE IP
       const newLine = `### ${name} ${exp} ${ip}`;
       const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
-      await saveToGitHub(updatedContent, `Menambahkan IP izin: ${ip} (${name})`);
+      const success = await saveToGitHub(updatedContent, `Add IP: ${ip} (${name})`);
+      if (success) {
+        // Sho di bɔks wit di kɔmand we i dɔn sef
+        document.getElementById("savedTargetIp").innerText = `IP: ${ip}`;
+        document.getElementById("successCard").classList.remove("hidden");
+        document.getElementById("inputIp").value = "";
+      }
     }
 
     async function deleteLine(index) {
-      if (!confirm("Apakah Anda yakin ingin mencabut izin IP ini?")) return;
+      if (!confirm("Yu sho se yu want pul dis IP?")) return;
 
       const lines = rawContentCache.split("\n").filter(l => l.trim().length > 0);
       lines.splice(index, 1);
       const updatedContent = lines.length > 0 ? `${lines.join("\n")}\n` : "";
 
-      await saveToGitHub(updatedContent, "Menghapus IP izin");
+      await saveToGitHub(updatedContent, "Pul IP izin");
     }
 
     async function saveToGitHub(content, commitMsg) {
       const btn = document.getElementById("btnSave");
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> De sef...`;
 
       try {
         const res = await fetch("/api/ip", {
@@ -212,14 +221,15 @@
         const data = await res.json();
 
         if (data.success) {
-          alert("Berhasil memperbarui file izin IP di GitHub!");
-          document.getElementById("inputIp").value = "";
           loadIPs();
+          return true;
         } else {
           alert(`Gagal: ${data.message}`);
+          return false;
         }
       } catch (err) {
         alert(`Error: ${err.message}`);
+        return false;
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<i class="fa-solid fa-plus"></i> Simpan ke GitHub`;
