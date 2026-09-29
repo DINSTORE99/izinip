@@ -21,5 +21,6 @@
       "source": "/domain",
       "destination": "/domain.html"
     }
-  ]
+  ],
+  "cleanUrls": true
 }
