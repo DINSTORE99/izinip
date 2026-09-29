@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/setup.sh",
+      "destination": "/api/setup.sh"
+    },
+    {
+      "source": "/api/ip",
+      "destination": "/api/ip"
+    }
+  ]
+}
