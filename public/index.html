@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP IP License Manager - DIN-STORE</title>
-    <!-- Tailwind CSS CDN -->
+    <title>VIP License Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,646 +15,248 @@
                             bg: '#0B0F19',
                             card: '#111827',
                             border: '#1F2937',
-                            accent: '#10B981',
-                            accentHover: '#059669',
-                            danger: '#EF4444',
-                            warning: '#F59E0B'
+                            accent: '#10B981'
                         }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
                     }
                 }
             }
         }
     </script>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0B0F19; }
-        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
-        ::-webkit-scrollbar-thumb:hover { background: #374151; }
-        .glass-panel {
-            background: rgba(17, 24, 39, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(31, 41, 55, 0.8);
-        }
-    </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center">
+    <div class="max-w-3xl w-full space-y-6">
 
-    <!-- Top Navigation -->
-    <header class="border-b border-cyber-border glass-panel sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-black text-lg tracking-wider">
+        <!-- Header Ringkas & Angka Counter -->
+        <div class="flex items-center justify-between border-b border-cyber-border pb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-lg font-bold">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-base sm:text-lg font-bold text-white tracking-wide">VIP License Manager</h1>
-                        <span id="connectionBadge" class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300">
-                            Vercel Live
-                        </span>
-                    </div>
-                    <p class="text-xs text-slate-400 flex items-center gap-1.5">
-                        <i class="fa-brands fa-github text-slate-500"></i>
-                        <span class="font-mono text-emerald-400">DIN-STORE/izin &bull; ip</span>
-                    </p>
+                    <h1 class="text-lg font-bold text-white">VIP License Registration</h1>
+                    <p class="text-xs text-slate-400">Daftarkan IP VPS untuk mengaktifkan lisensi autoscript</p>
                 </div>
             </div>
-
-            <!-- Header Controls -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <button onclick="refreshData()" title="Muat Ulang Data" class="px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm shadow-emerald-600/30 transition flex items-center gap-2">
-                    <i id="syncIcon" class="fa-solid fa-rotate"></i>
-                    <span class="hidden sm:inline">Sinkronkan</span>
-                </button>
+            <!-- Hanya Menampilkan Angka Jumlah Total Lisensi -->
+            <div class="text-right">
+                <span class="text-[11px] text-slate-400 block uppercase">Total Lisensi Aktif</span>
+                <span id="statTotal" class="text-lg font-mono font-bold text-emerald-400">Loading...</span>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-
-        <!-- Navigation Tabs -->
-        <div class="flex border-b border-cyber-border gap-2 overflow-x-auto pb-1 text-sm font-medium text-slate-400">
-            <button onclick="switchTab('dashboard')" id="tabBtn-dashboard" class="tab-btn px-4 py-2 border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2">
-                <i class="fa-solid fa-list-check"></i> Daftar IP Berizin
-            </button>
-            <button onclick="switchTab('specs')" id="tabBtn-specs" class="tab-btn px-4 py-2 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2">
-                <i class="fa-solid fa-server"></i> Info Port & Cloudflare
-            </button>
-            <button onclick="switchTab('raweditor')" id="tabBtn-raweditor" class="tab-btn px-4 py-2 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2">
-                <i class="fa-solid fa-code"></i> Editor Teks Mentah (Raw)
-            </button>
-            <button onclick="switchTab('autoscript')" id="tabBtn-autoscript" class="tab-btn px-4 py-2 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2">
-                <i class="fa-solid fa-terminal"></i> Skrip Instalasi VPS
-            </button>
-        </div>
-
-        <!-- TAB 1: DASHBOARD VIEW -->
-        <div id="tab-dashboard" class="tab-content space-y-6">
-            
-            <!-- Statistics Banner -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="glass-panel p-4 rounded-xl border border-cyber-border/80 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Lisensi IP</p>
-                        <h3 id="statTotal" class="text-2xl font-black text-white mt-1">0</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-network-wired"></i>
-                    </div>
+        <!-- Info Spesifikasi Server & Cloudflare -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-cyber-card border border-cyber-border p-4 rounded-xl text-xs space-y-2">
+                <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-server"></i> Dukungan OS
+                </h3>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono">Ubuntu 20.04.5</span>
+                    <span class="px-2 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono">Debian 10</span>
                 </div>
-
-                <div class="glass-panel p-4 rounded-xl border border-cyber-border/80 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">IP Masih Aktif</p>
-                        <h3 id="statActive" class="text-2xl font-black text-emerald-400 mt-1">0</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                </div>
-
-                <div class="glass-panel p-4 rounded-xl border border-cyber-border/80 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Segera Habis (&le; 7 hr)</p>
-                        <h3 id="statExpiring" class="text-2xl font-black text-amber-400 mt-1">0</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                    </div>
-                </div>
-
-                <div class="glass-panel p-4 rounded-xl border border-cyber-border/80 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Telah Kadaluarsa</p>
-                        <h3 id="statExpired" class="text-2xl font-black text-rose-400 mt-1">0</h3>
-                    </div>
-                    <div class="w-10 h-10 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </div>
+                <h3 class="font-bold text-emerald-400 uppercase tracking-wider pt-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-network-wired"></i> Port Layanan
+                </h3>
+                <div class="grid grid-cols-2 gap-1 text-[11px] font-mono text-slate-300">
+                    <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
+                    <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
+                    <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
+                    <div>• VLESS WS/GRPC: <span class="text-emerald-400">443</span></div>
+                    <div>• VLESS NONTLS: <span class="text-emerald-400">80</span></div>
+                    <div>• VMESS WS/GRPC: <span class="text-emerald-400">443</span></div>
+                    <div>• SSH WS/TLS: <span class="text-emerald-400">443</span></div>
+                    <div>• SSH NON TLS: <span class="text-emerald-400">8880</span></div>
+                    <div>• OVPN SSL: <span class="text-emerald-400">1194</span></div>
+                    <div>• SLOWDNS: <span class="text-emerald-400">5300</span></div>
                 </div>
             </div>
 
-            <!-- Toolbar -->
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-cyber-card/60 p-3 rounded-xl border border-cyber-border">
-                <div class="flex flex-1 items-center gap-3">
-                    <div class="relative flex-1 max-w-md">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-slate-500"></i>
-                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Cari IP atau nama client..." 
-                               class="w-full pl-8 pr-3 py-2 bg-slate-900 border border-cyber-border rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500">
-                    </div>
-                    <select id="statusFilter" onchange="renderTable()" 
-                            class="bg-slate-900 border border-cyber-border rounded-lg text-sm text-slate-300 py-2 px-3 focus:outline-none focus:border-emerald-500">
-                        <option value="all">Semua Status</option>
-                        <option value="active">Aktif</option>
-                        <option value="expiring">Segera Habis</option>
-                        <option value="expired">Kadaluarsa</option>
-                    </select>
-                </div>
-                
-                <div class="flex items-center gap-2">
-                    <button onclick="openAddModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold shadow-md shadow-emerald-600/30 flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Tambah IP Baru</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Table -->
-            <div class="glass-panel rounded-xl overflow-hidden border border-cyber-border shadow-xl">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-300">
-                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
-                            <tr>
-                                <th class="px-4 py-3.5">Nama Client</th>
-                                <th class="px-4 py-3.5">Masa Berlaku</th>
-                                <th class="px-4 py-3.5">Alamat IP</th>
-                                <th class="px-4 py-3.5">Status</th>
-                                <th class="px-4 py-3.5 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ipTableBody" class="divide-y divide-cyber-border/60">
-                            <!-- Injected dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="emptyState" class="hidden py-12 text-center text-slate-500">
-                    <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-600"></i>
-                    <p class="text-sm font-medium">Tidak ada data IP yang cocok.</p>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- TAB 2: SPECS, PORTS & CLOUDFLARE -->
-        <div id="tab-specs" class="tab-content hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- OS & Port Services -->
-                <div class="glass-panel p-5 rounded-2xl space-y-4">
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2 mb-2">
-                            <i class="fa-solid fa-server"></i> Sistem Operasi yang Didukung
-                        </h3>
-                        <div class="flex flex-wrap gap-2 text-xs font-mono">
-                            <span class="px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-lg">Ubuntu 20.04.5</span>
-                            <span class="px-3 py-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-lg">Debian 10</span>
+            <div class="bg-cyber-card border border-cyber-border p-4 rounded-xl text-xs flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
+                        <i class="fa-solid fa-cloud"></i> Setting Cloudflare
+                    </h3>
+                    <div class="space-y-1.5 text-[11px] font-mono">
+                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
                         </div>
-                    </div>
-
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2 mb-2">
-                            <i class="fa-solid fa-network-wired"></i> Port & Layanan VPN
-                        </h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1.5 text-xs font-mono text-slate-300 bg-slate-950 p-4 rounded-xl border border-cyber-border">
-                            <div>• TROJAN WS <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• TROJAN GRPC <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• SHADOWSOCKS WS <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• SHADOWSOCKS GRPC <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• VLESS WS <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• VLESS GRPC <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• VLESS NONTLS <span class="text-emerald-400 font-bold">: 80</span></div>
-                            <div>• VMESS WS <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• VMESS GRPC <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• VMESS NONTLS <span class="text-emerald-400 font-bold">: 80</span></div>
-                            <div>• SSH WS / TLS <span class="text-emerald-400 font-bold">: 443</span></div>
-                            <div>• SSH NON TLS <span class="text-emerald-400 font-bold">: 8880</span></div>
-                            <div>• OVPN SSL/TCP <span class="text-emerald-400 font-bold">: 1194</span></div>
-                            <div>• SLOWDNS <span class="text-emerald-400 font-bold">: 5300</span></div>
+                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
                     </div>
                 </div>
+                <p class="text-[10px] text-slate-500 mt-2">*Pastikan SSL Full & gRPC ON agar autoscript berjalan lancar.</p>
+            </div>
+        </div>
 
-                <!-- Cloudflare Config -->
-                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between">
+        <!-- Form Daftarkan IP -->
+        <div class="bg-cyber-card border border-cyber-border p-5 rounded-2xl space-y-4">
+            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-user-plus text-emerald-400"></i> Daftarkan Izin IP Baru
+            </h2>
+            <form onsubmit="handleAddNewIP(event)" class="space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 mb-3">
-                            <i class="fa-solid fa-cloud"></i> Rekomendasi Setting Cloudflare
-                        </h3>
-                        <div class="space-y-2 text-xs font-mono">
-                            <div class="flex justify-between items-center bg-slate-900/80 px-3 py-2 rounded-lg border border-cyber-border">
-                                <span class="text-slate-400">SSL/TLS</span>
-                                <span class="text-emerald-400 font-bold">FULL</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-900/80 px-3 py-2 rounded-lg border border-cyber-border">
-                                <span class="text-slate-400">SSL/TLS Recommender</span>
-                                <span class="text-rose-400 font-bold">OFF</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-900/80 px-3 py-2 rounded-lg border border-cyber-border">
-                                <span class="text-slate-400">gRPC</span>
-                                <span class="text-emerald-400 font-bold">ON</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-900/80 px-3 py-2 rounded-lg border border-cyber-border">
-                                <span class="text-slate-400">WebSocket</span>
-                                <span class="text-emerald-400 font-bold">ON</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-900/80 px-3 py-2 rounded-lg border border-cyber-border">
-                                <span class="text-slate-400">Always Use HTTPS</span>
-                                <span class="text-rose-400 font-bold">OFF</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-900/80 px-3 py-2 rounded-lg border border-cyber-border">
-                                <span class="text-slate-400">Under Attack Mode</span>
-                                <span class="text-rose-400 font-bold">OFF</span>
-                            </div>
+                        <label class="block text-xs text-slate-400 mb-1">Nama Client / Pembeli</label>
+                        <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Tanggal Expired</label>
+                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs text-slate-400">Alamat IP Client</label>
+                            <button type="button" onclick="detectIP()" class="text-[10px] text-emerald-400 hover:underline">IP Saya</button>
                         </div>
-                    </div>
-                    <p class="text-[11px] text-slate-500 mt-4 italic">*Wajib disesuaikan agar WebSocket/gRPC berjalan lancar tanpa terputus.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 3: RAW TEXT EDITOR -->
-        <div id="tab-raweditor" class="tab-content hidden space-y-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-lg font-bold text-white">Editor Teks Langsung (Raw Content)</h2>
-                    <p class="text-xs text-slate-400">Format baris: <code class="text-emerald-400">### USERNAME EXPIRED IP</code></p>
-                </div>
-                <button onclick="saveRawContent()" id="btnSaveRaw" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold shadow-md flex items-center gap-2">
-                    <i class="fa-solid fa-floppy-disk"></i> Simpan ke GitHub
-                </button>
-            </div>
-            <div class="relative">
-                <textarea id="rawEditorText" rows="18" 
-                          class="w-full font-mono text-xs sm:text-sm bg-slate-950 border border-cyber-border rounded-xl p-4 text-emerald-300 focus:outline-none focus:border-emerald-500 leading-relaxed shadow-inner"></textarea>
-            </div>
-        </div>
-
-        <!-- TAB 4: AUTOSCRIPT / VPS SETUP -->
-        <div id="tab-autoscript" class="tab-content hidden space-y-6">
-            <div class="glass-panel p-6 rounded-xl border border-cyber-border space-y-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-terminal"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-bold text-white">Perintah Instalasi Domain Autoscript VIP</h2>
-                        <p class="text-xs text-slate-400">Perintah ini menggunakan domain Vercel ini tanpa membawa link raw GitHub asli.</p>
+                        <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
                 </div>
 
-                <div class="relative bg-slate-950 border border-cyber-border rounded-lg p-4 font-mono text-xs sm:text-sm text-slate-200">
-                    <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-[11px] text-slate-400">
-                        <span><i class="fa-solid fa-terminal mr-1"></i> Root Terminal Installer</span>
-                        <button onclick="copyToClipboard(document.getElementById('autoscriptCode').innerText, 'Perintah instalasi disalin!')" 
-                                class="text-emerald-400 hover:text-emerald-300 font-medium">
-                            <i class="fa-solid fa-copy mr-1"></i> Salin
-                        </button>
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                    <div class="flex gap-1.5">
+                        <button type="button" onclick="setExp(7)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
+                        <button type="button" onclick="setExp(30)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
+                        <button type="button" onclick="setExp(365)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
                     </div>
-                    <code id="autoscriptCode" class="block whitespace-pre-wrap break-all text-emerald-400"></code>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- MODAL: Tambah IP Baru -->
-    <div id="addModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm hidden">
-        <div class="bg-cyber-card border border-cyber-border rounded-2xl w-full max-w-lg p-6 shadow-2xl relative space-y-4">
-            <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
-                        <i class="fa-solid fa-shield-plus"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Tambah Izin Lisensi IP</h3>
-                </div>
-                <button onclick="closeModal('addModal')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-
-            <form onsubmit="handleAddNewIP(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Nama Client / Username</label>
-                    <input type="text" id="newClientName" required placeholder="Contoh: Budi-VIP" 
-                           class="w-full px-3.5 py-2.5 bg-slate-900 border border-cyber-border rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Tanggal Kadaluarsa</label>
-                    <input type="date" id="newExpiryDate" required 
-                           class="w-full px-3.5 py-2.5 bg-slate-900 border border-cyber-border rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500">
-                    <div class="flex gap-1.5 mt-2 flex-wrap">
-                        <button type="button" onclick="setQuickExpiry(7)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[11px] rounded text-slate-300">+7 Hari</button>
-                        <button type="button" onclick="setQuickExpiry(30)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[11px] rounded text-slate-300">+30 Hari</button>
-                        <button type="button" onclick="setQuickExpiry(60)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[11px] rounded text-slate-300">+60 Hari</button>
-                        <button type="button" onclick="setQuickExpiry(365)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[11px] rounded text-slate-300">+1 Tahun</button>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="flex justify-between items-center mb-1">
-                        <label class="text-xs font-semibold text-slate-300 uppercase">Alamat IP Client</label>
-                        <button type="button" onclick="detectMyIP()" class="text-[11px] text-emerald-400 hover:underline flex items-center gap-1">
-                            <i class="fa-solid fa-location-crosshairs"></i> Gunakan IP Saya
-                        </button>
-                    </div>
-                    <input type="text" id="newIpAddress" required placeholder="Contoh: 116.212.74.46" 
-                           class="w-full px-3.5 py-2.5 bg-slate-900 border border-cyber-border rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500 font-mono">
-                </div>
-
-                <div class="flex justify-end gap-2 pt-3 border-t border-cyber-border">
-                    <button type="button" onclick="closeModal('addModal')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium">Batal</button>
-                    <button type="submit" id="btnSubmitAdd" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan ke GitHub
+                    <button type="submit" id="btnSubmit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan & Munculkan Script
                     </button>
                 </div>
             </form>
         </div>
-    </div>
 
-    <!-- MODAL: Sukses Simpan & Munculkan Perintah VPS -->
-    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
-        <div class="bg-cyber-card border border-emerald-500/50 rounded-2xl w-full max-w-xl p-6 shadow-2xl relative space-y-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-white">IP Berhasil Didaftarkan!</h3>
-                    <p id="successClientDetail" class="text-xs text-slate-400 font-mono"></p>
-                </div>
+        <!-- Kotak Perintah VPS: AWALNYA TERSEMBUNYI, HANYA MUNCUL JIKA SUDAH BERHASIL DI-IZIN -->
+        <div id="commandBox" class="hidden bg-emerald-950/20 border border-emerald-500/50 p-5 rounded-2xl space-y-3">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Didaftarkan!
+                </span>
+                <span id="registeredTarget" class="text-xs font-mono text-emerald-300 px-2 py-0.5 bg-emerald-900/60 rounded"></span>
             </div>
-
-            <p class="text-xs text-slate-300">
-                Berikan perintah instalasi di bawah ini kepada klien untuk dijalankan di VPS mereka:
-            </p>
-
-            <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-4 font-mono text-xs text-emerald-400 break-all">
-                <span id="successCommandText"></span>
-                <button onclick="copyToClipboard(document.getElementById('successCommandText').innerText, 'Perintah instalasi disalin!')" 
-                        class="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition">
+            <p class="text-xs text-slate-300">Jalankan perintah instalasi di bawah ini pada terminal VPS:</p>
+            <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-3.5 font-mono text-xs text-emerald-400 break-all">
+                <span id="finalCommand"></span>
+                <button onclick="copyCmd()" class="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition">
                     <i class="fa-solid fa-copy"></i> Salin Perintah Instalasi
                 </button>
             </div>
-
-            <div class="flex justify-end pt-2">
-                <button onclick="closeModal('successModal')" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium">Tutup</button>
-            </div>
         </div>
+
+        <!-- Footer Link ke Halaman Owner -->
+        <div class="text-center pt-6">
+            <a href="/list" class="text-xs text-slate-600 hover:text-slate-400 transition flex items-center justify-center gap-1">
+                <i class="fa-solid fa-lock"></i> Portal Manajemen Owner
+            </a>
+        </div>
+
     </div>
 
     <script>
         let rawContentCache = "";
-        let parsedLicenses = [];
 
         document.addEventListener("DOMContentLoaded", () => {
-            const domain = window.location.origin;
-            const fullCmd = `apt update && apt install -y wget curl && wget -q ${domain}/setup.sh && chmod +x setup.sh && ./setup.sh`;
-            document.getElementById("autoscriptCode").innerText = fullCmd;
-            document.getElementById("successCommandText").innerText = fullCmd;
-            setQuickExpiry(30);
-            refreshData();
+            setExp(30);
+            fetchCount();
         });
 
-        function switchTab(tabId) {
-            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-            document.querySelectorAll(".tab-btn").forEach(el => {
-                el.classList.remove("border-emerald-500", "text-emerald-400");
-                el.classList.add("border-transparent", "text-slate-400");
-            });
-
-            document.getElementById(`tab-${tabId}`).classList.remove("hidden");
-            const activeBtn = document.getElementById(`tabBtn-${tabId}`);
-            activeBtn.classList.add("border-emerald-500", "text-emerald-400");
-            activeBtn.classList.remove("border-transparent", "text-slate-400");
-        }
-
-        function setQuickExpiry(days) {
+        function setExp(days) {
             const d = new Date();
             d.setDate(d.getDate() + days);
-            document.getElementById("newExpiryDate").value = d.toISOString().split("T")[0];
+            document.getElementById("expDate").value = d.toISOString().split("T")[0];
         }
 
-        async function detectMyIP() {
+        async function detectIP() {
             try {
                 const res = await fetch("https://api.ipify.org?format=json");
                 const data = await res.json();
-                document.getElementById("newIpAddress").value = data.ip;
-            } catch (e) {
-                alert("Gagal mendeteksi IP lokal!");
+                document.getElementById("clientIp").value = data.ip;
+            } catch(e) {
+                alert("Gagal mendeteksi IP!");
             }
         }
 
-        async function refreshData() {
-            const syncIcon = document.getElementById("syncIcon");
-            syncIcon.classList.add("fa-spin");
-
+        async function fetchCount() {
             try {
                 const res = await fetch("/api/ip");
                 const data = await res.json();
-
-                if (!data.success) {
-                    alert(`Gagal: ${data.message}`);
-                    return;
+                if (data.success) {
+                    rawContentCache = data.rawContent;
+                    const lines = data.rawContent.split("\n").filter(l => l.trim().length > 0);
+                    document.getElementById("statTotal").innerText = `${lines.length} IP`;
+                } else {
+                    document.getElementById("statTotal").innerText = "0 IP";
                 }
-
-                rawContentCache = data.rawContent;
-                document.getElementById("rawEditorText").value = data.rawContent;
-                parseRawContent(data.rawContent);
             } catch (err) {
-                alert(`Error terhubung ke server: ${err.message}`);
-            } finally {
-                syncIcon.classList.remove("fa-spin");
+                document.getElementById("statTotal").innerText = "Error";
             }
-        }
-
-        function parseRawContent(raw) {
-            parsedLicenses = [];
-            const lines = raw.split("\n");
-
-            lines.forEach((line, index) => {
-                const trimmed = line.trim();
-                if (!trimmed) return;
-
-                // Format: ### USERNAME EXPIRED IP
-                const cleaned = trimmed.replace(/^###\s*/, "").trim();
-                const parts = cleaned.split(/\s+/);
-
-                if (parts.length >= 3) {
-                    parsedLicenses.push({
-                        lineIndex: index,
-                        name: parts[0] || "-",
-                        exp: parts[1] || "-",
-                        ip: parts[2] || "-"
-                    });
-                }
-            });
-
-            renderTable();
-            updateStats();
-        }
-
-        function renderTable() {
-            const search = document.getElementById("searchInput").value.toLowerCase();
-            const filter = document.getElementById("statusFilter").value;
-            const tbody = document.getElementById("ipTableBody");
-            const emptyState = document.getElementById("emptyState");
-
-            const today = new Date().toISOString().split("T")[0];
-
-            const filtered = parsedLicenses.filter(item => {
-                const matchSearch = item.name.toLowerCase().includes(search) || item.ip.toLowerCase().includes(search);
-                
-                let status = "active";
-                if (item.exp < today) {
-                    status = "expired";
-                } else {
-                    const daysDiff = (new Date(item.exp) - new Date(today)) / (1000 * 60 * 60 * 24);
-                    if (daysDiff <= 7) status = "expiring";
-                }
-
-                if (filter === "all") return matchSearch;
-                return matchSearch && (status === filter);
-            });
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = "";
-                emptyState.classList.remove("hidden");
-                return;
-            }
-
-            emptyState.classList.add("hidden");
-            tbody.innerHTML = filtered.map(item => {
-                const isExpired = item.exp < today;
-                let badge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Aktif</span>`;
-                
-                if (isExpired) {
-                    badge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-rose-500/20 text-rose-400 border border-rose-500/30">Kadaluarsa</span>`;
-                } else {
-                    const daysDiff = (new Date(item.exp) - new Date(today)) / (1000 * 60 * 60 * 24);
-                    if (daysDiff <= 7) {
-                        badge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30">&le; 7 Hari</span>`;
-                    }
-                }
-
-                return `
-                    <tr class="hover:bg-slate-800/40 transition">
-                        <td class="px-4 py-3 font-semibold text-white">${item.name}</td>
-                        <td class="px-4 py-3 font-mono text-xs text-slate-400">${item.exp}</td>
-                        <td class="px-4 py-3 font-mono text-emerald-300 font-semibold">${item.ip}</td>
-                        <td class="px-4 py-3">${badge}</td>
-                        <td class="px-4 py-3 text-right">
-                            <button onclick="deleteLicense(${item.lineIndex})" class="text-xs text-rose-400 hover:text-rose-300 px-2.5 py-1 bg-rose-500/10 rounded-lg border border-rose-500/20 transition">
-                                <i class="fa-solid fa-trash mr-1"></i> Cabut
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join("");
-        }
-
-        function updateStats() {
-            const today = new Date().toISOString().split("T")[0];
-            let active = 0, expiring = 0, expired = 0;
-
-            parsedLicenses.forEach(item => {
-                if (item.exp < today) {
-                    expired++;
-                } else {
-                    const daysDiff = (new Date(item.exp) - new Date(today)) / (1000 * 60 * 60 * 24);
-                    if (daysDiff <= 7) expiring++;
-                    active++;
-                }
-            });
-
-            document.getElementById("statTotal").innerText = parsedLicenses.length;
-            document.getElementById("statActive").innerText = active;
-            document.getElementById("statExpiring").innerText = expiring;
-            document.getElementById("statExpired").innerText = expired;
         }
 
         async function handleAddNewIP(e) {
             e.preventDefault();
-            const name = document.getElementById("newClientName").value.trim() || "Client";
-            const exp = document.getElementById("newExpiryDate").value.trim();
-            const ip = document.getElementById("newIpAddress").value.trim();
+            const name = document.getElementById("clientName").value.trim();
+            const exp = document.getElementById("expDate").value.trim();
+            const ip = document.getElementById("clientIp").value.trim();
 
-            if (!ip) return alert("Alamat IP tidak boleh kosong!");
+            if (!ip || !name) return alert("Lengkapi data terlebih dahulu!");
 
-            // Format baris: ### USERNAME EXPIRED IP
             const newLine = `### ${name} ${exp} ${ip}`;
             const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
-            const btn = document.getElementById("btnSubmitAdd");
+            const btn = document.getElementById("btnSubmit");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses ke GitHub...`;
 
-            const success = await saveToGitHub(updatedContent, `Add IP: ${ip} (${name})`);
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan ke GitHub`;
-
-            if (success) {
-                closeModal("addModal");
-                document.getElementById("newIpAddress").value = "";
-                document.getElementById("successClientDetail").innerText = `Client: ${name} | Expired: ${exp} | IP: ${ip}`;
-                document.getElementById("successModal").classList.remove("hidden");
-                refreshData();
-            }
-        }
-
-        async function deleteLicense(lineIndex) {
-            if (!confirm("Apakah Anda yakin ingin mencabut lisensi IP ini?")) return;
-
-            const lines = rawContentCache.split("\n");
-            lines.splice(lineIndex, 1);
-            const updatedContent = lines.join("\n").trim() ? `${lines.join("\n").trim()}\n` : "";
-
-            const success = await saveToGitHub(updatedContent, "Cabut lisensi IP");
-            if (success) refreshData();
-        }
-
-        async function saveRawContent() {
-            const content = document.getElementById("rawEditorText").value;
-            const btn = document.getElementById("btnSaveRaw");
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
-
-            const success = await saveToGitHub(content, "Update raw izin IP via editor");
-            btn.disabled = false;
-            btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan ke GitHub`;
-
-            if (success) {
-                alert("File raw berhasil disimpan ke GitHub!");
-                refreshData();
-            }
-        }
-
-        async function saveToGitHub(newContent, message) {
             try {
                 const res = await fetch("/api/ip", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ newContent, message })
+                    body: JSON.stringify({ newContent: updatedContent, message: `Add IP: ${ip} (${name})` })
                 });
                 const data = await res.json();
 
-                if (!data.success) {
-                    alert(`Gagal: ${data.message}`);
-                    return false;
+                if (data.success) {
+                    // Update cache dan counter
+                    rawContentCache = updatedContent;
+                    const lines = updatedContent.split("\n").filter(l => l.trim().length > 0);
+                    document.getElementById("statTotal").innerText = `${lines.length} IP`;
+
+                    // Generate perintah instalasi domain
+                    const domain = window.location.origin;
+                    const installCmd = `apt update && apt install -y wget curl && wget -q ${domain}/setup.sh && chmod +x setup.sh && ./setup.sh`;
+                    
+                    document.getElementById("finalCommand").innerText = installCmd;
+                    document.getElementById("registeredTarget").innerText = `${name} | ${ip}`;
+                    document.getElementById("commandBox").classList.remove("hidden");
+
+                    // Reset form input
+                    document.getElementById("clientIp").value = "";
+                    document.getElementById("commandBox").scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    alert(`Gagal menyimpan: ${data.message}`);
                 }
-                return true;
             } catch (err) {
                 alert(`Error: ${err.message}`);
-                return false;
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan & Munculkan Script`;
             }
         }
 
-        function openAddModal() {
-            document.getElementById("addModal").classList.remove("hidden");
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add("hidden");
-        }
-
-        function copyToClipboard(text, msg) {
-            navigator.clipboard.writeText(text);
-            alert(msg || "Berhasil disalin!");
+        function copyCmd() {
+            const cmd = document.getElementById("finalCommand").innerText;
+            navigator.clipboard.writeText(cmd);
+            alert("Perintah instalasi berhasil disalin!");
         }
     </script>
 </body>
