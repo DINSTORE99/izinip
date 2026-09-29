@@ -74,6 +74,23 @@
             </a>
         </div>
 
+        <!-- Tombol Preview Foto Tampilan Script -->
+        <div class="glass-panel p-4 rounded-xl border border-purple-500/30 bg-purple-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-images"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-white">Preview Tampilan Script</p>
+                    <p class="text-[11px] text-slate-400">Lihat galeri tangkapan layar (screenshot) menu dan antarmuka Autoscript.</p>
+                </div>
+            </div>
+            <a href="/p.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-purple-600/30 whitespace-nowrap cursor-pointer">
+                <span>Lihat Foto Script</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
         <!-- Spesifikasi OS & Port -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
@@ -142,7 +159,7 @@
                 <button onclick="switchActionTab('register')" id="tabBtnRegister" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 transition">
                     <i class="fa-solid fa-user-plus"></i> Daftarkan IP Baru
                 </button>
-                <button onclick="switchActionTab('renew')" id="tabBtnRenew" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-2 transition">
+                <button onclick="switchActionTab('renew')" id="tabBtnRenew" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-2 transition text-slate-400">
                     <i class="fa-solid fa-calendar-plus"></i> Perpanjang Izin IP
                 </button>
             </div>
@@ -306,6 +323,7 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke GitHub...`;
 
             try {
+                // Format: ### USERNAME EXPIRED IP
                 const newLine = `### ${name} ${exp} ${ip}`;
                 const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
@@ -349,7 +367,6 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memperbarui Masa Aktif...`;
 
             try {
-                // Ambil data terbaru langsung dari GitHub
                 const getRes = await fetch("/api/ip");
                 const getData = await getRes.json();
                 if (!getData.success) throw new Error("Gagal mengambil data dari server");
@@ -378,7 +395,6 @@
                     return;
                 }
 
-                // Ganti baris yang ada dengan tanggal baru
                 lines[foundIndex] = `### ${existingName} ${newExp} ${ip}`;
                 const updatedContent = lines.join("\n").trim() + "\n";
 
