@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Tampilan Autoscript VIP - DIN-STORE</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#10B981' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
+        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(31, 41, 55, 0.8); }
+    </style>
+</head>
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white">
+
+    <div class="max-w-5xl w-full space-y-6">
+
+        <!-- Top Header Navigation -->
+        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-images"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        Galeri Tampilan Script
+                        <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">Screenshots</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Preview antarmuka menu & instalasi Autoscript VIP DIN-STORE</p>
+                </div>
+            </div>
+            <a href="/" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </a>
+        </div>
+
+        <!-- Grid Foto-Foto Screenshot -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+            <!-- FOTO 1 -->
+            <div class="glass-panel p-3 rounded-2xl border border-cyber-border group hover:border-emerald-500/50 transition duration-300">
+                <div class="overflow-hidden rounded-xl bg-slate-950 aspect-video relative cursor-pointer" onclick="zoomImage(this)">
+                    <img src="https://raw.githubusercontent.com/DIN-STORE/VIP/main/preview1.jpg" onerror="this.src='https://placehold.co/600x400/111827/10b981?text=Tampilan+Menu+Utama'" alt="Menu Utama Autoscript" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-sm font-semibold gap-1">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Memperbesar
+                    </div>
+                </div>
+                <div class="pt-3 px-1">
+                    <h3 class="text-sm font-bold text-white">Menu Utama Autoscript</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Tampilan dashboard menu navigasi lengkap.</p>
+                </div>
+            </div>
+
+            <!-- FOTO 2 -->
+            <div class="glass-panel p-3 rounded-2xl border border-cyber-border group hover:border-emerald-500/50 transition duration-300">
+                <div class="overflow-hidden rounded-xl bg-slate-950 aspect-video relative cursor-pointer" onclick="zoomImage(this)">
+                    <img src="https://raw.githubusercontent.com/DIN-STORE/VIP/main/preview2.jpg" onerror="this.src='https://placehold.co/600x400/111827/10b981?text=Proses+Instalasi+VPS'" alt="Proses Instalasi" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-sm font-semibold gap-1">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Memperbesar
+                    </div>
+                </div>
+                <div class="pt-3 px-1">
+                    <h3 class="text-sm font-bold text-white">Proses Instalasi VPS</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Otomatisasi konfigurasi port & dependency.</p>
+                </div>
+            </div>
+
+            <!-- FOTO 3 -->
+            <div class="glass-panel p-3 rounded-2xl border border-cyber-border group hover:border-emerald-500/50 transition duration-300">
+                <div class="overflow-hidden rounded-xl bg-slate-950 aspect-video relative cursor-pointer" onclick="zoomImage(this)">
+                    <img src="https://raw.githubusercontent.com/DIN-STORE/VIP/main/preview3.jpg" onerror="this.src='https://placehold.co/600x400/111827/10b981?text=Tampilan+Akun+VPN'" alt="Tampilan Akun" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-sm font-semibold gap-1">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Memperbesar
+                    </div>
+                </div>
+                <div class="pt-3 px-1">
+                    <h3 class="text-sm font-bold text-white">Informasi Akun & Protokol</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Detail QR Code & konfigurasi akun client.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL LIGHTBOX / ZOOM GAMBAR -->
+    <div id="imageModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden" onclick="closeModal()">
+        <div class="relative max-w-4xl w-full">
+            <button onclick="closeModal()" class="absolute -top-10 right-0 text-white text-xl hover:text-rose-400">
+                <i class="fa-solid fa-xmark mr-1"></i> Tutup
+            </button>
+            <img id="modalImg" src="" alt="Zoom Preview" class="w-full h-auto rounded-xl border border-slate-700 shadow-2xl">
+        </div>
+    </div>
+
+    <script>
+        function zoomImage(wrapper) {
+            const imgSrc = wrapper.querySelector('img').src;
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
