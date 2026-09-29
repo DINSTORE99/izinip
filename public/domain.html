@@ -28,9 +28,9 @@
 </head>
 <body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-cyan-500 selection:text-white">
 
-    <div class="max-w-4xl w-full space-y-6">
+    <div class="max-w-3xl w-full space-y-6">
 
-        <!-- Top Header Navigation -->
+        <!-- Header -->
         <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/20">
@@ -41,7 +41,7 @@
                         Cloudflare Subdomain Portal
                         <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">dinn.my.id</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Registrasi DNS & Penggantian IP Pointing Subdomain</p>
+                    <p class="text-xs text-slate-400">Pointing DNS Subdomain Baru & Penggantian Alamat IP VPS</p>
                 </div>
             </div>
             <a href="/" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
@@ -49,7 +49,7 @@
             </a>
         </div>
 
-        <!-- 2 Kolom Formulir: Registrasi Subdomain & Ganti IP (Tampil Terbuka) -->
+        <!-- 2 Formulir: Buat Baru & Ganti IP (Tanpa Tabel Daftar) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <!-- Form 1: Registrasi Subdomain Baru -->
@@ -106,97 +106,9 @@
 
         </div>
 
-        <!-- Tombol Khusus Admin untuk Membuka List Subdomain (Tersembunyi secara rapi) -->
-        <div class="flex justify-center pt-2">
-            <button onclick="openPinModal()" class="text-slate-600 hover:text-slate-400 text-xs transition flex items-center gap-1.5">
-                <i class="fa-solid fa-lock"></i> <span>List Subdomain (Owner Only)</span>
-            </button>
-        </div>
-
-        <!-- Tabel Daftar Subdomain Cloudflare (DISEMBUNYIKAN & HANYA MUNCUL JIKA PIN BENAR) -->
-        <div id="ownerTableSection" class="hidden glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyan-500/40">
-            <div class="p-4 border-b border-cyber-border flex justify-between items-center bg-slate-900/60">
-                <div class="flex items-center gap-2">
-                    <span class="text-xs uppercase font-bold text-slate-300">Daftar Seluruh Subdomain (Owner)</span>
-                    <span id="subCount" class="text-xs font-mono px-2 py-0.5 bg-slate-800 text-cyan-400 rounded">0 Sub</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="loadSubdomains()" class="text-xs text-cyan-400 hover:underline flex items-center gap-1.5">
-                        <i id="reloadIcon" class="fa-solid fa-rotate"></i> Refresh
-                    </button>
-                    <button onclick="lockOwnerPanel()" class="text-xs text-rose-400 hover:underline flex items-center gap-1">
-                        <i class="fa-solid fa-eye-slash"></i> Sembunyikan
-                    </button>
-                </div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
-                        <tr>
-                            <th class="px-4 py-3">Nama Subdomain</th>
-                            <th class="px-4 py-3">Full Hostname</th>
-                            <th class="px-4 py-3">IP Target VPS</th>
-                            <th class="px-4 py-3 text-right">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="subTableBody" class="divide-y divide-cyber-border/60">
-                        <tr>
-                            <td colspan="4" class="text-center py-6 text-slate-500">Memuat data dari Cloudflare...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- MODAL PIN OWNER -->
-    <div id="pinModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-cyber-card border border-cyber-border p-6 rounded-2xl max-w-xs w-full space-y-4 text-center">
-            <div class="w-12 h-12 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto text-xl">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <div>
-                <h3 class="text-sm font-bold text-white">Verifikasi Owner</h3>
-                <p class="text-[11px] text-slate-400 mt-1">Masukkan PIN untuk melihat list subdomain.</p>
-            </div>
-            <input type="password" id="ownerPinInput" placeholder="Masukkan PIN" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-center text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
-            <div class="flex gap-2">
-                <button type="button" onclick="closePinModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">Batal</button>
-                <button type="button" onclick="verifyOwnerPin()" class="w-1/2 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-semibold">Masuk</button>
-            </div>
-        </div>
     </div>
 
     <script>
-        const OWNER_PIN = "1234";
-        let cachedRecords = [];
-
-        function openPinModal() {
-            document.getElementById("ownerPinInput").value = "";
-            document.getElementById("pinModal").classList.remove("hidden");
-            document.getElementById("ownerPinInput").focus();
-        }
-
-        function closePinModal() {
-            document.getElementById("pinModal").classList.add("hidden");
-        }
-
-        function verifyOwnerPin() {
-            const input = document.getElementById("ownerPinInput").value;
-            if (input === OWNER_PIN) {
-                closePinModal();
-                document.getElementById("ownerTableSection").classList.remove("hidden");
-                loadSubdomains();
-            } else {
-                alert("PIN Owner Salah!");
-            }
-        }
-
-        function lockOwnerPanel() {
-            document.getElementById("ownerTableSection").classList.add("hidden");
-        }
-
         async function detectIP(targetInputId) {
             try {
                 const res = await fetch("https://api.ipify.org?format=json");
@@ -205,54 +117,6 @@
             } catch (e) {
                 alert("Gagal mendeteksi IP!");
             }
-        }
-
-        async function loadSubdomains() {
-            const tbody = document.getElementById("subTableBody");
-            const reloadIcon = document.getElementById("reloadIcon");
-            reloadIcon.classList.add("fa-spin");
-
-            try {
-                const res = await fetch("/api/cf");
-                const data = await res.json();
-
-                if (!data.success) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">${data.message}</td></tr>`;
-                    return;
-                }
-
-                cachedRecords = data.records || [];
-                document.getElementById("subCount").innerText = `${cachedRecords.length} Sub`;
-
-                if (cachedRecords.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-500">Belum ada subdomain terdaftar di Cloudflare.</td></tr>`;
-                    return;
-                }
-
-                tbody.innerHTML = cachedRecords.map(item => `
-                    <tr class="hover:bg-slate-800/40">
-                        <td class="px-4 py-3 font-mono font-bold text-cyan-400">${item.subdomain}</td>
-                        <td class="px-4 py-3 font-mono text-xs text-slate-300">${item.name}</td>
-                        <td class="px-4 py-3 font-mono text-emerald-400">${item.ip}</td>
-                        <td class="px-4 py-3 text-right">
-                            <button onclick="fillUpdateForm('${item.subdomain}', '${item.ip}')" class="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1 bg-amber-500/10 rounded border border-amber-500/20 transition">
-                                <i class="fa-solid fa-pen mr-1"></i> Edit IP
-                            </button>
-                        </td>
-                    </tr>
-                `).join("");
-
-            } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">Error: ${err.message}</td></tr>`;
-            } finally {
-                reloadIcon.classList.remove("fa-spin");
-            }
-        }
-
-        function fillUpdateForm(sub, ip) {
-            document.getElementById("updateSubName").value = sub;
-            document.getElementById("updateNewIp").value = ip;
-            window.scrollTo({ top: 100, behavior: 'smooth' });
         }
 
         async function handleCreateSubdomain(e) {
@@ -276,9 +140,6 @@
                     alert(data.message);
                     document.getElementById("newSubName").value = "";
                     document.getElementById("newSubIp").value = "";
-                    if (!document.getElementById("ownerTableSection").classList.contains("hidden")) {
-                        loadSubdomains();
-                    }
                 } else {
                     alert(`Gagal: ${data.message}`);
                 }
@@ -311,9 +172,6 @@
                     alert(data.message);
                     document.getElementById("updateSubName").value = "";
                     document.getElementById("updateNewIp").value = "";
-                    if (!document.getElementById("ownerTableSection").classList.contains("hidden")) {
-                        loadSubdomains();
-                    }
                 } else {
                     alert(`Gagal: ${data.message}`);
                 }
