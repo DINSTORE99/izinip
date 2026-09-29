@@ -12,7 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: { bg: '#080C14', card: '#0F172A', border: '#1E293B', accent: '#10B981' }
+                        cyber: {
+                            bg: '#050811',
+                            card: '#0c1222',
+                            border: '#1e293b',
+                            accent: '#10B981'
+                        }
                     }
                 }
             }
@@ -21,10 +26,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #080C14; }
-        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 9999px; }
-        
-        /* Background Canvas Partikel */
+        ::-webkit-scrollbar-track { background: #050811; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+
+        /* Canvas Partikel */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -32,30 +37,83 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
-        /* Glass Panel Transparan */
+        /* Ambient Glow Spheres (Aksen Cahaya Latar Belakang) */
+        .ambient-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+
+        .glow-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #059669 0%, transparent 70%);
+            top: -150px;
+            left: -150px;
+        }
+
+        .glow-2 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, #0284c7 0%, transparent 70%);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -5s;
+        }
+
+        .glow-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.15;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.2; }
+            100% { transform: scale(1.15) translate(20px, -20px); opacity: 0.32; }
+        }
+
+        /* Glassmorphism Card Style */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(51, 65, 85, 0.6);
+            background: rgba(12, 18, 34, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(16, 185, 129, 0.25);
         }
     </style>
 </head>
 <body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
-    <!-- CANVAS EFEK PARTIKEL ANIMASI -->
+    <!-- AMBIENT NEON GLOWS -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- CANVAS ANIMASI PARTIKEL INTERAKTIF -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- KONTEN UTAMA (Z-INDEX DI ATAS PARTIKEL) -->
+    <!-- KONTEN UTAMA -->
     <div class="max-w-3xl w-full space-y-6 relative z-10">
 
-        <!-- Header & Counter Angka Terdaftar -->
-        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl shadow-black/40">
+        <!-- Top Header & Angka Statistik -->
+        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/30">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/25">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div>
@@ -66,13 +124,13 @@
                 </div>
             </div>
 
-            <!-- Total Angka Terdaftar (Hanya Angka) -->
+            <!-- Total Angka Terdaftar -->
             <div class="flex items-center gap-3 text-right">
-                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
+                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800/80 shadow-inner">
                     <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Izin IP</span>
                     <span id="statIpTotal" class="text-base font-mono font-bold text-emerald-400">0 IP</span>
                 </div>
-                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
+                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800/80 shadow-inner">
                     <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain CF</span>
                     <span id="statSubTotal" class="text-base font-mono font-bold text-cyan-400">0 Sub</span>
                 </div>
@@ -80,7 +138,7 @@
         </div>
 
         <!-- Tombol Registrasi Domain -->
-        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-globe"></i>
@@ -97,7 +155,7 @@
         </div>
 
         <!-- Tombol Preview Foto Tampilan Script -->
-        <div class="glass-panel p-4 rounded-xl border border-purple-500/30 bg-purple-950/20 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+        <div class="glass-panel p-4 rounded-xl border border-purple-500/30 bg-purple-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-images"></i>
@@ -117,7 +175,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
             <!-- Kolom Kiri: OS & Port -->
-            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs shadow-lg">
+            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
                 <div>
                     <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
                         <i class="fa-solid fa-server"></i> Dukungan Sistem Operasi
@@ -148,25 +206,25 @@
             </div>
 
             <!-- Kolom Kanan: Setting Cloudflare -->
-            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs shadow-lg">
+            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
                 <div>
                     <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
                         <i class="fa-solid fa-cloud"></i> Setting Cloudflare Domain
                     </h3>
                     <div class="space-y-1 text-[11px] font-mono">
-                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
                     </div>
@@ -176,7 +234,7 @@
         </div>
 
         <!-- Tab Pemilih: Daftar Baru vs Perpanjang IP -->
-        <div class="glass-panel p-6 rounded-2xl space-y-4 shadow-xl">
+        <div class="glass-panel p-6 rounded-2xl space-y-4">
             <div class="flex border-b border-cyber-border gap-2 text-sm font-medium text-slate-400 pb-2">
                 <button onclick="switchActionTab('register')" id="tabBtnRegister" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 transition">
                     <i class="fa-solid fa-user-plus"></i> Daftarkan IP Baru
@@ -208,9 +266,9 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
-                        <button type="button" onclick="setExp(30, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
-                        <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
+                        <button type="button" onclick="setExp(7, 'expDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+7 Hari</button>
+                        <button type="button" onclick="setExp(30, 'expDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+30 Hari</button>
+                        <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+1 Thn</button>
                     </div>
                     <button type="submit" id="btnSubmitRegister" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
                         <i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip
@@ -236,9 +294,9 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
-                        <button type="button" onclick="setExp(30, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
-                        <button type="button" onclick="setExp(365, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
+                        <button type="button" onclick="setExp(7, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+7 Hari</button>
+                        <button type="button" onclick="setExp(30, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+30 Hari</button>
+                        <button type="button" onclick="setExp(365, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+1 Thn</button>
                     </div>
                     <button type="submit" id="btnSubmitRenew" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-amber-600/30 transition">
                         <i class="fa-solid fa-arrows-rotate"></i> Perbarui Masa Aktif
@@ -248,7 +306,7 @@
         </div>
 
         <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN/PERPANJANGAN BERHASIL -->
-        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
+        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Disimpan ke GitHub!
@@ -268,28 +326,36 @@
 
     </div>
 
-    <!-- SCRIPT PARTIKEL CYBER & LOGIKA APLIKASI -->
+    <!-- SCRIPT PARTIKEL INTERAKTIF -->
     <script>
-        // ================= ANIMASI PARTIKEL CYBER =================
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let mouse = { x: null, y: null, radius: 120 };
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
         window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
         resizeCanvas();
 
         class Particle {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.8;
-                this.speedY = (Math.random() - 0.5) * 0.8;
-                this.color = Math.random() > 0.5 ? '#10B981' : '#06B6D4'; // Hijau Emerald & Cyan
+                this.size = Math.random() * 1.8 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.speedY = (Math.random() - 0.5) * 0.6;
+                this.color = Math.random() > 0.4 ? '#10B981' : '#0284c7';
             }
             update() {
                 this.x += this.speedX;
@@ -300,53 +366,62 @@
 
                 if (this.y > canvas.height) this.y = 0;
                 else if (this.y < 0) this.y = canvas.height;
+
+                // Interaksi dengan kursor
+                if (mouse.x != null && mouse.y != null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        this.x -= (dx / dist) * force * 1.5;
+                        this.y -= (dy / dist) * force * 1.5;
+                    }
+                }
             }
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = this.color;
                 ctx.fill();
             }
         }
 
         function initParticles() {
             particles = [];
-            const count = Math.floor((canvas.width * canvas.height) / 14000);
-            for (let i = 0; i < Math.min(count, 85); i++) {
+            const count = Math.floor((canvas.width * canvas.height) / 13000);
+            for (let i = 0; i < Math.min(count, 80); i++) {
                 particles.push(new Particle());
             }
         }
         initParticles();
 
-        function animateParticles() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Gambar jaring garis antar partikel yang berdekatan
-            for (let a = 0; a < particles.length; a++) {
-                for (let b = a; b < particles.length; b++) {
-                    const dx = particles[a].x - particles[b].x;
-                    const dy = particles[a].y - particles[b].y;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
 
-                    if (dist < 110) {
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.18 - dist / 110 * 0.18})`;
-                        ctx.lineWidth = 0.8;
+                    if (dist < 105) {
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.16 - dist / 105 * 0.16})`;
+                        ctx.lineWidth = 0.65;
                         ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
                     }
                 }
-                particles[a].update();
-                particles[a].draw();
+                particles[i].update();
+                particles[i].draw();
             }
-            requestAnimationFrame(animateParticles);
+            requestAnimationFrame(animate);
         }
-        animateParticles();
+        animate();
 
-        // ================= LOGIKA SISTEM LISENSI =================
+        // ================= LOGIKA APLIKASI =================
         let rawContentCache = "";
 
         document.addEventListener("DOMContentLoaded", () => {
