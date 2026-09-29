@@ -29,7 +29,7 @@
         ::-webkit-scrollbar-track { background: #05070B; }
         ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 9999px; }
 
-        /* Background Grid Kotak-Kotak Persis Seperti DINSTORE */
+        /* Background Grid Kotak-Kotak Persis Tema Cyber */
         body {
             background-color: #05070B;
             background-image: 
@@ -39,7 +39,7 @@
             background-position: center top;
         }
 
-        /* Ambient Glow di Atas & Bawah */
+        /* Ambient Glow di Atas */
         .ambient-radial {
             position: fixed;
             top: 0;
@@ -66,7 +66,7 @@
         }
     </style>
 </head>
-<body class="text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative">
+<body class="text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
     <!-- Efek Cahaya Hijau Lembut di Atas -->
     <div class="ambient-radial"></div>
@@ -84,7 +84,7 @@
                         DINSTORE
                         <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">LICENSE PORTAL</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Pendaftaran & Perpanjangan Lisensi Autoscript VIP</p>
+                    <p class="text-xs text-slate-400">Pendaftaran, Perpanjangan & Ganti IP Lisensi Autoscript VIP</p>
                 </div>
             </div>
 
@@ -197,14 +197,17 @@
             </div>
         </div>
 
-        <!-- Tab Pemilih: Daftar Baru vs Perpanjang IP -->
+        <!-- Tab Pemilih: Daftar Baru vs Perpanjang IP vs Ganti IP -->
         <div class="glass-panel p-6 rounded-2xl space-y-4">
-            <div class="flex border-b border-cyber-border gap-2 text-sm font-medium text-slate-400 pb-2">
-                <button onclick="switchActionTab('register')" id="tabBtnRegister" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 transition">
-                    <i class="fa-solid fa-user-plus"></i> Daftarkan IP Baru
+            <div class="flex flex-wrap border-b border-cyber-border gap-2 text-xs sm:text-sm font-medium text-slate-400 pb-2">
+                <button onclick="switchActionTab('register')" id="tabBtnRegister" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-user-plus"></i> Daftar IP Baru
                 </button>
-                <button onclick="switchActionTab('renew')" id="tabBtnRenew" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-2 transition text-slate-400">
-                    <i class="fa-solid fa-calendar-plus"></i> Perpanjang Izin IP
+                <button onclick="switchActionTab('renew')" id="tabBtnRenew" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition text-slate-400">
+                    <i class="fa-solid fa-calendar-plus"></i> Perpanjang Masa Aktif
+                </button>
+                <button onclick="switchActionTab('changeIp')" id="tabBtnChangeIp" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition text-slate-400">
+                    <i class="fa-solid fa-arrows-rotate"></i> Ganti IP Client
                 </button>
             </div>
 
@@ -267,9 +270,32 @@
                     </button>
                 </div>
             </form>
+
+            <!-- FORM 3: GANTI IP CLIENT -->
+            <form id="formChangeIp" onsubmit="handleChangeIP(event)" class="space-y-4 hidden">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Alamat IP VPS Lama</label>
+                        <input type="text" id="oldIpInput" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs text-slate-400">Alamat IP VPS Baru</label>
+                            <button type="button" onclick="detectIP('newIpInput')" class="text-[10px] text-cyan-400 hover:underline">Gunakan IP Saya</button>
+                        </div>
+                        <input type="text" id="newIpInput" required placeholder="Contoh: 103.149.20.12" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2 border-t border-cyber-border">
+                    <button type="submit" id="btnSubmitChangeIp" class="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.3)] transition">
+                        <i class="fa-solid fa-right-left"></i> Simpan Pergantian IP
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN/PERPANJANGAN BERHASIL -->
+        <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN/PERPANJANGAN/GANTI IP BERHASIL -->
         <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
@@ -303,19 +329,27 @@
         function switchActionTab(tab) {
             const btnReg = document.getElementById("tabBtnRegister");
             const btnRen = document.getElementById("tabBtnRenew");
+            const btnChg = document.getElementById("tabBtnChangeIp");
+            
             const formReg = document.getElementById("formRegister");
             const formRen = document.getElementById("formRenew");
+            const formChg = document.getElementById("formChangeIp");
+
+            // Reset tab styling
+            [btnReg, btnRen, btnChg].forEach(btn => {
+                btn.className = "px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition text-slate-400";
+            });
+            [formReg, formRen, formChg].forEach(form => form.classList.add("hidden"));
 
             if (tab === 'register') {
-                btnReg.className = "px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 transition";
-                btnRen.className = "px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-2 transition text-slate-400";
+                btnReg.className = "px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5 transition";
                 formReg.classList.remove("hidden");
-                formRen.classList.add("hidden");
-            } else {
-                btnRen.className = "px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-2 transition";
-                btnReg.className = "px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-2 transition text-slate-400";
+            } else if (tab === 'renew') {
+                btnRen.className = "px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center gap-1.5 transition";
                 formRen.classList.remove("hidden");
-                formReg.classList.add("hidden");
+            } else if (tab === 'changeIp') {
+                btnChg.className = "px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center gap-1.5 transition";
+                formChg.classList.remove("hidden");
             }
         }
 
@@ -355,6 +389,7 @@
             } catch (e) {}
         }
 
+        // 1. DAFTAR IP BARU
         async function handleRegisterIP(e) {
             e.preventDefault();
             const name = document.getElementById("clientName").value.trim();
@@ -399,6 +434,7 @@
             }
         }
 
+        // 2. PERPANJANG MASA AKTIF IP
         async function handleRenewIP(e) {
             e.preventDefault();
             const ip = document.getElementById("renewIp").value.trim();
@@ -463,6 +499,79 @@
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Perbarui Masa Aktif`;
+            }
+        }
+
+        // 3. GANTI IP VPS CLIENT
+        async function handleChangeIP(e) {
+            e.preventDefault();
+            const oldIp = document.getElementById("oldIpInput").value.trim();
+            const newIp = document.getElementById("newIpInput").value.trim();
+
+            if (!oldIp || !newIp) return alert("Mohon masukkan IP lama dan IP baru!");
+            if (oldIp === newIp) return alert("IP baru tidak boleh sama dengan IP lama!");
+
+            const btn = document.getElementById("btnSubmitChangeIp");
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengganti IP di GitHub...`;
+
+            try {
+                const getRes = await fetch("/api/ip");
+                const getData = await getRes.json();
+                if (!getData.success) throw new Error("Gagal mengambil data dari server");
+
+                const lines = getData.rawContent.split("\n");
+                let foundIndex = -1;
+                let existingName = "";
+                let existingExp = "";
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    const cleaned = line.replace(/^###\s*/, "").trim();
+                    const parts = cleaned.split(/\s+/);
+                    if (parts[2] === oldIp) {
+                        foundIndex = i;
+                        existingName = parts[0];
+                        existingExp = parts[1];
+                        break;
+                    }
+                }
+
+                if (foundIndex === -1) {
+                    alert(`IP Lama ${oldIp} tidak ditemukan di database! Pastikan IP sudah terdaftar.`);
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-right-left"></i> Simpan Pergantian IP`;
+                    return;
+                }
+
+                // Ganti IP lama dengan IP baru (username & expired tetap sama)
+                lines[foundIndex] = `### ${existingName} ${existingExp} ${newIp}`;
+                const updatedContent = lines.join("\n").trim() + "\n";
+
+                const gitRes = await fetch("/api/ip", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        newContent: updatedContent, 
+                        message: `Change IP: ${oldIp} -> ${newIp} (${existingName})` 
+                    })
+                });
+                const gitData = await gitRes.json();
+
+                if (gitData.success) {
+                    rawContentCache = updatedContent;
+                    tampilkanPerintahInstalasi(`IP Berhasil Diperbarui!`, `${existingName} | ${newIp} (Lama: ${oldIp}) | Exp: ${existingExp}`);
+                    document.getElementById("oldIpInput").value = "";
+                    document.getElementById("newIpInput").value = "";
+                } else {
+                    alert(`Gagal mengganti IP: ${gitData.message}`);
+                }
+            } catch (err) {
+                alert(`Error: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-right-left"></i> Simpan Pergantian IP`;
             }
         }
 
