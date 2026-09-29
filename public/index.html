@@ -12,7 +12,7 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#10B981' }
+                        cyber: { bg: '#080C14', card: '#0F172A', border: '#1E293B', accent: '#10B981' }
                     }
                 }
             }
@@ -21,19 +21,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0B0F19; }
-        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
-        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(31, 41, 55, 0.8); }
+        ::-webkit-scrollbar-track { background: #080C14; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 9999px; }
+        
+        /* Background Canvas Partikel */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Glass Panel Transparan */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(51, 65, 85, 0.6);
+        }
     </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white">
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
 
-    <div class="max-w-3xl w-full space-y-6">
+    <!-- CANVAS EFEK PARTIKEL ANIMASI -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- KONTEN UTAMA (Z-INDEX DI ATAS PARTIKEL) -->
+    <div class="max-w-3xl w-full space-y-6 relative z-10">
 
         <!-- Header & Counter Angka Terdaftar -->
-        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl shadow-black/40">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/20">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/30">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div>
@@ -58,7 +80,7 @@
         </div>
 
         <!-- Tombol Registrasi Domain -->
-        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-globe"></i>
@@ -75,7 +97,7 @@
         </div>
 
         <!-- Tombol Preview Foto Tampilan Script -->
-        <div class="glass-panel p-4 rounded-xl border border-purple-500/30 bg-purple-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="glass-panel p-4 rounded-xl border border-purple-500/30 bg-purple-950/20 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-images"></i>
@@ -95,7 +117,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
             <!-- Kolom Kiri: OS & Port -->
-            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
+            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs shadow-lg">
                 <div>
                     <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
                         <i class="fa-solid fa-server"></i> Dukungan Sistem Operasi
@@ -110,7 +132,7 @@
                     <h3 class="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
                         <i class="fa-solid fa-network-wired"></i> Port & Protokol Layanan
                     </h3>
-                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800">
                         <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
                         <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
                         <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
@@ -126,25 +148,25 @@
             </div>
 
             <!-- Kolom Kanan: Setting Cloudflare -->
-            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
+            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs shadow-lg">
                 <div>
                     <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
                         <i class="fa-solid fa-cloud"></i> Setting Cloudflare Domain
                     </h3>
                     <div class="space-y-1 text-[11px] font-mono">
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
                     </div>
@@ -154,7 +176,7 @@
         </div>
 
         <!-- Tab Pemilih: Daftar Baru vs Perpanjang IP -->
-        <div class="glass-panel p-6 rounded-2xl space-y-4">
+        <div class="glass-panel p-6 rounded-2xl space-y-4 shadow-xl">
             <div class="flex border-b border-cyber-border gap-2 text-sm font-medium text-slate-400 pb-2">
                 <button onclick="switchActionTab('register')" id="tabBtnRegister" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 transition">
                     <i class="fa-solid fa-user-plus"></i> Daftarkan IP Baru
@@ -169,18 +191,18 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Nama Client / Username</label>
-                        <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <input type="date" id="expDate" required class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-xs text-slate-400">Alamat IP VPS Client</label>
                             <button type="button" onclick="detectIP('clientIp')" class="text-[10px] text-emerald-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
+                        <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
                 </div>
 
@@ -204,11 +226,11 @@
                             <label class="text-xs text-slate-400">Alamat IP yang Ingin Diperpanjang</label>
                             <button type="button" onclick="detectIP('renewIp')" class="text-[10px] text-amber-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="renewIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
+                        <input type="text" id="renewIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Masa Aktif Baru</label>
-                        <input type="date" id="renewExpDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                        <input type="date" id="renewExpDate" required class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
                     </div>
                 </div>
 
@@ -226,7 +248,7 @@
         </div>
 
         <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN/PERPANJANGAN BERHASIL -->
-        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/20 p-5 rounded-2xl space-y-3">
+        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Disimpan ke GitHub!
@@ -246,7 +268,85 @@
 
     </div>
 
+    <!-- SCRIPT PARTIKEL CYBER & LOGIKA APLIKASI -->
     <script>
+        // ================= ANIMASI PARTIKEL CYBER =================
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = (Math.random() - 0.5) * 0.8;
+                this.color = Math.random() > 0.5 ? '#10B981' : '#06B6D4'; // Hijau Emerald & Cyan
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 14000);
+            for (let i = 0; i < Math.min(count, 85); i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Gambar jaring garis antar partikel yang berdekatan
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.18 - dist / 110 * 0.18})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+                particles[a].update();
+                particles[a].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ================= LOGIKA SISTEM LISENSI =================
         let rawContentCache = "";
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -323,7 +423,6 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke GitHub...`;
 
             try {
-                // Format: ### USERNAME EXPIRED IP
                 const newLine = `### ${name} ${exp} ${ip}`;
                 const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
@@ -380,7 +479,6 @@
                     if (!line) continue;
                     const cleaned = line.replace(/^###\s*/, "").trim();
                     const parts = cleaned.split(/\s+/);
-                    // Format baris: USERNAME EXPIRED IP
                     if (parts[2] === ip) {
                         foundIndex = i;
                         existingName = parts[0];
