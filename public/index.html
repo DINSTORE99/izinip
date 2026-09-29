@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP License Registration</title>
+    <title>VIP License & Auto Subdomain Portal</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -17,146 +18,179 @@
                             border: '#1F2937',
                             accent: '#10B981'
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
                     }
                 }
             }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+        }
+    </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center">
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white">
+
     <div class="max-w-3xl w-full space-y-6">
 
-        <!-- Header Ringkas & Angka Counter -->
-        <div class="flex items-center justify-between border-b border-cyber-border pb-4">
+        <!-- Top Header & Live Counter -->
+        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-lg font-bold">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/20">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white">VIP License Registration</h1>
-                    <p class="text-xs text-slate-400">Daftarkan IP VPS untuk mengaktifkan lisensi autoscript</p>
+                    <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        VIP License Manager
+                        <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">Live</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Auto Subdomain Cloudflare & Lisensi Autoscript</p>
                 </div>
             </div>
-            <!-- Hanya Menampilkan Angka Jumlah Total Lisensi -->
+            <!-- Hanya Menampilkan Jumlah Angka Lisensi -->
             <div class="text-right">
-                <span class="text-[11px] text-slate-400 block uppercase">Total Lisensi Aktif</span>
-                <span id="statTotal" class="text-lg font-mono font-bold text-emerald-400">Loading...</span>
+                <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Lisensi Terdaftar</span>
+                <span id="statTotal" class="text-xl font-mono font-black text-emerald-400">Loading...</span>
             </div>
         </div>
 
-        <!-- Info Spesifikasi Server & Cloudflare -->
+        <!-- Spesifikasi OS, Port & Setting Cloudflare -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-cyber-card border border-cyber-border p-4 rounded-xl text-xs space-y-2">
-                <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <i class="fa-solid fa-server"></i> Dukungan OS
-                </h3>
-                <div class="flex gap-2">
-                    <span class="px-2 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono">Ubuntu 20.04.5</span>
-                    <span class="px-2 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono">Debian 10</span>
+            
+            <!-- Kolom Kiri: OS & Port -->
+            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
+                <div>
+                    <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                        <i class="fa-solid fa-server"></i> Dukungan Sistem Operasi
+                    </h3>
+                    <div class="flex gap-2">
+                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Ubuntu 20.04.5</span>
+                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Debian 10</span>
+                    </div>
                 </div>
-                <h3 class="font-bold text-emerald-400 uppercase tracking-wider pt-2 flex items-center gap-1.5">
-                    <i class="fa-solid fa-network-wired"></i> Port Layanan
-                </h3>
-                <div class="grid grid-cols-2 gap-1 text-[11px] font-mono text-slate-300">
-                    <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
-                    <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
-                    <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
-                    <div>• VLESS WS/GRPC: <span class="text-emerald-400">443</span></div>
-                    <div>• VLESS NONTLS: <span class="text-emerald-400">80</span></div>
-                    <div>• VMESS WS/GRPC: <span class="text-emerald-400">443</span></div>
-                    <div>• SSH WS/TLS: <span class="text-emerald-400">443</span></div>
-                    <div>• SSH NON TLS: <span class="text-emerald-400">8880</span></div>
-                    <div>• OVPN SSL: <span class="text-emerald-400">1194</span></div>
-                    <div>• SLOWDNS: <span class="text-emerald-400">5300</span></div>
+
+                <div>
+                    <h3 class="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                        <i class="fa-solid fa-network-wired"></i> Port & Protokol VPN
+                    </h3>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                        <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
+                        <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
+                        <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
+                        <div>• VLESS WS/GRPC: <span class="text-emerald-400">443</span></div>
+                        <div>• VLESS NONTLS: <span class="text-emerald-400">80</span></div>
+                        <div>• VMESS WS/GRPC: <span class="text-emerald-400">443</span></div>
+                        <div>• SSH WS/TLS: <span class="text-emerald-400">443</span></div>
+                        <div>• SSH NON TLS: <span class="text-emerald-400">8880</span></div>
+                        <div>• OVPN SSL: <span class="text-emerald-400">1194</span></div>
+                        <div>• SLOWDNS: <span class="text-emerald-400">5300</span></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-cyber-card border border-cyber-border p-4 rounded-xl text-xs flex flex-col justify-between">
+            <!-- Kolom Kanan: Cloudflare Requirement -->
+            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
                 <div>
                     <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                        <i class="fa-solid fa-cloud"></i> Setting Cloudflare
+                        <i class="fa-solid fa-cloud"></i> Rekomendasi Setting Cloudflare
                     </h3>
-                    <div class="space-y-1.5 text-[11px] font-mono">
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                    <div class="space-y-1 text-[11px] font-mono">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-900/90 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
                     </div>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-2">*Pastikan SSL Full & gRPC ON agar autoscript berjalan lancar.</p>
+                <p class="text-[10px] text-slate-500 mt-2 italic">*DNS Pointing otomatis ditambahkan ke Cloudflare sebagai DNS-Only (Grey Cloud).</p>
             </div>
         </div>
 
-        <!-- Form Daftarkan IP -->
-        <div class="bg-cyber-card border border-cyber-border p-5 rounded-2xl space-y-4">
+        <!-- Form Pendaftaran IP & Cloudflare Subdomain -->
+        <div class="glass-panel p-6 rounded-2xl space-y-4">
             <h2 class="text-sm font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-user-plus text-emerald-400"></i> Daftarkan Izin IP Baru
+                <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> Daftarkan Izin IP & Pointing Subdomain
             </h2>
-            <form onsubmit="handleAddNewIP(event)" class="space-y-3">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+            <form onsubmit="handleSubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Nama Client / Pembeli</label>
                         <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Tanggal Expired</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <label class="block text-xs text-slate-400 mb-1">Subdomain Klien (Otomatis CF)</label>
+                        <input type="text" id="subDomain" required placeholder="Contoh: budi01" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP Client</label>
-                            <button type="button" onclick="detectIP()" class="text-[10px] text-emerald-400 hover:underline">IP Saya</button>
+                            <label class="text-xs text-slate-400">Alamat IP VPS Client</label>
+                            <button type="button" onclick="detectIP()" class="text-[10px] text-emerald-400 hover:underline">Gunakan IP Saya</button>
                         </div>
                         <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
+                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                    </div>
                 </div>
 
-                <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
                         <button type="button" onclick="setExp(7)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
                         <button type="button" onclick="setExp(30)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
                         <button type="button" onclick="setExp(365)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
                     </div>
-                    <button type="submit" id="btnSubmit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan & Munculkan Script
+                    <button type="submit" id="btnSubmit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
+                        <i class="fa-solid fa-bolt"></i> Simpan & Dapatkan Skrip
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- Kotak Perintah VPS: AWALNYA TERSEMBUNYI, HANYA MUNCUL JIKA SUDAH BERHASIL DI-IZIN -->
-        <div id="commandBox" class="hidden bg-emerald-950/20 border border-emerald-500/50 p-5 rounded-2xl space-y-3">
+        <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN BERHASIL -->
+        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/20 p-5 rounded-2xl space-y-3">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Didaftarkan!
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> Izin IP & Subdomain Berhasil Didaftarkan!
                 </span>
-                <span id="registeredTarget" class="text-xs font-mono text-emerald-300 px-2 py-0.5 bg-emerald-900/60 rounded"></span>
+                <span id="targetDetail" class="text-xs font-mono text-emerald-300 px-2.5 py-0.5 bg-emerald-900/60 rounded"></span>
             </div>
-            <p class="text-xs text-slate-300">Jalankan perintah instalasi di bawah ini pada terminal VPS:</p>
-            <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-3.5 font-mono text-xs text-emerald-400 break-all">
-                <span id="finalCommand"></span>
-                <button onclick="copyCmd()" class="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition">
+            
+            <p class="text-xs text-slate-300">Salin dan tempel perintah ini langsung pada terminal root VPS:</p>
+            
+            <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-3.5 font-mono text-xs text-emerald-400 break-all leading-relaxed">
+                <span id="finalInstallCmd"></span>
+                <button onclick="copyCommand()" class="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition">
                     <i class="fa-solid fa-copy"></i> Salin Perintah Instalasi
                 </button>
             </div>
         </div>
 
-        <!-- Footer Link ke Halaman Owner -->
-        <div class="text-center pt-6">
-            <a href="/list" class="text-xs text-slate-600 hover:text-slate-400 transition flex items-center justify-center gap-1">
-                <i class="fa-solid fa-lock"></i> Portal Manajemen Owner
+        <!-- Footer Link ke Halaman List IP Owner -->
+        <div class="text-center pt-4">
+            <a href="/list" class="text-xs text-slate-600 hover:text-slate-400 transition inline-flex items-center gap-1.5">
+                <i class="fa-solid fa-lock"></i> Masuk Panel Owner (Lihat List IP)
             </a>
         </div>
 
@@ -202,61 +236,80 @@
             }
         }
 
-        async function handleAddNewIP(e) {
+        async function handleSubmit(e) {
             e.preventDefault();
             const name = document.getElementById("clientName").value.trim();
-            const exp = document.getElementById("expDate").value.trim();
-            const ip = document.getElementById("clientIp").value.trim();
+            const sub  = document.getElementById("subDomain").value.trim();
+            const ip   = document.getElementById("clientIp").value.trim();
+            const exp  = document.getElementById("expDate").value.trim();
 
-            if (!ip || !name) return alert("Lengkapi data terlebih dahulu!");
-
-            const newLine = `### ${name} ${exp} ${ip}`;
-            const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
+            if (!name || !sub || !ip || !exp) return alert("Mohon isi semua data formulir!");
 
             const btn = document.getElementById("btnSubmit");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses ke GitHub...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses Cloudflare & GitHub...`;
 
             try {
-                const res = await fetch("/api/ip", {
+                // 1. Tambah Subdomain ke Cloudflare Otomatis
+                const cfRes = await fetch("/api/cf", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ newContent: updatedContent, message: `Add IP: ${ip} (${name})` })
+                    body: JSON.stringify({ subName: sub, targetIp: ip })
                 });
-                const data = await res.json();
+                const cfData = await cfRes.json();
 
-                if (data.success) {
-                    // Update cache dan counter
+                if (!cfData.success) {
+                    alert(`Gagal Cloudflare: ${cfData.message}`);
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Simpan & Dapatkan Skrip`;
+                    return;
+                }
+
+                // 2. Simpan Baris Izin ke GitHub (### USERNAME EXPIRED IP)
+                const newLine = `### ${name} ${exp} ${ip}`;
+                const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
+
+                const gitRes = await fetch("/api/ip", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        newContent: updatedContent, 
+                        message: `Add IP: ${ip} (${name}) | Subdomain: ${cfData.subdomain}` 
+                    })
+                });
+                const gitData = await gitRes.json();
+
+                if (gitData.success) {
                     rawContentCache = updatedContent;
                     const lines = updatedContent.split("\n").filter(l => l.trim().length > 0);
                     document.getElementById("statTotal").innerText = `${lines.length} IP`;
 
-                    // Generate perintah instalasi domain
+                    // Siapkan perintah bash instalasi domain
                     const domain = window.location.origin;
                     const installCmd = `apt update && apt install -y wget curl && wget -q ${domain}/setup.sh && chmod +x setup.sh && ./setup.sh`;
-                    
-                    document.getElementById("finalCommand").innerText = installCmd;
-                    document.getElementById("registeredTarget").innerText = `${name} | ${ip}`;
-                    document.getElementById("commandBox").classList.remove("hidden");
 
-                    // Reset form input
+                    document.getElementById("finalInstallCmd").innerText = installCmd;
+                    document.getElementById("targetDetail").innerText = `${name} | ${ip} | Domain: ${cfData.subdomain}`;
+                    document.getElementById("commandCard").classList.remove("hidden");
+
                     document.getElementById("clientIp").value = "";
-                    document.getElementById("commandBox").scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById("subDomain").value = "";
+                    document.getElementById("commandCard").scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    alert(`Gagal menyimpan: ${data.message}`);
+                    alert(`Gagal menyimpan ke GitHub: ${gitData.message}`);
                 }
             } catch (err) {
-                alert(`Error: ${err.message}`);
+                alert(`Terjadi error sistem: ${err.message}`);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan & Munculkan Script`;
+                btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Simpan & Dapatkan Skrip`;
             }
         }
 
-        function copyCmd() {
-            const cmd = document.getElementById("finalCommand").innerText;
+        function copyCommand() {
+            const cmd = document.getElementById("finalInstallCmd").innerText;
             navigator.clipboard.writeText(cmd);
-            alert("Perintah instalasi berhasil disalin!");
+            alert("Perintah instalasi berhasil disalin ke clipboard!");
         }
     </script>
 </body>
