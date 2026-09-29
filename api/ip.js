@@ -2,7 +2,6 @@
 const config = require("../config");
 
 module.exports = async (req, res) => {
-  // Izinkan request CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -11,36 +10,43 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  const token = config.githubToken;
-  const owner = config.githubOwner;
-  const repo = config.githubRepo;
-  const path = config.githubFile;
-  const branch = config.githubBranch || "main";
+  // Prioritaskan Environment Variable Vercel, jika kosong baru ambil dari config.js
+  const token = (process.env.GITHUB_TOKEN || config.githubToken || "").trim();
+  const owner = (process.env.GITHUB_OWNER || config.githubOwner || "DIN-STORE").trim();
+  const repo = (process.env.GITHUB_REPO || config.githubRepo || "izin").trim();
+  const path = (process.env.GITHUB_FILE || config.githubFile || "ip").trim();
+  const branch = (process.env.GITHUB_BRANCH || config.githubBranch || "main").trim();
+
+  // VALIDASI AWAL: Cek apakah token terbaca atau kosong
+  if (!token || token.includes("GANTI_DENGAN")) {
+    return res.status(401).json({
+      success: false,
+      message: "Token GitHub kosong atau belum diset! Silakan pasang GITHUB_TOKEN di Environment Variables Vercel."
+    });
+  }
 
   const githubApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
 
   const headers = {
-    Authorization: `token ${token}`,
-    Accept: "application/vnd.github.v3+json",
+    "Authorization": `Bearer ${token}`,
+    "Accept": "application/vnd.github.v3+json",
     "User-Agent": "Vercel-IP-Manager"
   };
 
   try {
-    // 1. Ambil data file IP saat ini dari GitHub
     const getRes = await fetch(githubApiUrl, { headers });
+    const fileData = await getRes.json();
+
     if (!getRes.ok) {
       return res.status(getRes.status).json({
         success: false,
-        message: `Gagal membaca GitHub: ${getRes.statusText}`
+        message: `GitHub Menolak (${getRes.status}): ${fileData.message || getRes.statusText}`
       });
     }
 
-    const fileData = await getRes.json();
     const sha = fileData.sha;
-    // Decode base64 dari GitHub ke teks biasa
     const rawContent = Buffer.from(fileData.content, "base64").toString("utf-8");
 
-    // METODE GET: Mengambil daftar IP untuk ditampilkan di web dashboard
     if (req.method === "GET") {
       return res.status(200).json({
         success: true,
@@ -49,18 +55,16 @@ module.exports = async (req, res) => {
       });
     }
 
-    // METODE POST: Menyimpan / Mengupdate isi file izin IP di GitHub
     if (req.method === "POST") {
       const { newContent, message } = req.body || {};
 
       if (typeof newContent !== "string") {
         return res.status(400).json({
           success: false,
-          message: "Format payload tidak valid (newContent harus berupa string)"
+          message: "Format newContent tidak valid"
         });
       }
 
-      // Encode teks kembali ke base64 untuk GitHub API
       const updatedBase64 = Buffer.from(newContent, "utf-8").toString("base64");
 
       const updateRes = await fetch(
@@ -97,7 +101,7 @@ module.exports = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: `Terjadi error server: ${error.message}`
+      message: `Server Error: ${error.message}`
     });
   }
 };
