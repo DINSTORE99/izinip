@@ -1,14 +1,15 @@
 // config.js
+
 module.exports = {
-  // Masukkan Personal Access Token GitHub Anda (centang akses repo)
-  githubToken: process.env.GITHUB_TOKEN || "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",
+  // Token murni diambil dari Environment Variable server Vercel (Aman 100%)
+  githubToken: process.env.GITHUB_TOKEN || "",
 
-  // Data repositori izin IP
-  githubOwner: "DIN-STORE",
-  githubRepo: "izin",
-  githubFile: "ip",
-  githubBranch: "main",
+  // Pengaturan repositori izin IP
+  githubOwner: process.env.GITHUB_OWNER || "DIN-STORE",
+  githubRepo: process.env.GITHUB_REPO || "izin",
+  githubFile: process.env.GITHUB_FILE || "ip",
+  githubBranch: process.env.GITHUB_BRANCH || "main",
 
-  // Link file script autoscript utama yang ingin di-proxy/disembunyikan
+  // Link file script autoscript yang ingin di-proxy/disembunyikan
   setupRawUrl: "https://raw.githubusercontent.com/DIN-STORE/VIP/main/setup.sh"
 };
