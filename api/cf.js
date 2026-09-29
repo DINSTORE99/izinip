@@ -16,15 +16,14 @@ module.exports = async (req, res) => {
 
   const { subName, targetIp } = req.body || {};
 
-  // Ambil langsung dari file config.js di GitHub
   const apiToken = (config.cfApiToken || "").trim();
   const zoneId   = (config.cfZoneId || "").trim();
   const domain   = (config.cfDomain || "").trim();
 
-  if (!apiToken || !zoneId || !domain || apiToken.includes("MASUKKAN_")) {
+  if (!apiToken || !zoneId || !domain) {
     return res.status(500).json({
       success: false,
-      message: "Data Cloudflare di config.js belum diisi dengan benar!"
+      message: "Data Cloudflare di config.js belum lengkap!"
     });
   }
 
@@ -35,6 +34,7 @@ module.exports = async (req, res) => {
     });
   }
 
+  // Format subdomain hanya alphanumeric dan dash
   const cleanSub = subName.toLowerCase().replace(/[^a-z0-9-_]/g, "");
   const fullDomain = `${cleanSub}.${domain}`;
 
@@ -48,22 +48,25 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         type: "A",
         name: cleanSub,
-        content: targetIp,
-        ttl: 1,        // Automatic TTL
-        proxied: false  // DNS Only saat pointing awal
+        content: targetIp.trim(),
+        ttl: 1,        // Auto TTL
+        proxied: false // Grey Cloud (DNS Only)
       })
     });
 
     const cfData = await cfRes.json();
 
     if (!cfRes.ok || !cfData.success) {
-      const errDetail = cfData.errors?.[0]?.message || "Gagal membuat DNS di Cloudflare";
-      return res.status(400).json({ success: false, message: errDetail });
+      const errDetail = cfData.errors?.[0]?.message || "Gagal membuat DNS record";
+      return res.status(400).json({
+        success: false,
+        message: `${errDetail} (status: ${cfRes.status})`
+      });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Subdomain berhasil dibuat!",
+      message: "Subdomain berhasil dibuat di Cloudflare!",
       subdomain: fullDomain,
       ip: targetIp
     });
