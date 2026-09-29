@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP License Manager - Portal Utama</title>
+    <title>Cloudflare Subdomain Portal - DIN-STORE</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,7 +12,7 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#10B981' }
+                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#06B6D4' }
                     }
                 }
             }
@@ -25,281 +26,251 @@
         .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(31, 41, 55, 0.8); }
     </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center">
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-cyan-500 selection:text-white">
 
-    <div class="max-w-3xl w-full space-y-6">
+    <div class="max-w-4xl w-full space-y-6">
 
-        <!-- Top Header & Angka Statistik -->
-        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- Top Header Navigation -->
+        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/20">
-                    <i class="fa-solid fa-shield-halved"></i>
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-cloud"></i>
                 </div>
                 <div>
                     <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                        VIP License Portal
+                        Cloudflare Subdomain Portal
+                        <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400" id="mainDomainBadge">dinn.my.id</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Pendaftaran Izin IP Autoscript VIP</p>
+                    <p class="text-xs text-slate-400">Registrasi DNS & Penggantian IP Pointing Subdomain</p>
                 </div>
             </div>
-
-            <!-- Total Angka Terdaftar -->
-            <div class="flex items-center gap-4 text-right">
-                <div class="bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Izin IP</span>
-                    <span id="statIpTotal" class="text-base font-mono font-bold text-emerald-400">0 IP</span>
-                </div>
-                <div class="bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain CF</span>
-                    <span id="statSubTotal" class="text-base font-mono font-bold text-cyan-400">0 Sub</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Banner Khusus Registrasi Domain Cloudflare -->
-        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
-                    <i class="fa-solid fa-globe"></i>
-                </div>
-                <div>
-                    <p class="text-xs font-semibold text-white">Belum punya domain?</p>
-                    <p class="text-[11px] text-slate-400">Buat subdomain gratis otomatis ke Cloudflare atau ganti IP pointing VPS Anda.</p>
-                </div>
-            </div>
-            <a href="/domain" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-cyan-600/30 whitespace-nowrap">
-                <span>Silahkan reg Disini</span>
-                <i class="fa-solid fa-arrow-right"></i>
+            <a href="/index.html" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left"></i> Menu Utama
             </a>
         </div>
 
-        <!-- Spesifikasi OS & Port -->
+        <!-- 2 Kolom Formulir: Buat Baru & Ganti IP -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
-                <div>
-                    <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                        <i class="fa-solid fa-server"></i> Dukungan Sistem Operasi
-                    </h3>
-                    <div class="flex gap-2">
-                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Ubuntu 20.04.5</span>
-                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Debian 10</span>
-                    </div>
-                </div>
 
-                <div>
-                    <h3 class="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                        <i class="fa-solid fa-network-wired"></i> Port & Protokol Layanan
-                    </h3>
-                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                        <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
-                        <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
-                        <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
-                        <div>• VLESS WS/GRPC: <span class="text-emerald-400">443</span></div>
-                        <div>• VLESS NONTLS: <span class="text-emerald-400">80</span></div>
-                        <div>• VMESS WS/GRPC: <span class="text-emerald-400">443</span></div>
-                        <div>• SSH WS/TLS: <span class="text-emerald-400">443</span></div>
-                        <div>• SSH NON TLS: <span class="text-emerald-400">8880</span></div>
-                        <div>• OVPN SSL: <span class="text-emerald-400">1194</span></div>
-                        <div>• SLOWDNS: <span class="text-emerald-400">5300</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Rekomendasi Setting Cloudflare -->
-            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
-                <div>
-                    <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                        <i class="fa-solid fa-cloud"></i> Setting Cloudflare Domain
-                    </h3>
-                    <div class="space-y-1 text-[11px] font-mono">
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
-                            <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
-                        </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
-                            <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
-                        </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
-                            <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
-                        </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
-                            <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
-                        </div>
-                        <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
-                            <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-[10px] text-slate-500 mt-2 italic">*Konfigurasi wajib untuk menjaga koneksi VPN tetap stabil.</p>
-            </div>
-        </div>
-
-        <!-- Form Pendaftaran Izin IP Lisensi -->
-        <div class="glass-panel p-6 rounded-2xl space-y-4">
-            <h2 class="text-sm font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-user-plus text-emerald-400"></i> Daftarkan Izin IP Lisensi Autoscript
-            </h2>
-
-            <form onsubmit="handleRegisterIP(event)" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Form 1: Registrasi Subdomain Baru -->
+            <div class="glass-panel p-5 rounded-2xl space-y-4">
+                <h2 class="text-sm font-bold text-cyan-400 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus"></i> Buat Subdomain Baru
+                </h2>
+                <form onsubmit="handleCreateSubdomain(event)" class="space-y-3">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Nama Client / Username</label>
-                        <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <label class="block text-xs text-slate-400 mb-1">Nama Subdomain</label>
+                        <div class="flex items-center">
+                            <input type="text" id="newSubName" required placeholder="budi01" class="w-full bg-slate-900 border border-cyber-border rounded-l-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+                            <span class="bg-slate-800 border border-l-0 border-cyber-border rounded-r-lg px-3 py-2 text-xs font-mono text-slate-400">.dinn.my.id</span>
+                        </div>
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP VPS Client</label>
-                            <button type="button" onclick="detectIP()" class="text-[10px] text-emerald-400 hover:underline">Gunakan IP Saya</button>
+                            <label class="text-xs text-slate-400">IP Target VPS</label>
+                            <button type="button" onclick="detectIP('newSubIp')" class="text-[10px] text-cyan-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
+                        <input type="text" id="newSubIp" required placeholder="Contoh: 103.149.20.12" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
                     </div>
-                </div>
-
-                <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
-                    <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
-                        <button type="button" onclick="setExp(30)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
-                        <button type="button" onclick="setExp(365)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
-                    </div>
-                    <button type="submit" id="btnSubmit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip
+                    <button type="submit" id="btnCreateSub" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-cyan-600/30">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Pointing Subdomain
                     </button>
-                </div>
-            </form>
+                </form>
+            </div>
+
+            <!-- Form 2: Ganti IP Subdomain yang Sudah Ada -->
+            <div class="glass-panel p-5 rounded-2xl space-y-4">
+                <h2 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square"></i> Ganti IP Subdomain yang Ada
+                </h2>
+                <form onsubmit="handleUpdateIp(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Subdomain Terdaftar</label>
+                        <div class="flex items-center">
+                            <input type="text" id="updateSubName" required placeholder="budi01" class="w-full bg-slate-900 border border-cyber-border rounded-l-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
+                            <span class="bg-slate-800 border border-l-0 border-cyber-border rounded-r-lg px-3 py-2 text-xs font-mono text-slate-400">.dinn.my.id</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs text-slate-400">IP VPS Baru</label>
+                            <button type="button" onclick="detectIP('updateNewIp')" class="text-[10px] text-amber-400 hover:underline">Gunakan IP Saya</button>
+                        </div>
+                        <input type="text" id="updateNewIp" required placeholder="Contoh: 103.149.20.99" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
+                    </div>
+                    <button type="submit" id="btnUpdateSub" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-amber-600/30">
+                        <i class="fa-solid fa-arrows-rotate"></i> Update IP Pointing
+                    </button>
+                </form>
+            </div>
+
         </div>
 
-        <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN BERHASIL -->
-        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/20 p-5 rounded-2xl space-y-3">
-            <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Disimpan ke GitHub!
-                </span>
-                <span id="targetDetail" class="text-xs font-mono text-emerald-300 px-2.5 py-0.5 bg-emerald-900/60 rounded"></span>
-            </div>
-            
-            <p class="text-xs text-slate-300">Jalankan perintah ini di VPS root untuk menginstal autoscript:</p>
-            
-            <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-3.5 font-mono text-xs text-emerald-400 break-all leading-relaxed">
-                <span id="finalInstallCmd"></span>
-                <button onclick="copyCommand()" class="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition">
-                    <i class="fa-solid fa-copy"></i> Salin Perintah Instalasi
+        <!-- Tabel Daftar Subdomain Cloudflare Terdaftar -->
+        <div class="glass-panel rounded-2xl overflow-hidden shadow-xl">
+            <div class="p-4 border-b border-cyber-border flex justify-between items-center bg-slate-900/60">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs uppercase font-bold text-slate-300">Daftar Subdomain Terdaftar</span>
+                    <span id="subCount" class="text-xs font-mono px-2 py-0.5 bg-slate-800 text-cyan-400 rounded">0 Sub</span>
+                </div>
+                <button onclick="loadSubdomains()" class="text-xs text-cyan-400 hover:underline flex items-center gap-1.5">
+                    <i id="reloadIcon" class="fa-solid fa-rotate"></i> Refresh Data
                 </button>
             </div>
-        </div>
-
-        <!-- Footer Link ke List Owner -->
-        <div class="text-center pt-2">
-            <a href="/list" class="text-xs text-slate-600 hover:text-slate-400 transition inline-flex items-center gap-1">
-                <i class="fa-solid fa-lock"></i> Panel Owner (Kelola IP)
-            </a>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
+                        <tr>
+                            <th class="px-4 py-3">Nama Subdomain</th>
+                            <th class="px-4 py-3">Full Hostname</th>
+                            <th class="px-4 py-3">IP Target VPS</th>
+                            <th class="px-4 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subTableBody" class="divide-y divide-cyber-border/60">
+                        <tr>
+                            <td colspan="4" class="text-center py-6 text-slate-500">Memuat data dari Cloudflare...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
 
     <script>
-        let rawContentCache = "";
+        let cachedRecords = [];
 
         document.addEventListener("DOMContentLoaded", () => {
-            setExp(30);
-            fetchStats();
+            loadSubdomains();
         });
 
-        function setExp(days) {
-            const d = new Date();
-            d.setDate(d.getDate() + days);
-            document.getElementById("expDate").value = d.toISOString().split("T")[0];
-        }
-
-        async function detectIP() {
+        async function detectIP(targetInputId) {
             try {
                 const res = await fetch("https://api.ipify.org?format=json");
                 const data = await res.json();
-                document.getElementById("clientIp").value = data.ip;
-            } catch(e) {
+                document.getElementById(targetInputId).value = data.ip;
+            } catch (e) {
                 alert("Gagal mendeteksi IP!");
             }
         }
 
-        async function fetchStats() {
-            // 1. Ambil hitungan total IP
-            try {
-                const res = await fetch("/api/ip");
-                const data = await res.json();
-                if (data.success) {
-                    rawContentCache = data.rawContent;
-                    const lines = data.rawContent.split("\n").filter(l => l.trim().length > 0);
-                    document.getElementById("statIpTotal").innerText = `${lines.length} IP`;
-                }
-            } catch (e) {}
+        async function loadSubdomains() {
+            const tbody = document.getElementById("subTableBody");
+            const reloadIcon = document.getElementById("reloadIcon");
+            reloadIcon.classList.add("fa-spin");
 
-            // 2. Ambil hitungan total Subdomain Cloudflare (Hanya angka)
             try {
-                const resCf = await fetch("/api/cf");
-                const dataCf = await resCf.json();
-                if (dataCf.success) {
-                    document.getElementById("statSubTotal").innerText = `${dataCf.count} Sub`;
+                const res = await fetch("/api/cf");
+                const data = await res.json();
+
+                if (!data.success) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">${data.message}</td></tr>`;
+                    return;
                 }
-            } catch (e) {}
+
+                if (data.domain) {
+                    document.getElementById("mainDomainBadge").innerText = data.domain;
+                }
+
+                cachedRecords = data.records || [];
+                document.getElementById("subCount").innerText = `${cachedRecords.length} Sub`;
+
+                if (cachedRecords.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-500">Belum ada subdomain terdaftar.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = cachedRecords.map(item => `
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="px-4 py-3 font-mono font-bold text-cyan-400">${item.subdomain}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-slate-300">${item.name}</td>
+                        <td class="px-4 py-3 font-mono text-emerald-400">${item.ip}</td>
+                        <td class="px-4 py-3 text-right">
+                            <button onclick="fillUpdateForm('${item.subdomain}', '${item.ip}')" class="text-xs text-amber-400 hover:text-amber-300 px-2.5 py-1 bg-amber-500/10 rounded border border-amber-500/20 transition">
+                                <i class="fa-solid fa-pen mr-1"></i> Edit IP
+                            </button>
+                        </td>
+                    </tr>
+                `).join("");
+
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">Error: ${err.message}</td></tr>`;
+            } finally {
+                reloadIcon.classList.remove("fa-spin");
+            }
         }
 
-        async function handleRegisterIP(e) {
+        function fillUpdateForm(sub, ip) {
+            document.getElementById("updateSubName").value = sub;
+            document.getElementById("updateNewIp").value = ip;
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+
+        async function handleCreateSubdomain(e) {
             e.preventDefault();
-            const name = document.getElementById("clientName").value.trim();
-            const ip   = document.getElementById("clientIp").value.trim();
-            const exp  = document.getElementById("expDate").value.trim();
+            const sub = document.getElementById("newSubName").value.trim();
+            const ip  = document.getElementById("newSubIp").value.trim();
 
-            if (!name || !ip || !exp) return alert("Mohon lengkapi semua kolom!");
-
-            const btn = document.getElementById("btnSubmit");
+            const btn = document.getElementById("btnCreateSub");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke GitHub...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses ke Cloudflare...`;
 
             try {
-                const newLine = `### ${name} ${exp} ${ip}`;
-                const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
-
-                const gitRes = await fetch("/api/ip", {
+                const res = await fetch("/api/cf", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        newContent: updatedContent, 
-                        message: `Add IP: ${ip} (${name})` 
-                    })
+                    body: JSON.stringify({ subName: sub, targetIp: ip })
                 });
-                const gitData = await gitRes.json();
+                const data = await res.json();
 
-                if (gitData.success) {
-                    rawContentCache = updatedContent;
-                    const lines = updatedContent.split("\n").filter(l => l.trim().length > 0);
-                    document.getElementById("statIpTotal").innerText = `${lines.length} IP`;
-
-                    const domain = window.location.origin;
-                    const installCmd = `apt update && apt install -y wget curl && wget -q ${domain}/setup.sh && chmod +x setup.sh && ./setup.sh`;
-
-                    document.getElementById("finalInstallCmd").innerText = installCmd;
-                    document.getElementById("targetDetail").innerText = `${name} | ${ip}`;
-                    document.getElementById("commandCard").classList.remove("hidden");
-
-                    document.getElementById("clientIp").value = "";
-                    document.getElementById("commandCard").scrollIntoView({ behavior: 'smooth' });
+                if (data.success) {
+                    alert(data.message);
+                    document.getElementById("newSubName").value = "";
+                    document.getElementById("newSubIp").value = "";
+                    loadSubdomains();
                 } else {
-                    alert(`Gagal menyimpan: ${gitData.message}`);
+                    alert(`Gagal: ${data.message}`);
                 }
             } catch (err) {
                 alert(`Error: ${err.message}`);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip`;
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Pointing Subdomain`;
             }
         }
 
-        function copyCommand() {
-            const cmd = document.getElementById("finalInstallCmd").innerText;
-            navigator.clipboard.writeText(cmd);
-            alert("Perintah instalasi disalin!");
+        async function handleUpdateIp(e) {
+            e.preventDefault();
+            const sub   = document.getElementById("updateSubName").value.trim();
+            const newIp = document.getElementById("updateNewIp").value.trim();
+
+            const btn = document.getElementById("btnUpdateSub");
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengubah IP...`;
+
+            try {
+                const res = await fetch("/api/cf", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ subName: sub, newIp: newIp })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(data.message);
+                    document.getElementById("updateSubName").value = "";
+                    document.getElementById("updateNewIp").value = "";
+                    loadSubdomains();
+                } else {
+                    alert(`Gagal: ${data.message}`);
+                }
+            } catch (err) {
+                alert(`Error: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Update IP Pointing`;
+            }
         }
     </script>
 </body>
