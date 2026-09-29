@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP License Manager - DIN-STORE</title>
+    <title>VIP License Manager - DINSTORE</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,9 +13,9 @@
                 extend: {
                     colors: {
                         cyber: {
-                            bg: '#050811',
-                            card: '#0c1222',
-                            border: '#1e293b',
+                            bg: '#05070B',
+                            card: '#0A0F18',
+                            border: '#1E293B',
                             accent: '#10B981'
                         }
                     }
@@ -26,70 +26,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050811; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+        ::-webkit-scrollbar-track { background: #05070B; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 9999px; }
 
-        /* Canvas Partikel */
-        #particleCanvas {
+        /* Background Grid Kotak-Kotak Persis Seperti DINSTORE */
+        body {
+            background-color: #05070B;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 38px 38px;
+            background-position: center top;
+        }
+
+        /* Ambient Glow di Atas & Bawah */
+        .ambient-radial {
             position: fixed;
             top: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Ambient Glow Spheres (Aksen Cahaya Latar Belakang) */
-        .ambient-glow {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
+            height: 450px;
+            background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.12), transparent 70%);
             pointer-events: none;
             z-index: 0;
-            opacity: 0.25;
-            animation: pulseGlow 10s ease-in-out infinite alternate;
         }
 
-        .glow-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #059669 0%, transparent 70%);
-            top: -150px;
-            left: -150px;
-        }
-
-        .glow-2 {
-            width: 550px;
-            height: 550px;
-            background: radial-gradient(circle, #0284c7 0%, transparent 70%);
-            bottom: -150px;
-            right: -150px;
-            animation-delay: -5s;
-        }
-
-        .glow-3 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.15;
-        }
-
-        @keyframes pulseGlow {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.2; }
-            100% { transform: scale(1.15) translate(20px, -20px); opacity: 0.32; }
-        }
-
-        /* Glassmorphism Card Style */
+        /* Glass Panel Elegan */
         .glass-panel {
-            background: rgba(12, 18, 34, 0.72);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            background: rgba(10, 15, 24, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
         }
 
         .glass-panel:hover {
@@ -97,28 +66,23 @@
         }
     </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
+<body class="text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative">
 
-    <!-- AMBIENT NEON GLOWS -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-    <div class="ambient-glow glow-3"></div>
+    <!-- Efek Cahaya Hijau Lembut di Atas -->
+    <div class="ambient-radial"></div>
 
-    <!-- CANVAS ANIMASI PARTIKEL INTERAKTIF -->
-    <canvas id="particleCanvas"></canvas>
-
-    <!-- KONTEN UTAMA -->
     <div class="max-w-3xl w-full space-y-6 relative z-10">
 
         <!-- Top Header & Angka Statistik -->
         <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/25">
-                    <i class="fa-solid fa-shield-halved"></i>
+                <div class="w-11 h-11 rounded-xl bg-slate-900 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)]">
+                    D
                 </div>
                 <div>
-                    <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                        VIP License Portal
+                    <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 tracking-wide">
+                        DINSTORE
+                        <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">LICENSE PORTAL</span>
                     </h1>
                     <p class="text-xs text-slate-400">Pendaftaran & Perpanjangan Lisensi Autoscript VIP</p>
                 </div>
@@ -126,11 +90,11 @@
 
             <!-- Total Angka Terdaftar -->
             <div class="flex items-center gap-3 text-right">
-                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800/80 shadow-inner">
+                <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
                     <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Izin IP</span>
                     <span id="statIpTotal" class="text-base font-mono font-bold text-emerald-400">0 IP</span>
                 </div>
-                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800/80 shadow-inner">
+                <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
                     <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain CF</span>
                     <span id="statSubTotal" class="text-base font-mono font-bold text-cyan-400">0 Sub</span>
                 </div>
@@ -138,9 +102,9 @@
         </div>
 
         <!-- Tombol Registrasi Domain -->
-        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="glass-panel p-4 rounded-xl border border-cyan-500/20 bg-cyan-950/10 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+                <div class="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-globe"></i>
                 </div>
                 <div>
@@ -148,16 +112,16 @@
                     <p class="text-[11px] text-slate-400">Buat subdomain Cloudflare otomatis atau ganti IP pointing VPS Anda.</p>
                 </div>
             </div>
-            <a href="/domain.html" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-cyan-600/30 whitespace-nowrap cursor-pointer">
+            <a href="/domain.html" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-cyan-600/20 whitespace-nowrap cursor-pointer">
                 <span>Silahkan reg Disini</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
 
         <!-- Tombol Preview Foto Tampilan Script -->
-        <div class="glass-panel p-4 rounded-xl border border-purple-500/30 bg-purple-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="glass-panel p-4 rounded-xl border border-purple-500/20 bg-purple-950/10 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg">
+                <div class="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center text-lg">
                     <i class="fa-solid fa-images"></i>
                 </div>
                 <div>
@@ -165,7 +129,7 @@
                     <p class="text-[11px] text-slate-400">Lihat galeri tangkapan layar (screenshot) menu dan antarmuka Autoscript.</p>
                 </div>
             </div>
-            <a href="/p.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-purple-600/30 whitespace-nowrap cursor-pointer">
+            <a href="/p.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-purple-600/20 whitespace-nowrap cursor-pointer">
                 <span>Lihat Foto Script</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
@@ -190,7 +154,7 @@
                     <h3 class="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
                         <i class="fa-solid fa-network-wired"></i> Port & Protokol Layanan
                     </h3>
-                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800">
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950/90 p-2.5 rounded-lg border border-slate-800">
                         <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
                         <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
                         <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
@@ -212,19 +176,19 @@
                         <i class="fa-solid fa-cloud"></i> Setting Cloudflare Domain
                     </h3>
                     <div class="space-y-1 text-[11px] font-mono">
-                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
-                        <div class="flex justify-between bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800">
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
                             <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
                         </div>
                     </div>
@@ -249,28 +213,28 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Nama Client / Username</label>
-                        <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <input type="date" id="expDate" required class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-xs text-slate-400">Alamat IP VPS Client</label>
                             <button type="button" onclick="detectIP('clientIp')" class="text-[10px] text-emerald-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
+                        <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7, 'expDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+7 Hari</button>
-                        <button type="button" onclick="setExp(30, 'expDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+30 Hari</button>
-                        <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+1 Thn</button>
+                        <button type="button" onclick="setExp(7, 'expDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+7 Hari</button>
+                        <button type="button" onclick="setExp(30, 'expDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+30 Hari</button>
+                        <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+1 Thn</button>
                     </div>
-                    <button type="submit" id="btnSubmitRegister" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
+                    <button type="submit" id="btnSubmitRegister" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition">
                         <i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip
                     </button>
                 </div>
@@ -284,21 +248,21 @@
                             <label class="text-xs text-slate-400">Alamat IP yang Ingin Diperpanjang</label>
                             <button type="button" onclick="detectIP('renewIp')" class="text-[10px] text-amber-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="renewIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
+                        <input type="text" id="renewIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
                     </div>
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Masa Aktif Baru</label>
-                        <input type="date" id="renewExpDate" required class="w-full bg-slate-900/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
+                        <input type="date" id="renewExpDate" required class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
                     </div>
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+7 Hari</button>
-                        <button type="button" onclick="setExp(30, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+30 Hari</button>
-                        <button type="button" onclick="setExp(365, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-xs rounded text-slate-300 transition">+1 Thn</button>
+                        <button type="button" onclick="setExp(7, 'renewExpDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+7 Hari</button>
+                        <button type="button" onclick="setExp(30, 'renewExpDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+30 Hari</button>
+                        <button type="button" onclick="setExp(365, 'renewExpDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+1 Thn</button>
                     </div>
-                    <button type="submit" id="btnSubmitRenew" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-amber-600/30 transition">
+                    <button type="submit" id="btnSubmitRenew" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(217,119,6,0.3)] transition">
                         <i class="fa-solid fa-arrows-rotate"></i> Perbarui Masa Aktif
                     </button>
                 </div>
@@ -306,7 +270,7 @@
         </div>
 
         <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN/PERPANJANGAN BERHASIL -->
-        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3">
+        <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Disimpan ke GitHub!
@@ -326,102 +290,8 @@
 
     </div>
 
-    <!-- SCRIPT PARTIKEL INTERAKTIF -->
+    <!-- LOGIKA SISTEM LISENSI -->
     <script>
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = { x: null, y: null, radius: 120 };
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.8 + 0.8;
-                this.speedX = (Math.random() - 0.5) * 0.6;
-                this.speedY = (Math.random() - 0.5) * 0.6;
-                this.color = Math.random() > 0.4 ? '#10B981' : '#0284c7';
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                if (this.x > canvas.width) this.x = 0;
-                else if (this.x < 0) this.x = canvas.width;
-
-                if (this.y > canvas.height) this.y = 0;
-                else if (this.y < 0) this.y = canvas.height;
-
-                // Interaksi dengan kursor
-                if (mouse.x != null && mouse.y != null) {
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < mouse.radius) {
-                        const force = (mouse.radius - dist) / mouse.radius;
-                        this.x -= (dx / dist) * force * 1.5;
-                        this.y -= (dy / dist) * force * 1.5;
-                    }
-                }
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            const count = Math.floor((canvas.width * canvas.height) / 13000);
-            for (let i = 0; i < Math.min(count, 80); i++) {
-                particles.push(new Particle());
-            }
-        }
-        initParticles();
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 105) {
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.16 - dist / 105 * 0.16})`;
-                        ctx.lineWidth = 0.65;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-                particles[i].update();
-                particles[i].draw();
-            }
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // ================= LOGIKA APLIKASI =================
         let rawContentCache = "";
 
         document.addEventListener("DOMContentLoaded", () => {
