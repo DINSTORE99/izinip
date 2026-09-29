@@ -12,7 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#10B981' }
+                        cyber: { 
+                            bg: '#05070B', 
+                            card: '#0A0F18', 
+                            border: '#1E293B', 
+                            accent: '#10B981' 
+                        }
                     }
                 }
             }
@@ -21,35 +26,73 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0B0F19; }
-        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
-        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(31, 41, 55, 0.8); }
+        ::-webkit-scrollbar-track { background: #05070B; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 9999px; }
+
+        /* Background Grid Kotak-Kotak Persis Tema Cyber */
+        body {
+            background-color: #05070B;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 38px 38px;
+            background-position: center top;
+        }
+
+        /* Ambient Glow di Bagian Atas */
+        .ambient-radial {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 450px;
+            background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.12), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Glass Panel Elegan */
+        .glass-panel {
+            background: rgba(10, 15, 24, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(16, 185, 129, 0.25);
+        }
     </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white">
+<body class="text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Efek Cahaya Hijau Lembut di Atas -->
+    <div class="ambient-radial"></div>
 
     <!-- Modal Login PIN Owner -->
     <div id="pinModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-cyber-card border border-cyber-border p-6 rounded-2xl max-w-sm w-full space-y-4 text-center shadow-2xl">
-            <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xl">
+        <div class="glass-panel p-6 rounded-2xl max-w-sm w-full space-y-4 text-center shadow-2xl border border-emerald-500/30">
+            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto text-xl shadow-[0_0_15px_rgba(16,185,129,0.25)]">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
             <div>
                 <h2 class="text-base font-bold text-white">Owner Portal</h2>
                 <p class="text-xs text-slate-400 mt-1">Masukkan PIN untuk mengakses list IP & Subdomain.</p>
             </div>
-            <input type="password" id="ownerPin" placeholder="PIN Rahasia" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-center text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
-            <button onclick="checkPin()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition">Buka Panel</button>
+            <input type="password" id="ownerPin" placeholder="PIN Rahasia" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-center text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
+            <button onclick="checkPin()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold shadow-[0_0_20px_rgba(16,185,129,0.3)] transition">Buka Panel</button>
         </div>
     </div>
 
     <!-- Main Panel Container -->
-    <div id="mainContainer" class="max-w-5xl w-full space-y-6 hidden">
+    <div id="mainContainer" class="max-w-5xl w-full space-y-6 hidden relative z-10">
         
         <!-- Header -->
         <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 flex items-center justify-center text-white text-lg font-bold shadow-lg shadow-emerald-500/20">
+                <div class="w-11 h-11 rounded-xl bg-slate-900 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)]">
                     <i class="fa-solid fa-lock-open"></i>
                 </div>
                 <div>
@@ -60,10 +103,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="reloadActiveTab()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
+                <button onclick="reloadActiveTab()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-xs rounded-lg border border-slate-800 text-slate-300 transition flex items-center gap-1.5">
                     <i id="syncIcon" class="fa-solid fa-rotate"></i> Refresh
                 </button>
-                <a href="/" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition">
+                <a href="/" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-xs rounded-lg border border-slate-800 text-slate-300 transition">
                     Ke Halaman Depan
                 </a>
             </div>
@@ -86,7 +129,7 @@
             <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyber-border">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-slate-300">
-                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
+                        <thead class="bg-slate-950/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
                             <tr>
                                 <th class="px-4 py-3">Nama Client</th>
                                 <th class="px-4 py-3">Expired</th>
@@ -109,7 +152,7 @@
             <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyan-500/30">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-slate-300">
-                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
+                        <thead class="bg-slate-950/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
                             <tr>
                                 <th class="px-4 py-3">Nama Subdomain</th>
                                 <th class="px-4 py-3">Full Hostname</th>
