@@ -47,16 +47,16 @@
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label class="block text-xs text-gray-400 mb-1">Alamat IP VPS Client</label>
-          <input id="inputIp" type="text" placeholder="Contoh: 103.123.45.67" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
-        </div>
-        <div>
-          <label class="block text-xs text-gray-400 mb-1">Nama Client / Catatan</label>
+          <label class="block text-xs text-gray-400 mb-1">Nama Client / Username</label>
           <input id="inputName" type="text" placeholder="Contoh: Budi-VIP" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
         </div>
         <div>
           <label class="block text-xs text-gray-400 mb-1">Masa Aktif Berakhir (YYYY-MM-DD)</label>
           <input id="inputExp" type="date" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs text-gray-400 mb-1">Alamat IP VPS Client</label>
+          <input id="inputIp" type="text" placeholder="Contoh: 116.212.74.46" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm focus:border-cyan-400 outline-none">
         </div>
       </div>
       <div class="flex items-center justify-between mt-4">
@@ -81,9 +81,9 @@
         <table class="w-full text-left text-sm">
           <thead class="bg-gray-900/60 text-gray-400 text-xs uppercase border-b border-gray-800">
             <tr>
-              <th class="py-3 px-4">Alamat IP</th>
               <th class="py-3 px-4">Nama Client</th>
               <th class="py-3 px-4">Expired</th>
+              <th class="py-3 px-4">Alamat IP</th>
               <th class="py-3 px-4 text-center">Aksi</th>
             </tr>
           </thead>
@@ -101,7 +101,6 @@
   <script>
     let rawContentCache = "";
 
-    // Set domain saat ini secara otomatis
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("domainUrl").innerText = window.location.origin;
       setExp(30);
@@ -149,18 +148,19 @@
       }
 
       tbody.innerHTML = lines.map((line, idx) => {
-        // Mendukung format: IP NAME EXPDATE atau ### IP NAME EXPDATE
         const cleaned = line.replace(/^###\s*/, "").trim();
         const parts = cleaned.split(/\s+/);
-        const ip = parts[0] || "-";
-        const name = parts[1] || "-";
-        const exp = parts[2] || "-";
+
+        // Format: USERNAME EXPIRED IP
+        const name = parts[0] || "-";
+        const exp  = parts[1] || "-";
+        const ip   = parts[2] || "-";
 
         return `
           <tr class="hover:bg-white/[0.02]">
-            <td class="py-3 px-4 font-mono text-cyan-300">${ip}</td>
-            <td class="py-3 px-4 font-medium">${name}</td>
+            <td class="py-3 px-4 font-medium text-white">${name}</td>
             <td class="py-3 px-4 font-mono text-xs text-gray-400">${exp}</td>
+            <td class="py-3 px-4 font-mono text-cyan-300">${ip}</td>
             <td class="py-3 px-4 text-center">
               <button onclick="deleteLine(${idx})" class="text-xs text-red-400 hover:text-red-300 px-2 py-1 bg-red-500/10 rounded transition">
                 <i class="fa-solid fa-trash mr-1"></i> Cabut
@@ -172,16 +172,17 @@
     }
 
     async function addIp() {
-      const ip = document.getElementById("inputIp").value.trim();
       const name = document.getElementById("inputName").value.trim() || "Client";
-      const exp = document.getElementById("inputExp").value.trim();
+      const exp  = document.getElementById("inputExp").value.trim();
+      const ip   = document.getElementById("inputIp").value.trim();
 
       if (!ip) {
         alert("Alamat IP tidak boleh kosong!");
         return;
       }
 
-      const newLine = `### ${ip} ${name} ${exp}`;
+      // Format susunan: ### USERNAME TANGGAL IP
+      const newLine = `### ${name} ${exp} ${ip}`;
       const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
       await saveToGitHub(updatedContent, `Menambahkan IP izin: ${ip} (${name})`);
