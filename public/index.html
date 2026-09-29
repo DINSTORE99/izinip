@@ -20,11 +20,87 @@
         <h1 class="text-2xl font-bold text-cyan-400 flex items-center gap-2">
           <i class="fa-solid fa-shield-halved"></i> VIP License & Script Portal
         </h1>
-        <p class="text-sm text-gray-400">Manij IP izin autoscript na GitHub</p>
+        <p class="text-sm text-gray-400">Kelola izin IP autoscript dan instalasi server VPN</p>
       </div>
       <button onclick="loadIPs()" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-cyan-400 rounded-lg text-sm transition">
         <i class="fa-solid fa-arrows-rotate mr-1"></i> Refresh Data
       </button>
+    </div>
+
+    <!-- Informasi Spesifikasi Server & Protokol -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Kolom Kiri: OS & Port Service -->
+      <div class="card-glass p-5 rounded-2xl space-y-4">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2 mb-2">
+            <i class="fa-solid fa-server"></i> Sistem Operasi yang Didukung
+          </h3>
+          <div class="flex flex-wrap gap-2 text-xs font-mono">
+            <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-md">Ubuntu 20.04.5</span>
+            <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-300 rounded-md">Debian 10</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2 mb-2">
+            <i class="fa-solid fa-network-wired"></i> Port & Layanan VPN
+          </h3>
+          <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-xs font-mono text-gray-300 bg-black/40 p-3 rounded-xl border border-gray-800/80">
+            <div>• TROJAN WS <span class="text-cyan-400">: 443</span></div>
+            <div>• TROJAN GRPC <span class="text-cyan-400">: 443</span></div>
+            <div>• SHADOWSOCKS WS <span class="text-cyan-400">: 443</span></div>
+            <div>• SHADOWSOCKS GRPC <span class="text-cyan-400">: 443</span></div>
+            <div>• VLESS WS <span class="text-cyan-400">: 443</span></div>
+            <div>• VLESS GRPC <span class="text-cyan-400">: 443</span></div>
+            <div>• VLESS NONTLS <span class="text-cyan-400">: 80</span></div>
+            <div>• VMESS WS <span class="text-cyan-400">: 443</span></div>
+            <div>• VMESS GRPC <span class="text-cyan-400">: 443</span></div>
+            <div>• VMESS NONTLS <span class="text-cyan-400">: 80</span></div>
+            <div>• SSH WS / TLS <span class="text-cyan-400">: 443</span></div>
+            <div>• SSH NON TLS <span class="text-cyan-400">: 8880</span></div>
+            <div>• OVPN SSL/TCP <span class="text-cyan-400">: 1194</span></div>
+            <div>• SLOWDNS <span class="text-cyan-400">: 5300</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kolom Kanan: Cloudflare Setting -->
+      <div class="card-glass p-5 rounded-2xl flex flex-col justify-between">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-cloud"></i> Rekomendasi Setting Cloudflare
+          </h3>
+          <div class="space-y-2 text-xs font-mono">
+            <div class="flex justify-between items-center bg-gray-900/60 px-3 py-1.5 rounded border border-gray-800">
+              <span class="text-gray-400">SSL/TLS</span>
+              <span class="text-emerald-400 font-semibold">FULL</span>
+            </div>
+            <div class="flex justify-between items-center bg-gray-900/60 px-3 py-1.5 rounded border border-gray-800">
+              <span class="text-gray-400">SSL/TLS Recommender</span>
+              <span class="text-rose-400 font-semibold">OFF</span>
+            </div>
+            <div class="flex justify-between items-center bg-gray-900/60 px-3 py-1.5 rounded border border-gray-800">
+              <span class="text-gray-400">gRPC</span>
+              <span class="text-emerald-400 font-semibold">ON</span>
+            </div>
+            <div class="flex justify-between items-center bg-gray-900/60 px-3 py-1.5 rounded border border-gray-800">
+              <span class="text-gray-400">WebSocket</span>
+              <span class="text-emerald-400 font-semibold">ON</span>
+            </div>
+            <div class="flex justify-between items-center bg-gray-900/60 px-3 py-1.5 rounded border border-gray-800">
+              <span class="text-gray-400">Always Use HTTPS</span>
+              <span class="text-rose-400 font-semibold">OFF</span>
+            </div>
+            <div class="flex justify-between items-center bg-gray-900/60 px-3 py-1.5 rounded border border-gray-800">
+              <span class="text-gray-400">Under Attack Mode</span>
+              <span class="text-rose-400 font-semibold">OFF</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-[11px] text-gray-500 mt-3 italic">*Pastikan konfigurasi Cloudflare di atas sesuai agar koneksi SSL/WebSocket tidak terputus.</p>
+      </div>
+
     </div>
 
     <!-- Form Tambah IP -->
@@ -58,17 +134,17 @@
       </div>
     </div>
 
-    <!-- Kotak Perintah Salin Instalasi (Go show nɔmɔ wen i dɔn sef sɔksɛsful) -->
-    <div id="successCard" class="hidden card-glass p-5 rounded-2xl border border-green-500/50 bg-green-950/20">
+    <!-- Kotak Perintah Salin Instalasi (Hanya muncul otomatis setelah IP berhasil disimpan) -->
+    <div id="successCard" class="hidden card-glass p-5 rounded-2xl border border-emerald-500/50 bg-emerald-950/20">
       <div class="flex items-center justify-between mb-3">
-        <h2 class="text-sm font-semibold uppercase tracking-wider text-green-400 flex items-center gap-2">
-          <i class="fa-solid fa-circle-check"></i> IP Dɔn Sef! Kɔpi Perintah Instalasi VPS Ya:
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check"></i> IP Berhasil Didaftarkan! Salin Perintah Instalasi VPS:
         </h2>
-        <span id="savedTargetIp" class="text-xs px-2 py-0.5 bg-green-900/60 text-green-300 rounded font-mono"></span>
+        <span id="savedTargetIp" class="text-xs px-2.5 py-1 bg-emerald-900/60 text-emerald-300 rounded font-mono"></span>
       </div>
-      <div class="relative bg-black/80 rounded-xl p-4 font-mono text-sm border border-green-800/60 overflow-x-auto text-green-300">
+      <div class="relative bg-black/80 rounded-xl p-4 font-mono text-sm border border-emerald-800/60 overflow-x-auto text-emerald-300">
         <span id="installCmd">apt update && apt install -y wget curl && wget -q <span id="domainUrl"></span>/setup.sh && chmod +x setup.sh && ./setup.sh</span>
-        <button onclick="copyCmd()" class="absolute right-3 top-3 px-3 py-1.5 bg-green-600 hover:bg-green-500 text-white rounded text-xs transition font-sans">
+        <button onclick="copyCmd()" class="absolute right-3 top-3 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs transition font-sans font-medium">
           <i class="fa-solid fa-copy mr-1"></i> Salin
         </button>
       </div>
@@ -78,7 +154,7 @@
     <div class="card-glass rounded-2xl overflow-hidden">
       <div class="p-4 border-b border-gray-800 flex justify-between items-center">
         <h3 class="font-bold text-white text-sm">Daftar IP Aktif Terdaftar</h3>
-        <span id="ipCount" class="text-xs px-2 py-1 bg-gray-800 rounded text-cyan-400">0 IP</span>
+        <span id="ipCount" class="text-xs px-2 py-1 bg-gray-800 rounded text-cyan-400 font-mono">0 IP</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-sm">
@@ -119,7 +195,7 @@
     function copyCmd() {
       const cmdText = document.getElementById("installCmd").innerText;
       navigator.clipboard.writeText(cmdText);
-      alert("Perintah instalasi dɔn kɔpi!");
+      alert("Perintah instalasi berhasil disalin ke clipboard!");
     }
 
     async function loadIPs() {
@@ -129,14 +205,14 @@
         const data = await res.json();
 
         if (!data.success) {
-          tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-red-400">${data.message}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">${data.message}</td></tr>`;
           return;
         }
 
         rawContentCache = data.rawContent;
         renderTable(data.rawContent);
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-red-400">Gagal load data: ${err.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">Gagal mengambil data: ${err.message}</td></tr>`;
       }
     }
 
@@ -146,7 +222,7 @@
       document.getElementById("ipCount").innerText = `${lines.length} IP`;
 
       if (lines.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-gray-500">Nɔ get IP we de ya yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-gray-500">Belum ada IP yang terdaftar.</td></tr>`;
         return;
       }
 
@@ -154,7 +230,7 @@
         const cleaned = line.replace(/^###\s*/, "").trim();
         const parts = cleaned.split(/\s+/);
 
-        // Format: USERNAME EXPIRED IP
+        // Susunan: USERNAME EXPIRED IP
         const name = parts[0] || "-";
         const exp  = parts[1] || "-";
         const ip   = parts[2] || "-";
@@ -165,7 +241,7 @@
             <td class="py-3 px-4 font-mono text-xs text-gray-400">${exp}</td>
             <td class="py-3 px-4 font-mono text-cyan-300">${ip}</td>
             <td class="py-3 px-4 text-center">
-              <button onclick="deleteLine(${idx})" class="text-xs text-red-400 hover:text-red-300 px-2 py-1 bg-red-500/10 rounded transition">
+              <button onclick="deleteLine(${idx})" class="text-xs text-rose-400 hover:text-rose-300 px-2 py-1 bg-rose-500/10 rounded transition">
                 <i class="fa-solid fa-trash mr-1"></i> Cabut
               </button>
             </td>
@@ -180,37 +256,37 @@
       const ip   = document.getElementById("inputIp").value.trim();
 
       if (!ip) {
-        alert("IP adres nɔ fɔ lefte emti!");
+        alert("Alamat IP tidak boleh kosong!");
         return;
       }
 
-      // Format GitHub: ### USERNAME EXPDATE IP
+      // Format baris teks GitHub: ### USERNAME EXPDATE IP
       const newLine = `### ${name} ${exp} ${ip}`;
       const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
-      const success = await saveToGitHub(updatedContent, `Add IP: ${ip} (${name})`);
+      const success = await saveToGitHub(updatedContent, `Menambahkan izin IP: ${ip} (${name})`);
       if (success) {
-        // Sho di bɔks wit di kɔmand we i dɔn sef
-        document.getElementById("savedTargetIp").innerText = `IP: ${ip}`;
+        // Tampilkan kotak instalasi dengan rincian IP yang baru didaftarkan
+        document.getElementById("savedTargetIp").innerText = `Client: ${name} (${ip})`;
         document.getElementById("successCard").classList.remove("hidden");
         document.getElementById("inputIp").value = "";
       }
     }
 
     async function deleteLine(index) {
-      if (!confirm("Yu sho se yu want pul dis IP?")) return;
+      if (!confirm("Apakah Anda yakin ingin mencabut izin IP ini?")) return;
 
       const lines = rawContentCache.split("\n").filter(l => l.trim().length > 0);
       lines.splice(index, 1);
       const updatedContent = lines.length > 0 ? `${lines.join("\n")}\n` : "";
 
-      await saveToGitHub(updatedContent, "Pul IP izin");
+      await saveToGitHub(updatedContent, "Mencabut izin IP");
     }
 
     async function saveToGitHub(content, commitMsg) {
       const btn = document.getElementById("btnSave");
       btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> De sef...`;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
 
       try {
         const res = await fetch("/api/ip", {
