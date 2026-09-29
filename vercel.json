@@ -8,6 +8,10 @@
     {
       "source": "/api/ip",
       "destination": "/api/ip"
+    },
+    {
+      "source": "/list",
+      "destination": "/list.html"
     }
   ]
 }
