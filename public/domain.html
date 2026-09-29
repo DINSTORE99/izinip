@@ -28,7 +28,23 @@
 </head>
 <body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-cyan-500 selection:text-white">
 
-    <div class="max-w-4xl w-full space-y-6">
+    <!-- MODAL PIN OWNER (Wajib Masuk PIN Terlebih Dahulu) -->
+    <div id="pinModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
+        <div class="bg-cyber-card border border-cyber-border p-6 rounded-2xl max-w-xs w-full space-y-4 text-center">
+            <div class="w-12 h-12 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-white">Panel Rahasia Domain</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Masukkan PIN untuk membuka pengaturan Cloudflare.</p>
+            </div>
+            <input type="password" id="ownerPinInput" placeholder="PIN Rahasia" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-center text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+            <button type="button" onclick="verifyOwnerPin()" class="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-semibold">Buka Panel</button>
+        </div>
+    </div>
+
+    <!-- Konten Utama (Tersembunyi Sebelum PIN Diinput) -->
+    <div id="adminDomainContainer" class="max-w-4xl w-full space-y-6 hidden">
 
         <!-- Top Header Navigation -->
         <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
@@ -44,12 +60,12 @@
                     <p class="text-xs text-slate-400">Registrasi DNS & Penggantian IP Pointing Subdomain</p>
                 </div>
             </div>
-            <a href="/index.html" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
-                <i class="fa-solid fa-arrow-left"></i> Menu Utama
-            </a>
+            <button onclick="lockPanel()" class="px-3.5 py-1.5 bg-rose-500/10 border border-rose-500/30 hover:bg-rose-500/20 text-rose-400 text-xs rounded-lg transition flex items-center gap-1.5">
+                <i class="fa-solid fa-lock"></i> Kunci Panel
+            </button>
         </div>
 
-        <!-- 2 Kolom Formulir: Buat Baru & Ganti IP (Bisa diakses publik) -->
+        <!-- 2 Kolom Formulir: Buat Baru & Ganti IP -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <!-- Form 1: Registrasi Subdomain Baru -->
@@ -106,37 +122,16 @@
 
         </div>
 
-        <!-- Tombol Buka Panel Khusus Owner (Jika belum login PIN) -->
-        <div id="lockOwnerSection" class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 border border-slate-800">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 text-lg">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div>
-                    <h3 class="text-xs font-bold text-white">Daftar Subdomain Terdaftar</h3>
-                    <p class="text-[11px] text-slate-400">Hanya owner yang memiliki hak akses untuk melihat rincian seluruh subdomain.</p>
-                </div>
-            </div>
-            <button onclick="openPinModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 rounded-lg text-xs font-bold transition flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-key"></i> Buka List Subdomain (Owner Only)
-            </button>
-        </div>
-
-        <!-- Tabel Daftar Subdomain Cloudflare (DIKUNCI: HANYA TAMPIL SETELAH INPUT PIN OWNER) -->
-        <div id="ownerTableSection" class="hidden glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyan-500/40">
+        <!-- Tabel Daftar Subdomain Cloudflare Terdaftar -->
+        <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyan-500/40">
             <div class="p-4 border-b border-cyber-border flex justify-between items-center bg-slate-900/60">
                 <div class="flex items-center gap-2">
                     <span class="text-xs uppercase font-bold text-slate-300">Daftar Subdomain Cloudflare (Owner)</span>
                     <span id="subCount" class="text-xs font-mono px-2 py-0.5 bg-slate-800 text-cyan-400 rounded">0 Sub</span>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="loadSubdomains()" class="text-xs text-cyan-400 hover:underline flex items-center gap-1.5">
-                        <i id="reloadIcon" class="fa-solid fa-rotate"></i> Refresh
-                    </button>
-                    <button onclick="lockOwnerPanel()" class="text-xs text-rose-400 hover:underline flex items-center gap-1">
-                        <i class="fa-solid fa-lock"></i> Kunci Kembali
-                    </button>
-                </div>
+                <button onclick="loadSubdomains()" class="text-xs text-cyan-400 hover:underline flex items-center gap-1.5">
+                    <i id="reloadIcon" class="fa-solid fa-rotate"></i> Refresh Data
+                </button>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-slate-300">
@@ -159,57 +154,25 @@
 
     </div>
 
-    <!-- MODAL PIN OWNER -->
-    <div id="pinModal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-cyber-card border border-cyber-border p-6 rounded-2xl max-w-xs w-full space-y-4 text-center">
-            <div class="w-12 h-12 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto text-xl">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <div>
-                <h3 class="text-sm font-bold text-white">Verifikasi Owner</h3>
-                <p class="text-[11px] text-slate-400 mt-1">Masukkan PIN untuk melihat list subdomain.</p>
-            </div>
-            <input type="password" id="ownerPinInput" placeholder="Masukkan PIN" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-center text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
-            <div class="flex gap-2">
-                <button type="button" onclick="closePinModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">Batal</button>
-                <button type="button" onclick="verifyOwnerPin()" class="w-1/2 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-semibold">Masuk</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // PIN Owner (Bisa Anda ubah sesuka hati, samakan dengan PIN list IP)
         const OWNER_PIN = "1234";
-        let isOwnerUnlocked = false;
         let cachedRecords = [];
-
-        function openPinModal() {
-            document.getElementById("ownerPinInput").value = "";
-            document.getElementById("pinModal").classList.remove("hidden");
-            document.getElementById("ownerPinInput").focus();
-        }
-
-        function closePinModal() {
-            document.getElementById("pinModal").classList.add("hidden");
-        }
 
         function verifyOwnerPin() {
             const input = document.getElementById("ownerPinInput").value;
             if (input === OWNER_PIN) {
-                isOwnerUnlocked = true;
-                closePinModal();
-                document.getElementById("lockOwnerSection").classList.add("hidden");
-                document.getElementById("ownerTableSection").classList.remove("hidden");
+                document.getElementById("pinModal").classList.add("hidden");
+                document.getElementById("adminDomainContainer").classList.remove("hidden");
                 loadSubdomains();
             } else {
-                alert("PIN Owner Salah!");
+                alert("PIN Salah!");
             }
         }
 
-        function lockOwnerPanel() {
-            isOwnerUnlocked = false;
-            document.getElementById("ownerTableSection").classList.add("hidden");
-            document.getElementById("lockOwnerSection").classList.remove("hidden");
+        function lockPanel() {
+            document.getElementById("ownerPinInput").value = "";
+            document.getElementById("adminDomainContainer").classList.add("hidden");
+            document.getElementById("pinModal").classList.remove("hidden");
         }
 
         async function detectIP(targetInputId) {
@@ -223,8 +186,6 @@
         }
 
         async function loadSubdomains() {
-            if (!isOwnerUnlocked) return;
-
             const tbody = document.getElementById("subTableBody");
             const reloadIcon = document.getElementById("reloadIcon");
             reloadIcon.classList.add("fa-spin");
@@ -297,7 +258,7 @@
                     alert(data.message);
                     document.getElementById("newSubName").value = "";
                     document.getElementById("newSubIp").value = "";
-                    if (isOwnerUnlocked) loadSubdomains();
+                    loadSubdomains();
                 } else {
                     alert(`Gagal: ${data.message}`);
                 }
@@ -330,7 +291,7 @@
                     alert(data.message);
                     document.getElementById("updateSubName").value = "";
                     document.getElementById("updateNewIp").value = "";
-                    if (isOwnerUnlocked) loadSubdomains();
+                    loadSubdomains();
                 } else {
                     alert(`Gagal: ${data.message}`);
                 }
