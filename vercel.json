@@ -20,6 +20,10 @@
     {
       "source": "/domain",
       "destination": "/domain.html"
+    },
+    {
+      "source": "/p",
+      "destination": "/p.html"
     }
   ],
   "cleanUrls": true
