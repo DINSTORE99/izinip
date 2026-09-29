@@ -1,0 +1,10 @@
+{
+  "name": "vip-script-proxy",
+  "version": "1.0.0",
+  "description": "Autoscript proxy dan IP license manager untuk Vercel",
+  "main": "api/setup.sh.js",
+  "scripts": {
+    "start": "node api/setup.sh.js"
+  },
+  "dependencies": {}
+}
