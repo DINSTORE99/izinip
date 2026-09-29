@@ -30,7 +30,7 @@
 
     <div class="max-w-3xl w-full space-y-6">
 
-        <!-- Top Header & Angka Statistik -->
+        <!-- Top Header & Angka Statistik + Tombol Ganti Bahasa -->
         <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/20">
@@ -40,19 +40,27 @@
                     <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                         VIP License Portal
                     </h1>
-                    <p class="text-xs text-slate-400">Pendaftaran & Perpanjangan Lisensi Autoscript VIP</p>
+                    <p class="text-xs text-slate-400" data-i18n="headerSub">Pendaftaran & Perpanjangan Lisensi Autoscript VIP</p>
                 </div>
             </div>
 
-            <!-- Total Angka Terdaftar (Hanya Angka) -->
-            <div class="flex items-center gap-3 text-right">
-                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Izin IP</span>
-                    <span id="statIpTotal" class="text-base font-mono font-bold text-emerald-400">0 IP</span>
-                </div>
-                <div class="bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain CF</span>
-                    <span id="statSubTotal" class="text-base font-mono font-bold text-cyan-400">0 Sub</span>
+            <div class="flex items-center gap-3">
+                <!-- Tombol Switch Bahasa -->
+                <button onclick="toggleLang()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-mono font-bold rounded-lg border border-slate-700 text-slate-200 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-language text-emerald-400"></i>
+                    <span id="langLabel">EN / ID</span>
+                </button>
+
+                <!-- Total Angka Terdaftar -->
+                <div class="flex items-center gap-2 text-right">
+                    <div class="bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                        <span class="text-[9px] text-slate-400 uppercase font-semibold block" data-i18n="statIpTitle">Total IP</span>
+                        <span id="statIpTotal" class="text-sm font-mono font-bold text-emerald-400">0 IP</span>
+                    </div>
+                    <div class="bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                        <span class="text-[9px] text-slate-400 uppercase font-semibold block" data-i18n="statSubTitle">Subdomain CF</span>
+                        <span id="statSubTotal" class="text-sm font-mono font-bold text-cyan-400">0 Sub</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,12 +72,12 @@
                     <i class="fa-solid fa-globe"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold text-white">Belum punya domain?</p>
-                    <p class="text-[11px] text-slate-400">Buat subdomain Cloudflare otomatis atau ganti IP pointing VPS Anda.</p>
+                    <p class="text-xs font-semibold text-white" data-i18n="domainBannerTitle">Belum punya domain?</p>
+                    <p class="text-[11px] text-slate-400" data-i18n="domainBannerDesc">Buat subdomain Cloudflare otomatis atau ganti IP pointing VPS Anda.</p>
                 </div>
             </div>
             <a href="/domain.html" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-cyan-600/30 whitespace-nowrap cursor-pointer">
-                <span>Silahkan reg Disini</span>
+                <span data-i18n="domainBannerBtn">Silahkan reg Disini</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
@@ -81,12 +89,12 @@
                     <i class="fa-solid fa-images"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold text-white">Preview Tampilan Script</p>
-                    <p class="text-[11px] text-slate-400">Lihat galeri tangkapan layar (screenshot) menu dan antarmuka Autoscript.</p>
+                    <p class="text-xs font-semibold text-white" data-i18n="photoBannerTitle">Preview Tampilan Script</p>
+                    <p class="text-[11px] text-slate-400" data-i18n="photoBannerDesc">Lihat galeri tangkapan layar (screenshot) menu dan antarmuka Autoscript.</p>
                 </div>
             </div>
             <a href="/p.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-purple-600/30 whitespace-nowrap cursor-pointer">
-                <span>Lihat Foto Script</span>
+                <span data-i18n="photoBannerBtn">Lihat Foto Script</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
@@ -98,7 +106,7 @@
             <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
                 <div>
                     <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                        <i class="fa-solid fa-server"></i> Dukungan Sistem Operasi
+                        <i class="fa-solid fa-server"></i> <span data-i18n="osTitle">Dukungan Sistem Operasi</span>
                     </h3>
                     <div class="flex gap-2">
                         <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Ubuntu 20.04.5</span>
@@ -108,7 +116,7 @@
 
                 <div>
                     <h3 class="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                        <i class="fa-solid fa-network-wired"></i> Port & Protokol Layanan
+                        <i class="fa-solid fa-network-wired"></i> <span data-i18n="portTitle">Port & Protokol Layanan</span>
                     </h3>
                     <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950 p-2.5 rounded-lg border border-slate-800">
                         <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
@@ -129,7 +137,7 @@
             <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
                 <div>
                     <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                        <i class="fa-solid fa-cloud"></i> Setting Cloudflare Domain
+                        <i class="fa-solid fa-cloud"></i> <span data-i18n="cfTitle">Setting Cloudflare Domain</span>
                     </h3>
                     <div class="space-y-1 text-[11px] font-mono">
                         <div class="flex justify-between bg-slate-900 px-2.5 py-1 rounded border border-slate-800">
@@ -149,7 +157,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-2 italic">*Konfigurasi wajib untuk menjaga koneksi autoscript tetap stabil.</p>
+                <p class="text-[10px] text-slate-500 mt-2 italic" data-i18n="cfNote">*Konfigurasi wajib untuk menjaga koneksi autoscript tetap stabil.</p>
             </div>
         </div>
 
@@ -157,10 +165,10 @@
         <div class="glass-panel p-6 rounded-2xl space-y-4">
             <div class="flex border-b border-cyber-border gap-2 text-sm font-medium text-slate-400 pb-2">
                 <button onclick="switchActionTab('register')" id="tabBtnRegister" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 transition">
-                    <i class="fa-solid fa-user-plus"></i> Daftarkan IP Baru
+                    <i class="fa-solid fa-user-plus"></i> <span data-i18n="tabReg">Daftarkan IP Baru</span>
                 </button>
                 <button onclick="switchActionTab('renew')" id="tabBtnRenew" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-2 transition text-slate-400">
-                    <i class="fa-solid fa-calendar-plus"></i> Perpanjang Izin IP
+                    <i class="fa-solid fa-calendar-plus"></i> <span data-i18n="tabRenew">Perpanjang Izin IP</span>
                 </button>
             </div>
 
@@ -168,17 +176,17 @@
             <form id="formRegister" onsubmit="handleRegisterIP(event)" class="space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Nama Client / Username</label>
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="lblClientName">Nama Client / Username</label>
                         <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="lblExpDate">Masa Aktif Berakhir</label>
                         <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP VPS Client</label>
-                            <button type="button" onclick="detectIP('clientIp')" class="text-[10px] text-emerald-400 hover:underline">Gunakan IP Saya</button>
+                            <label class="text-xs text-slate-400" data-i18n="lblClientIp">Alamat IP VPS Client</label>
+                            <button type="button" onclick="detectIP('clientIp')" class="text-[10px] text-emerald-400 hover:underline" data-i18n="btnMyIp">Gunakan IP Saya</button>
                         </div>
                         <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
@@ -186,40 +194,40 @@
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
-                        <button type="button" onclick="setExp(30, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
-                        <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
+                        <button type="button" onclick="setExp(7, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300" data-i18n="btnPlus7">+7 Hari</button>
+                        <button type="button" onclick="setExp(30, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300" data-i18n="btnPlus30">+30 Hari</button>
+                        <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300" data-i18n="btnPlus365">+1 Thn</button>
                     </div>
                     <button type="submit" id="btnSubmitRegister" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip
+                        <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="btnSaveScript">Simpan & Dapatkan Skrip</span>
                     </button>
                 </div>
             </form>
 
-            <!-- FORM 2: PERPANJANG MASA AKTIF IP (TERSEMBUNYI SAAT AWAL) -->
+            <!-- FORM 2: PERPANJANG MASA AKTIF IP -->
             <form id="formRenew" onsubmit="handleRenewIP(event)" class="space-y-4 hidden">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP yang Ingin Diperpanjang</label>
-                            <button type="button" onclick="detectIP('renewIp')" class="text-[10px] text-amber-400 hover:underline">Gunakan IP Saya</button>
+                            <label class="text-xs text-slate-400" data-i18n="lblRenewIp">Alamat IP yang Ingin Diperpanjang</label>
+                            <button type="button" onclick="detectIP('renewIp')" class="text-[10px] text-amber-400 hover:underline" data-i18n="btnMyIp">Gunakan IP Saya</button>
                         </div>
                         <input type="text" id="renewIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Masa Aktif Baru</label>
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="lblRenewExp">Masa Aktif Baru</label>
                         <input type="date" id="renewExpDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
                     </div>
                 </div>
 
                 <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-cyber-border">
                     <div class="flex gap-1.5">
-                        <button type="button" onclick="setExp(7, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+7 Hari</button>
-                        <button type="button" onclick="setExp(30, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+30 Hari</button>
-                        <button type="button" onclick="setExp(365, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300">+1 Thn</button>
+                        <button type="button" onclick="setExp(7, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300" data-i18n="btnPlus7">+7 Hari</button>
+                        <button type="button" onclick="setExp(30, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300" data-i18n="btnPlus30">+30 Hari</button>
+                        <button type="button" onclick="setExp(365, 'renewExpDate')" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-xs rounded text-slate-300" data-i18n="btnPlus365">+1 Thn</button>
                     </div>
                     <button type="submit" id="btnSubmitRenew" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-amber-600/30 transition">
-                        <i class="fa-solid fa-arrows-rotate"></i> Perbarui Masa Aktif
+                        <i class="fa-solid fa-arrows-rotate"></i> <span data-i18n="btnRenewSubmit">Perbarui Masa Aktif</span>
                     </button>
                 </div>
             </form>
@@ -229,17 +237,17 @@
         <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/20 p-5 rounded-2xl space-y-3">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Disimpan ke GitHub!
+                    <i class="fa-solid fa-circle-check"></i> <span data-i18n="cmdSuccess">Izin IP Berhasil Disimpan ke GitHub!</span>
                 </span>
                 <span id="targetDetail" class="text-xs font-mono text-emerald-300 px-2.5 py-0.5 bg-emerald-900/60 rounded"></span>
             </div>
             
-            <p class="text-xs text-slate-300">Jalankan perintah ini di VPS root untuk menginstal autoscript:</p>
+            <p class="text-xs text-slate-300" data-i18n="cmdInstruction">Jalankan perintah ini di VPS root untuk menginstal autoscript:</p>
             
             <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-3.5 font-mono text-xs text-emerald-400 break-all leading-relaxed">
                 <span id="finalInstallCmd"></span>
                 <button onclick="copyCommand()" class="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition">
-                    <i class="fa-solid fa-copy"></i> Salin Perintah Instalasi
+                    <i class="fa-solid fa-copy"></i> <span data-i18n="btnCopy">Salin Perintah Instalasi</span>
                 </button>
             </div>
         </div>
@@ -247,9 +255,119 @@
     </div>
 
     <script>
+        // ================= MULTI-LANGUAGE SYSTEM =================
+        const translations = {
+            id: {
+                headerSub: "Pendaftaran & Perpanjangan Lisensi Autoscript VIP",
+                statIpTitle: "Total IP",
+                statSubTitle: "Subdomain CF",
+                domainBannerTitle: "Belum punya domain?",
+                domainBannerDesc: "Buat subdomain Cloudflare otomatis atau ganti IP pointing VPS Anda.",
+                domainBannerBtn: "Silahkan reg Disini",
+                photoBannerTitle: "Preview Tampilan Script",
+                photoBannerDesc: "Lihat galeri tangkapan layar (screenshot) menu dan antarmuka Autoscript.",
+                photoBannerBtn: "Lihat Foto Script",
+                osTitle: "Dukungan Sistem Operasi",
+                portTitle: "Port & Protokol Layanan",
+                cfTitle: "Setting Cloudflare Domain",
+                cfNote: "*Konfigurasi wajib untuk menjaga koneksi autoscript tetap stabil.",
+                tabReg: "Daftarkan IP Baru",
+                tabRenew: "Perpanjang Izin IP",
+                lblClientName: "Nama Client / Username",
+                lblExpDate: "Masa Aktif Berakhir",
+                lblClientIp: "Alamat IP VPS Client",
+                btnMyIp: "Gunakan IP Saya",
+                btnPlus7: "+7 Hari",
+                btnPlus30: "+30 Hari",
+                btnPlus365: "+1 Thn",
+                btnSaveScript: "Simpan & Dapatkan Skrip",
+                lblRenewIp: "Alamat IP yang Ingin Diperpanjang",
+                lblRenewExp: "Masa Aktif Baru",
+                btnRenewSubmit: "Perbarui Masa Aktif",
+                cmdSuccess: "Izin IP Berhasil Disimpan ke GitHub!",
+                cmdRenewSuccess: "Masa Aktif IP Berhasil Diperpanjang!",
+                cmdInstruction: "Jalankan perintah ini di VPS root untuk menginstal autoscript:",
+                btnCopy: "Salin Perintah Instalasi",
+                alertCopied: "Perintah instalasi berhasil disalin ke clipboard!",
+                alertFillAll: "Mohon lengkapi semua kolom formulir!",
+                alertNotFound: "IP belum terdaftar! Silakan pilih tab Daftarkan IP Baru.",
+                saving: "Menyimpan ke GitHub...",
+                renewing: "Memperbarui Masa Aktif..."
+            },
+            en: {
+                headerSub: "VIP Autoscript License Registration & Renewal",
+                statIpTitle: "Total IPs",
+                statSubTitle: "CF Subdomains",
+                domainBannerTitle: "Don't have a domain yet?",
+                domainBannerDesc: "Create an automatic Cloudflare subdomain or update your VPS pointing IP.",
+                domainBannerBtn: "Register Domain Here",
+                photoBannerTitle: "Script Interface Preview",
+                photoBannerDesc: "View screenshots of the Autoscript dashboard and installation menu.",
+                photoBannerBtn: "View Screenshots",
+                osTitle: "Supported Operating Systems",
+                portTitle: "Ports & Protocols",
+                cfTitle: "Cloudflare Domain Settings",
+                cfNote: "*Mandatory configuration to ensure stable autoscript connections.",
+                tabReg: "Register New IP",
+                tabRenew: "Renew License IP",
+                lblClientName: "Client Name / Username",
+                lblExpDate: "Expiration Date",
+                lblClientIp: "Client VPS IP Address",
+                btnMyIp: "Use My IP",
+                btnPlus7: "+7 Days",
+                btnPlus30: "+30 Days",
+                btnPlus365: "+1 Year",
+                btnSaveScript: "Save & Get Script",
+                lblRenewIp: "IP Address to Renew",
+                lblRenewExp: "New Expiration Date",
+                btnRenewSubmit: "Update Expiration",
+                cmdSuccess: "IP License Successfully Saved to GitHub!",
+                cmdRenewSuccess: "IP Expiration Successfully Renewed!",
+                cmdInstruction: "Execute this command in your root VPS terminal to install the autoscript:",
+                btnCopy: "Copy Installation Command",
+                alertCopied: "Installation command copied to clipboard!",
+                alertFillAll: "Please complete all form fields!",
+                alertNotFound: "IP is not registered! Please choose Register New IP tab.",
+                saving: "Saving to GitHub...",
+                renewing: "Updating License..."
+            }
+        };
+
+        let currentLang = localStorage.getItem("preferred_lang") || "id";
         let rawContentCache = "";
 
+        function updateLanguageUI() {
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (translations[currentLang][key]) {
+                    el.innerText = translations[currentLang][key];
+                }
+            });
+
+            // Ganti placeholder form
+            if (currentLang === "en") {
+                document.getElementById("clientName").placeholder = "Example: John-VIP";
+                document.getElementById("clientIp").placeholder = "Example: 116.212.74.46";
+                document.getElementById("renewIp").placeholder = "Example: 116.212.74.46";
+                document.getElementById("langLabel").innerText = "🇮🇩 ID";
+            } else {
+                document.getElementById("clientName").placeholder = "Contoh: Budi-VIP";
+                document.getElementById("clientIp").placeholder = "Contoh: 116.212.74.46";
+                document.getElementById("renewIp").placeholder = "Contoh: 116.212.74.46";
+                document.getElementById("langLabel").innerText = "🇬🇧 EN";
+            }
+
+            localStorage.setItem("preferred_lang", currentLang);
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === "id" ? "en" : "id";
+            updateLanguageUI();
+        }
+
+        // ================= LIFECYCLE & CORE =================
         document.addEventListener("DOMContentLoaded", () => {
+            updateLanguageUI();
             setExp(30, 'expDate');
             setExp(30, 'renewExpDate');
             fetchStats();
@@ -286,7 +404,7 @@
                 const data = await res.json();
                 document.getElementById(targetId).value = data.ip;
             } catch(e) {
-                alert("Gagal mendeteksi IP!");
+                alert("Failed to detect IP!");
             }
         }
 
@@ -316,14 +434,13 @@
             const ip   = document.getElementById("clientIp").value.trim();
             const exp  = document.getElementById("expDate").value.trim();
 
-            if (!name || !ip || !exp) return alert("Mohon lengkapi semua kolom formulir!");
+            if (!name || !ip || !exp) return alert(translations[currentLang].alertFillAll);
 
             const btn = document.getElementById("btnSubmitRegister");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke GitHub...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${translations[currentLang].saving}`;
 
             try {
-                // Format: ### USERNAME EXPIRED IP
                 const newLine = `### ${name} ${exp} ${ip}`;
                 const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
@@ -342,16 +459,16 @@
                     const lines = updatedContent.split("\n").filter(l => l.trim().length > 0);
                     document.getElementById("statIpTotal").innerText = `${lines.length} IP`;
 
-                    tampilkanPerintahInstalasi(`IP Baru Berhasil Didaftarkan!`, `${name} | ${ip} | Exp: ${exp}`);
+                    tampilkanPerintahInstalasi(translations[currentLang].cmdSuccess, `${name} | ${ip} | Exp: ${exp}`);
                     document.getElementById("clientIp").value = "";
                 } else {
-                    alert(`Gagal menyimpan: ${gitData.message}`);
+                    alert(`Error: ${gitData.message}`);
                 }
             } catch (err) {
                 alert(`Error: ${err.message}`);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip`;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> <span>${translations[currentLang].btnSaveScript}</span>`;
             }
         }
 
@@ -360,16 +477,16 @@
             const ip = document.getElementById("renewIp").value.trim();
             const newExp = document.getElementById("renewExpDate").value.trim();
 
-            if (!ip || !newExp) return alert("Mohon lengkapi IP dan tanggal baru!");
+            if (!ip || !newExp) return alert(translations[currentLang].alertFillAll);
 
             const btn = document.getElementById("btnSubmitRenew");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memperbarui Masa Aktif...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${translations[currentLang].renewing}`;
 
             try {
                 const getRes = await fetch("/api/ip");
                 const getData = await getRes.json();
-                if (!getData.success) throw new Error("Gagal mengambil data dari server");
+                if (!getData.success) throw new Error("Server error");
 
                 const lines = getData.rawContent.split("\n");
                 let foundIndex = -1;
@@ -380,7 +497,6 @@
                     if (!line) continue;
                     const cleaned = line.replace(/^###\s*/, "").trim();
                     const parts = cleaned.split(/\s+/);
-                    // Format baris: USERNAME EXPIRED IP
                     if (parts[2] === ip) {
                         foundIndex = i;
                         existingName = parts[0];
@@ -389,9 +505,9 @@
                 }
 
                 if (foundIndex === -1) {
-                    alert(`IP ${ip} belum terdaftar! Silakan pilih tab "Daftarkan IP Baru".`);
+                    alert(translations[currentLang].alertNotFound);
                     btn.disabled = false;
-                    btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Perbarui Masa Aktif`;
+                    btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> <span>${translations[currentLang].btnRenewSubmit}</span>`;
                     return;
                 }
 
@@ -410,16 +526,16 @@
 
                 if (gitData.success) {
                     rawContentCache = updatedContent;
-                    tampilkanPerintahInstalasi(`Masa Aktif IP Berhasil Diperpanjang!`, `${existingName} | ${ip} | Exp: ${newExp}`);
+                    tampilkanPerintahInstalasi(translations[currentLang].cmdRenewSuccess, `${existingName} | ${ip} | Exp: ${newExp}`);
                     document.getElementById("renewIp").value = "";
                 } else {
-                    alert(`Gagal memperbarui: ${gitData.message}`);
+                    alert(`Error: ${gitData.message}`);
                 }
             } catch (err) {
                 alert(`Error: ${err.message}`);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> Perbarui Masa Aktif`;
+                btn.innerHTML = `<i class="fa-solid fa-arrows-rotate"></i> <span>${translations[currentLang].btnRenewSubmit}</span>`;
             }
         }
 
@@ -437,7 +553,7 @@
         function copyCommand() {
             const cmd = document.getElementById("finalInstallCmd").innerText;
             navigator.clipboard.writeText(cmd);
-            alert("Perintah instalasi berhasil disalin ke clipboard!");
+            alert(translations[currentLang].alertCopied);
         }
     </script>
 </body>
