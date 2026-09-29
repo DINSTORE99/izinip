@@ -12,7 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#06B6D4' }
+                        cyber: { 
+                            bg: '#05070B', 
+                            card: '#0A0F18', 
+                            border: '#1E293B', 
+                            accent: '#06B6D4' 
+                        }
                     }
                 }
             }
@@ -21,19 +26,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0B0F19; }
-        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
-        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(31, 41, 55, 0.8); }
+        ::-webkit-scrollbar-track { background: #05070B; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 9999px; }
+
+        /* Background Grid Kotak-Kotak Persis Tema Cyber */
+        body {
+            background-color: #05070B;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 38px 38px;
+            background-position: center top;
+        }
+
+        /* Ambient Glow di Bagian Atas */
+        .ambient-radial {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 450px;
+            background: radial-gradient(ellipse at top, rgba(6, 182, 212, 0.12), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Glass Panel Elegan */
+        .glass-panel {
+            background: rgba(10, 15, 24, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(6, 182, 212, 0.25);
+        }
     </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-cyan-500 selection:text-white">
+<body class="text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
 
-    <div class="max-w-3xl w-full space-y-6">
+    <!-- Efek Cahaya Cyan Lembut di Atas -->
+    <div class="ambient-radial"></div>
+
+    <div class="max-w-3xl w-full space-y-6 relative z-10">
 
         <!-- Header -->
         <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white text-xl shadow-lg shadow-cyan-500/20">
+                <div class="w-11 h-11 rounded-xl bg-slate-900 border border-cyan-500/40 flex items-center justify-center text-cyan-400 text-xl font-bold shadow-[0_0_15px_rgba(6,182,212,0.25)]">
                     <i class="fa-solid fa-cloud"></i>
                 </div>
                 <div>
@@ -44,7 +87,7 @@
                     <p class="text-xs text-slate-400">Pointing DNS Subdomain Baru & Penggantian Alamat IP VPS</p>
                 </div>
             </div>
-            <a href="/" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
+            <a href="/" class="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-xs rounded-lg border border-slate-800 text-slate-300 transition flex items-center gap-1.5">
                 <i class="fa-solid fa-arrow-left"></i> Menu Utama
             </a>
         </div>
@@ -61,8 +104,8 @@
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Nama Subdomain</label>
                         <div class="flex items-center">
-                            <input type="text" id="newSubName" required placeholder="budi01" class="w-full bg-slate-900 border border-cyber-border rounded-l-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
-                            <span class="bg-slate-800 border border-l-0 border-cyber-border rounded-r-lg px-3 py-2 text-xs font-mono text-slate-400">.dinn.my.id</span>
+                            <input type="text" id="newSubName" required placeholder="budi01" class="w-full bg-slate-950/90 border border-cyber-border rounded-l-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+                            <span class="bg-slate-900 border border-l-0 border-cyber-border rounded-r-lg px-3 py-2 text-xs font-mono text-slate-400">.dinn.my.id</span>
                         </div>
                     </div>
                     <div>
@@ -70,9 +113,9 @@
                             <label class="text-xs text-slate-400">IP Target VPS</label>
                             <button type="button" onclick="detectIP('newSubIp')" class="text-[10px] text-cyan-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="newSubIp" required placeholder="Contoh: 103.149.20.12" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+                        <input type="text" id="newSubIp" required placeholder="Contoh: 103.149.20.12" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
                     </div>
-                    <button type="submit" id="btnCreateSub" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-cyan-600/30">
+                    <button type="submit" id="btnCreateSub" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                         <i class="fa-solid fa-cloud-arrow-up"></i> Pointing Subdomain
                     </button>
                 </form>
@@ -87,8 +130,8 @@
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Subdomain Terdaftar</label>
                         <div class="flex items-center">
-                            <input type="text" id="updateSubName" required placeholder="budi01" class="w-full bg-slate-900 border border-cyber-border rounded-l-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
-                            <span class="bg-slate-800 border border-l-0 border-cyber-border rounded-r-lg px-3 py-2 text-xs font-mono text-slate-400">.dinn.my.id</span>
+                            <input type="text" id="updateSubName" required placeholder="budi01" class="w-full bg-slate-950/90 border border-cyber-border rounded-l-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
+                            <span class="bg-slate-900 border border-l-0 border-cyber-border rounded-r-lg px-3 py-2 text-xs font-mono text-slate-400">.dinn.my.id</span>
                         </div>
                     </div>
                     <div>
@@ -96,9 +139,9 @@
                             <label class="text-xs text-slate-400">IP VPS Baru</label>
                             <button type="button" onclick="detectIP('updateNewIp')" class="text-[10px] text-amber-400 hover:underline">Gunakan IP Saya</button>
                         </div>
-                        <input type="text" id="updateNewIp" required placeholder="Contoh: 103.149.20.99" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
+                        <input type="text" id="updateNewIp" required placeholder="Contoh: 103.149.20.99" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
                     </div>
-                    <button type="submit" id="btnUpdateSub" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-md shadow-amber-600/30">
+                    <button type="submit" id="btnUpdateSub" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(217,119,6,0.3)]">
                         <i class="fa-solid fa-arrows-rotate"></i> Update IP Pointing
                     </button>
                 </form>
