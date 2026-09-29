@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner Panel - List IP Terdaftar</title>
+    <title>Owner Portal - License & Domain Manager</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,78 +12,128 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937' }
+                        cyber: { bg: '#0B0F19', card: '#111827', border: '#1F2937', accent: '#10B981' }
                     }
                 }
             }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 9999px; }
+        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(31, 41, 55, 0.8); }
+    </style>
 </head>
-<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center">
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen py-8 px-4 flex flex-col items-center selection:bg-emerald-500 selection:text-white">
 
     <!-- Modal Login PIN Owner -->
     <div id="pinModal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-cyber-card border border-cyber-border p-6 rounded-2xl max-w-sm w-full space-y-4 text-center">
+        <div class="bg-cyber-card border border-cyber-border p-6 rounded-2xl max-w-sm w-full space-y-4 text-center shadow-2xl">
             <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-xl">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-shield-halved"></i>
             </div>
-            <h2 class="text-base font-bold text-white">Masukkan PIN Owner</h2>
-            <p class="text-xs text-slate-400">Halaman ini hanya untuk pemilik autoscript.</p>
+            <div>
+                <h2 class="text-base font-bold text-white">Owner Portal</h2>
+                <p class="text-xs text-slate-400 mt-1">Masukkan PIN untuk mengakses list IP & Subdomain.</p>
+            </div>
             <input type="password" id="ownerPin" placeholder="PIN Rahasia" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-center text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
-            <button onclick="checkPin()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold">Buka Panel</button>
+            <button onclick="checkPin()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition">Buka Panel</button>
         </div>
     </div>
 
-    <!-- Container Daftar IP -->
-    <div id="mainContainer" class="max-w-4xl w-full space-y-6 hidden">
-        <div class="flex items-center justify-between border-b border-cyber-border pb-4">
-            <div>
-                <h1 class="text-xl font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved text-emerald-400"></i> Owner Portal - Daftar IP Izin
-                </h1>
-                <p class="text-xs text-slate-400">Repositori GitHub: <span class="text-emerald-400 font-mono">DIN-STORE/izin &bull; ip</span></p>
+    <!-- Main Panel Container -->
+    <div id="mainContainer" class="max-w-5xl w-full space-y-6 hidden">
+        
+        <!-- Header -->
+        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 flex items-center justify-center text-white text-lg font-bold shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-lock-open"></i>
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        Owner Control Center
+                    </h1>
+                    <p class="text-xs text-slate-400">Manajemen Terpadu Izin IP GitHub & Subdomain Cloudflare</p>
+                </div>
             </div>
-            <div class="flex gap-2">
-                <button onclick="loadIPs()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border">
-                    <i class="fa-solid fa-rotate mr-1"></i> Refresh
+            <div class="flex items-center gap-2">
+                <button onclick="reloadActiveTab()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition flex items-center gap-1.5">
+                    <i id="syncIcon" class="fa-solid fa-rotate"></i> Refresh
                 </button>
-                <a href="/" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300">
-                    Halaman Depan
+                <a href="/" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs rounded-lg border border-cyber-border text-slate-300 transition">
+                    Ke Halaman Depan
                 </a>
             </div>
         </div>
 
-        <!-- Tabel Daftar IP -->
-        <div class="bg-cyber-card border border-cyber-border rounded-xl overflow-hidden shadow-xl">
-            <div class="p-3.5 border-b border-cyber-border flex justify-between items-center bg-slate-900/50">
-                <span class="text-xs uppercase font-bold text-slate-400">Daftar Lisensi Aktif</span>
-                <span id="ipCount" class="text-xs font-mono px-2 py-0.5 bg-slate-800 text-emerald-400 rounded">0 IP</span>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="bg-slate-900 text-slate-400 text-xs uppercase border-b border-cyber-border">
-                        <tr>
-                            <th class="px-4 py-3">Nama Client</th>
-                            <th class="px-4 py-3">Expired</th>
-                            <th class="px-4 py-3">Alamat IP</th>
-                            <th class="px-4 py-3 text-right">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ipTableBody" class="divide-y divide-cyber-border/60">
-                        <tr>
-                            <td colspan="4" class="text-center py-6 text-slate-500">Memuat data dari GitHub...</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- Tab Navigasi -->
+        <div class="flex border-b border-cyber-border gap-2 text-sm font-medium text-slate-400">
+            <button onclick="switchTab('ip')" id="tabBtn-ip" class="tab-btn px-4 py-2 border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved"></i> Daftar Izin IP (GitHub)
+                <span id="badgeIpCount" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 ml-1">0</span>
+            </button>
+            <button onclick="switchTab('subdomain')" id="tabBtn-subdomain" class="tab-btn px-4 py-2 border-b-2 border-transparent hover:text-slate-200 flex items-center gap-2">
+                <i class="fa-solid fa-cloud"></i> Daftar Subdomain (Cloudflare)
+                <span id="badgeSubCount" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 ml-1">0</span>
+            </button>
+        </div>
+
+        <!-- TAB 1: DAFTAR IZIN IP GITHUB -->
+        <div id="tab-ip" class="tab-content space-y-4">
+            <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyber-border">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
+                            <tr>
+                                <th class="px-4 py-3">Nama Client</th>
+                                <th class="px-4 py-3">Expired</th>
+                                <th class="px-4 py-3">Alamat IP</th>
+                                <th class="px-4 py-3 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ipTableBody" class="divide-y divide-cyber-border/60">
+                            <tr>
+                                <td colspan="4" class="text-center py-8 text-slate-500">Memuat data dari GitHub...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
+        <!-- TAB 2: DAFTAR SUBDOMAIN CLOUDFLARE -->
+        <div id="tab-subdomain" class="tab-content hidden space-y-4">
+            <div class="glass-panel rounded-2xl overflow-hidden shadow-xl border border-cyan-500/30">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-900/80 text-slate-400 uppercase text-xs tracking-wider border-b border-cyber-border">
+                            <tr>
+                                <th class="px-4 py-3">Nama Subdomain</th>
+                                <th class="px-4 py-3">Full Hostname</th>
+                                <th class="px-4 py-3">IP Target VPS</th>
+                                <th class="px-4 py-3 text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subTableBody" class="divide-y divide-cyber-border/60">
+                            <tr>
+                                <td colspan="4" class="text-center py-8 text-slate-500">Memuat data dari Cloudflare...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Ubah PIN di bawah ini sesuai keinginan Anda
-        const OWNER_PIN = "1234"; 
+        const OWNER_PIN = "1234";
+        let activeTab = "ip";
         let rawContentCache = "";
+        let cachedSubs = [];
 
         function checkPin() {
             const input = document.getElementById("ownerPin").value;
@@ -90,11 +141,39 @@
                 document.getElementById("pinModal").classList.add("hidden");
                 document.getElementById("mainContainer").classList.remove("hidden");
                 loadIPs();
+                loadSubdomains();
             } else {
-                alert("PIN Salah!");
+                alert("PIN Owner Salah!");
             }
         }
 
+        function switchTab(tab) {
+            activeTab = tab;
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll(".tab-btn").forEach(el => {
+                el.classList.remove("border-emerald-500", "text-emerald-400", "border-cyan-500", "text-cyan-400");
+                el.classList.add("border-transparent", "text-slate-400");
+            });
+
+            if (tab === "ip") {
+                document.getElementById("tab-ip").classList.remove("hidden");
+                const btn = document.getElementById("tabBtn-ip");
+                btn.classList.add("border-emerald-500", "text-emerald-400");
+                btn.classList.remove("border-transparent", "text-slate-400");
+            } else {
+                document.getElementById("tab-subdomain").classList.remove("hidden");
+                const btn = document.getElementById("tabBtn-subdomain");
+                btn.classList.add("border-cyan-500", "text-cyan-400");
+                btn.classList.remove("border-transparent", "text-slate-400");
+            }
+        }
+
+        function reloadActiveTab() {
+            if (activeTab === "ip") loadIPs();
+            else loadSubdomains();
+        }
+
+        // ================= GITHUB IP LIST =================
         async function loadIPs() {
             const tbody = document.getElementById("ipTableBody");
             try {
@@ -105,19 +184,19 @@
                     return;
                 }
                 rawContentCache = data.rawContent;
-                renderTable(data.rawContent);
+                renderIpTable(data.rawContent);
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">Gagal mengambil data: ${err.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">Gagal load IP: ${err.message}</td></tr>`;
             }
         }
 
-        function renderTable(content) {
+        function renderIpTable(content) {
             const tbody = document.getElementById("ipTableBody");
             const lines = content.split("\n").filter(l => l.trim().length > 0);
-            document.getElementById("ipCount").innerText = `${lines.length} IP`;
+            document.getElementById("badgeIpCount").innerText = lines.length;
 
             if (lines.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-500">Tidak ada IP terdaftar.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-500">Belum ada IP terdaftar di GitHub.</td></tr>`;
                 return;
             }
 
@@ -134,7 +213,7 @@
                         <td class="px-4 py-3 font-mono text-xs text-slate-400">${exp}</td>
                         <td class="px-4 py-3 font-mono text-emerald-400 font-semibold">${ip}</td>
                         <td class="px-4 py-3 text-right">
-                            <button onclick="deleteLine(${idx})" class="text-xs text-rose-400 hover:text-rose-300 px-2 py-1 bg-rose-500/10 rounded transition">
+                            <button onclick="deleteIp(${idx})" class="text-xs text-rose-400 hover:text-rose-300 px-2 py-1 bg-rose-500/10 rounded transition">
                                 <i class="fa-solid fa-trash mr-1"></i> Cabut
                             </button>
                         </td>
@@ -143,8 +222,8 @@
             }).join("");
         }
 
-        async function deleteLine(index) {
-            if (!confirm("Cabut izin IP ini?")) return;
+        async function deleteIp(index) {
+            if (!confirm("Cabut izin IP ini dari repositori GitHub?")) return;
             const lines = rawContentCache.split("\n").filter(l => l.trim().length > 0);
             lines.splice(index, 1);
             const updated = lines.length > 0 ? `${lines.join("\n")}\n` : "";
@@ -153,7 +232,7 @@
                 const res = await fetch("/api/ip", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ newContent: updated, message: "Cabut izin IP" })
+                    body: JSON.stringify({ newContent: updated, message: "Cabut izin IP via owner panel" })
                 });
                 const data = await res.json();
                 if (data.success) {
@@ -163,6 +242,40 @@
                 }
             } catch(e) {
                 alert(`Error: ${e.message}`);
+            }
+        }
+
+        // ================= CLOUDFLARE SUBDOMAIN LIST =================
+        async function loadSubdomains() {
+            const tbody = document.getElementById("subTableBody");
+            try {
+                const res = await fetch("/api/cf");
+                const data = await res.json();
+                if (!data.success) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">${data.message}</td></tr>`;
+                    return;
+                }
+                cachedSubs = data.records || [];
+                document.getElementById("badgeSubCount").innerText = cachedSubs.length;
+
+                if (cachedSubs.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-500">Belum ada subdomain terdaftar di Cloudflare.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = cachedSubs.map(item => `
+                    <tr class="hover:bg-slate-800/40">
+                        <td class="px-4 py-3 font-mono font-bold text-cyan-400">${item.subdomain}</td>
+                        <td class="px-4 py-3 font-mono text-xs text-slate-300">${item.name}</td>
+                        <td class="px-4 py-3 font-mono text-emerald-400">${item.ip}</td>
+                        <td class="px-4 py-3 text-right">
+                            <span class="text-xs text-slate-500 font-mono">DNS Only</span>
+                        </td>
+                    </tr>
+                `).join("");
+
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-rose-400">Gagal load Cloudflare: ${err.message}</td></tr>`;
             }
         }
     </script>
