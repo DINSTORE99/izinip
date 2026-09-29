@@ -57,6 +57,23 @@
             </div>
         </div>
 
+        <!-- Tombol Registrasi Domain (Tampil di Halaman Utama) -->
+        <div class="glass-panel p-4 rounded-xl border border-cyan-500/30 bg-cyan-950/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-semibold text-white">Belum punya domain?</p>
+                    <p class="text-[11px] text-slate-400">Buat subdomain Cloudflare otomatis atau ganti IP pointing VPS Anda.</p>
+                </div>
+            </div>
+            <a href="/domain.html" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md shadow-cyan-600/30 whitespace-nowrap cursor-pointer">
+                <span>Silahkan reg Disini</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
         <!-- Spesifikasi OS & Port -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
@@ -203,7 +220,6 @@
         }
 
         async function fetchStats() {
-            // 1. Ambil hitungan total IP izin
             try {
                 const res = await fetch("/api/ip");
                 const data = await res.json();
@@ -214,7 +230,6 @@
                 }
             } catch (e) {}
 
-            // 2. Ambil hitungan total Subdomain Cloudflare (Hanya angka)
             try {
                 const resCf = await fetch("/api/cf");
                 const dataCf = await resCf.json();
@@ -237,7 +252,6 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke GitHub...`;
 
             try {
-                // Format: ### USERNAME EXPIRED IP
                 const newLine = `### ${name} ${exp} ${ip}`;
                 const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
