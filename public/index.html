@@ -54,10 +54,9 @@
                         VIP License Manager
                         <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">Live</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Auto Subdomain Cloudflare & Lisensi Autoscript</p>
+                    <p class="text-xs text-slate-400">Pendaftaran Izin IP & Auto Subdomain Cloudflare</p>
                 </div>
             </div>
-            <!-- Hanya Menampilkan Jumlah Angka Lisensi -->
             <div class="text-right">
                 <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Lisensi Terdaftar</span>
                 <span id="statTotal" class="text-xl font-mono font-black text-emerald-400">Loading...</span>
@@ -67,7 +66,7 @@
         <!-- Spesifikasi OS, Port & Setting Cloudflare -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             
-            <!-- Kolom Kiri: OS & Port -->
+            <!-- OS & Port -->
             <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
                 <div>
                     <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
@@ -98,7 +97,7 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Cloudflare Requirement -->
+            <!-- Cloudflare Requirements -->
             <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
                 <div>
                     <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
@@ -122,25 +121,27 @@
                         </div>
                     </div>
                 </div>
-                <p class="text-[10px] text-slate-500 mt-2 italic">*DNS Pointing otomatis ditambahkan ke Cloudflare sebagai DNS-Only (Grey Cloud).</p>
+                <p class="text-[10px] text-slate-500 mt-2 italic">*DNS Pointing otomatis dibuat dengan mode DNS-Only.</p>
             </div>
         </div>
 
-        <!-- Form Pendaftaran IP & Cloudflare Subdomain -->
-        <div class="glass-panel p-6 rounded-2xl space-y-4">
+        <!-- Form Pendaftaran IP -->
+        <div class="glass-panel p-6 rounded-2xl space-y-5">
             <h2 class="text-sm font-bold text-white flex items-center gap-2">
-                <i class="fa-solid fa-cloud-arrow-up text-emerald-400"></i> Daftarkan Izin IP & Pointing Subdomain
+                <i class="fa-solid fa-user-plus text-emerald-400"></i> Daftarkan Izin IP Lisensi
             </h2>
 
             <form onsubmit="handleSubmit(event)" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                
+                <!-- Data Client & IP -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Nama Client / Pembeli</label>
+                        <label class="block text-xs text-slate-400 mb-1">Nama Client / Username</label>
                         <input type="text" id="clientName" required placeholder="Contoh: Budi-VIP" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Subdomain Klien (Otomatis CF)</label>
-                        <input type="text" id="subDomain" required placeholder="Contoh: budi01" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
+                        <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
+                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
@@ -149,9 +150,34 @@
                         </div>
                         <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">Masa Aktif Berakhir</label>
-                        <input type="date" id="expDate" required class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <!-- Bagian Khusus Domain (Dipisahkan) -->
+                <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+                        <label class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-globe"></i> Pengaturan Domain Autoscript
+                        </label>
+                        <!-- Banner Tombol Registrasi Domain -->
+                        <div class="text-[11px] text-slate-400 flex items-center gap-1">
+                            <span>Belum punya domain?</span>
+                            <!-- Ganti tautan href di bawah ke kontak WA/Telegram/web Anda -->
+                            <a href="https://t.me/DIN_STORE" target="_blank" class="px-2 py-0.5 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-semibold rounded hover:bg-cyan-500/30 transition flex items-center gap-1">
+                                Silahkan reg Disini <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                        <div>
+                            <label class="block text-[11px] text-slate-400 mb-1">Subdomain Otomatis (Cloudflare)</label>
+                            <div class="flex items-center">
+                                <input type="text" id="subDomain" placeholder="Contoh: budi01" class="w-full bg-slate-900 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Ketik nama subdomain yang diinginkan. Sistem akan otomatis membuat DNS Record di Cloudflare yang mengarah ke IP VPS client di atas.
+                        </p>
                     </div>
                 </div>
 
@@ -168,7 +194,7 @@
             </form>
         </div>
 
-        <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN BERHASIL -->
+        <!-- Perintah Instalasi: HANYA MUNCUL JIKA SUDAH BERHASIL -->
         <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/20 p-5 rounded-2xl space-y-3">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
@@ -243,29 +269,34 @@
             const ip   = document.getElementById("clientIp").value.trim();
             const exp  = document.getElementById("expDate").value.trim();
 
-            if (!name || !sub || !ip || !exp) return alert("Mohon isi semua data formulir!");
+            if (!name || !ip || !exp) return alert("Mohon lengkapi Nama, Tanggal, dan Alamat IP!");
 
             const btn = document.getElementById("btnSubmit");
             btn.disabled = true;
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses Cloudflare & GitHub...`;
 
             try {
-                // 1. Tambah Subdomain ke Cloudflare Otomatis
-                const cfRes = await fetch("/api/cf", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ subName: sub, targetIp: ip })
-                });
-                const cfData = await cfRes.json();
+                let cfDomainResult = "-";
 
-                if (!cfData.success) {
-                    alert(`Gagal Cloudflare: ${cfData.message}`);
-                    btn.disabled = false;
-                    btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Simpan & Dapatkan Skrip`;
-                    return;
+                // 1. Jika subdomain diisi, daftarkan otomatis ke Cloudflare
+                if (sub) {
+                    const cfRes = await fetch("/api/cf", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ subName: sub, targetIp: ip })
+                    });
+                    const cfData = await cfRes.json();
+
+                    if (!cfData.success) {
+                        alert(`Gagal Cloudflare: ${cfData.message}`);
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="fa-solid fa-bolt"></i> Simpan & Dapatkan Skrip`;
+                        return;
+                    }
+                    cfDomainResult = cfData.subdomain;
                 }
 
-                // 2. Simpan Baris Izin ke GitHub (### USERNAME EXPIRED IP)
+                // 2. Simpan Izin IP ke GitHub (### USERNAME EXPIRED IP)
                 const newLine = `### ${name} ${exp} ${ip}`;
                 const updatedContent = rawContentCache ? `${rawContentCache.trim()}\n${newLine}\n` : `${newLine}\n`;
 
@@ -274,7 +305,7 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ 
                         newContent: updatedContent, 
-                        message: `Add IP: ${ip} (${name}) | Subdomain: ${cfData.subdomain}` 
+                        message: `Add IP: ${ip} (${name}) | Subdomain: ${cfDomainResult}` 
                     })
                 });
                 const gitData = await gitRes.json();
@@ -284,12 +315,12 @@
                     const lines = updatedContent.split("\n").filter(l => l.trim().length > 0);
                     document.getElementById("statTotal").innerText = `${lines.length} IP`;
 
-                    // Siapkan perintah bash instalasi domain
+                    // Siapkan perintah bash instalasi
                     const domain = window.location.origin;
                     const installCmd = `apt update && apt install -y wget curl && wget -q ${domain}/setup.sh && chmod +x setup.sh && ./setup.sh`;
 
                     document.getElementById("finalInstallCmd").innerText = installCmd;
-                    document.getElementById("targetDetail").innerText = `${name} | ${ip} | Domain: ${cfData.subdomain}`;
+                    document.getElementById("targetDetail").innerText = `${name} | ${ip}${sub ? ' | Host: ' + cfDomainResult : ''}`;
                     document.getElementById("commandCard").classList.remove("hidden");
 
                     document.getElementById("clientIp").value = "";
