@@ -10,8 +10,16 @@
       "destination": "/api/ip"
     },
     {
+      "source": "/api/cf",
+      "destination": "/api/cf"
+    },
+    {
       "source": "/list",
       "destination": "/list.html"
+    },
+    {
+      "source": "/domain",
+      "destination": "/domain.html"
     }
   ]
 }
