@@ -87,7 +87,7 @@
             <!-- Bagian Kanan: Live Server Aktif & Statistik Total -->
             <div class="flex flex-wrap items-center gap-2 text-right">
                 
-                <!-- Kotak Live Server Aktif -->
+                <!-- Kotak Live Server Aktif (Hari Jam Menit Detik) -->
                 <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-left">
                     <span class="text-[10px] text-slate-400 uppercase font-semibold flex items-center gap-1.5">
                         <span class="relative flex h-2 w-2">
@@ -97,7 +97,7 @@
                         Server Aktif
                     </span>
                     <span id="liveServerUptime" class="text-xs sm:text-sm font-mono font-bold text-emerald-400 tracking-tight">
-                        Memuat...
+                        0 Hari 0 Jam 0 Menit 0 Detik
                     </span>
                 </div>
 
@@ -327,24 +327,19 @@
 
     </div>
 
-    <!-- SCRIPT LOGIKA SISTEM & HITUNGAN SERVER AKTIF -->
+    <!-- SCRIPT LOGIKA SISTEM & HITUNGAN SERVER AKTIF GLOBAL -->
     <script>
         let rawContentCache = "";
 
-        // ================= HITUNGAN LIVE SERVER AKTIF =================
-        // Jika belum pernah ada waktu awal di browser, simpan waktu saat ini
-        if (!localStorage.getItem("server_uptime_start")) {
-            localStorage.setItem("server_uptime_start", Date.now());
-        }
-
-        // Ubah angka bonus hari di sini jika ingin mulai dari angka tertentu (misal: 0 atau 1)
-        const bonusDays = 0; 
+        // ================= HITUNGAN LIVE SERVER AKTIF GLOBAL =================
+        // Patokan waktu server seragam untuk semua perangkat (WIB)
+        const serverStartTime = new Date("2026-10-01T00:00:00+07:00").getTime();
 
         function runLiveUptime() {
-            const startTime = parseInt(localStorage.getItem("server_uptime_start"));
-            const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-            
-            let totalSeconds = (bonusDays * 86400) + elapsedSeconds;
+            const now = Date.now();
+            let totalSeconds = Math.floor((now - serverStartTime) / 1000);
+
+            if (totalSeconds < 0) totalSeconds = 0;
 
             const days = Math.floor(totalSeconds / 86400);
             totalSeconds %= 86400;
