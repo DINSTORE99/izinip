@@ -69,8 +69,10 @@
 
     <div class="max-w-3xl w-full space-y-6 relative z-10">
 
-        <!-- Top Header & Angka Statistik + Live Server Aktif -->
-        <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- Top Header & Angka Statistik -->
+        <div class="glass-panel p-5 rounded-2xl flex flex-col gap-4">
+            
+            <!-- Baris 1: Logo & Judul -->
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-xl bg-slate-900 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)]">
                     D
@@ -84,34 +86,33 @@
                 </div>
             </div>
 
-            <!-- Bagian Kanan: Live Server Aktif & Statistik Total -->
-            <div class="flex flex-wrap items-center gap-2 text-right">
-                
-                <!-- Kotak Live Server Aktif (Hari Jam Menit Detik) -->
-                <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-left">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold flex items-center gap-1.5">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        Server Aktif
+            <!-- Baris 2: Waktu Server Aktif (Full Width di Atas) -->
+            <div class="bg-slate-950/80 px-3.5 py-2.5 rounded-xl border border-slate-800 text-left w-full">
+                <span class="text-[10px] text-slate-400 uppercase font-semibold flex items-center gap-1.5">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span id="liveServerUptime" class="text-xs sm:text-sm font-mono font-bold text-emerald-400 tracking-tight">
-                        0 Hari 0 Jam 0 Menit 0 Detik
-                    </span>
+                    Server Aktif
+                </span>
+                <span id="liveServerUptime" class="text-xs sm:text-sm font-mono font-bold text-emerald-400 tracking-tight block mt-0.5">
+                    0 Hari 0 Jam 0 Menit 0 Detik
+                </span>
+            </div>
+
+            <!-- Baris 3: Total IP & Subdomain Berjajar Sejajar di Bawah Waktu -->
+            <div class="grid grid-cols-2 gap-2 w-full">
+                <div class="bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800 text-center">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total IP</span>
+                    <span id="statIpTotal" class="text-xs sm:text-sm font-mono font-bold text-emerald-400 block mt-0.5">0 IP</span>
                 </div>
 
-                <!-- Total IP -->
-                <div class="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total IP</span>
-                    <span id="statIpTotal" class="text-xs sm:text-sm font-mono font-bold text-emerald-400">0 IP</span>
-                </div>
-                <!-- Total Subdomain -->
-                <div class="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                <div class="bg-slate-950/80 px-3.5 py-2 rounded-xl border border-slate-800 text-center">
                     <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain</span>
-                    <span id="statSubTotal" class="text-xs sm:text-sm font-mono font-bold text-cyan-400">0 Sub</span>
+                    <span id="statSubTotal" class="text-xs sm:text-sm font-mono font-bold text-cyan-400 block mt-0.5">0 Sub</span>
                 </div>
             </div>
+
         </div>
 
         <!-- Tombol Menu Eksternal -->
@@ -330,8 +331,7 @@
     <script>
         let rawContentCache = "";
 
-        // ================= HITUNGAN LIVE SERVER AKTIF GLOBAL =================
-        // Patokan waktu server seragam untuk semua perangkat (WIB)
+        // Patokan waktu server seragam untuk semua perangkat (WIB / GMT+7)
         const serverStartTime = new Date("2026-10-01T00:00:00+07:00").getTime();
 
         function runLiveUptime() {
@@ -424,7 +424,6 @@
             } catch (e) {}
         }
 
-        // 1. DAFTAR IP BARU
         async function handleRegisterIP(e) {
             e.preventDefault();
             const name = document.getElementById("clientName").value.trim();
@@ -469,7 +468,6 @@
             }
         }
 
-        // 2. PERPANJANG MASA AKTIF IP
         async function handleRenewIP(e) {
             e.preventDefault();
             const ip = document.getElementById("renewIp").value.trim();
@@ -537,7 +535,6 @@
             }
         }
 
-        // 3. GANTI IP VPS CLIENT
         async function handleChangeIP(e) {
             e.preventDefault();
             const oldIp = document.getElementById("oldIpInput").value.trim();
