@@ -234,10 +234,7 @@
                         <input type="date" id="expDate" required class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP VPS Client</label>
-                            <button type="button" onclick="detectIP('clientIp')" class="text-[10px] text-emerald-400 hover:underline">Gunakan IP Saya</button>
-                        </div>
+                        <label class="block text-xs text-slate-400 mb-1">Alamat IP VPS Client</label>
                         <input type="text" id="clientIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-emerald-500">
                     </div>
                 </div>
@@ -258,10 +255,7 @@
             <form id="formRenew" onsubmit="handleRenewIP(event)" class="space-y-4 hidden">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP yang Ingin Diperpanjang</label>
-                            <button type="button" onclick="detectIP('renewIp')" class="text-[10px] text-amber-400 hover:underline">Gunakan IP Saya</button>
-                        </div>
+                        <label class="block text-xs text-slate-400 mb-1">Alamat IP yang Ingin Diperpanjang</label>
                         <input type="text" id="renewIp" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-amber-400">
                     </div>
                     <div>
@@ -290,10 +284,7 @@
                         <input type="text" id="oldIpInput" required placeholder="Contoh: 116.212.74.46" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
                     </div>
                     <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs text-slate-400">Alamat IP VPS Baru</label>
-                            <button type="button" onclick="detectIP('newIpInput')" class="text-[10px] text-cyan-400 hover:underline">Gunakan IP Saya</button>
-                        </div>
+                        <label class="block text-xs text-slate-400 mb-1">Alamat IP VPS Baru</label>
                         <input type="text" id="newIpInput" required placeholder="Contoh: 103.149.20.12" class="w-full bg-slate-950/90 border border-cyber-border rounded-lg px-3 py-2 text-sm font-mono text-white focus:outline-none focus:border-cyan-400">
                     </div>
                 </div>
@@ -394,16 +385,6 @@
             }
         }
 
-        async function detectIP(targetId) {
-            try {
-                const res = await fetch("https://api.ipify.org?format=json");
-                const data = await res.json();
-                document.getElementById(targetId).value = data.ip;
-            } catch(e) {
-                alert("Gagal mendeteksi IP!");
-            }
-        }
-
         async function fetchStats() {
             try {
                 const res = await fetch("/api/ip");
@@ -424,6 +405,7 @@
             } catch (e) {}
         }
 
+        // 1. DAFTAR IP BARU
         async function handleRegisterIP(e) {
             e.preventDefault();
             const name = document.getElementById("clientName").value.trim();
@@ -468,6 +450,7 @@
             }
         }
 
+        // 2. PERPANJANG MASA AKTIF IP
         async function handleRenewIP(e) {
             e.preventDefault();
             const ip = document.getElementById("renewIp").value.trim();
@@ -535,6 +518,7 @@
             }
         }
 
+        // 3. GANTI IP VPS CLIENT
         async function handleChangeIP(e) {
             e.preventDefault();
             const oldIp = document.getElementById("oldIpInput").value.trim();
