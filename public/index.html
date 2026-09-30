@@ -97,7 +97,7 @@
                         Server Aktif
                     </span>
                     <span id="liveServerUptime" class="text-xs sm:text-sm font-mono font-bold text-emerald-400 tracking-tight">
-                        0 Hari 0 Jam 0 Menit 0 Detik
+                        Memuat status...
                     </span>
                 </div>
 
@@ -148,6 +148,68 @@
             </a>
         </div>
 
+        <!-- Spesifikasi OS & Port -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Kolom Kiri: OS & Port -->
+            <div class="glass-panel p-4 rounded-xl space-y-3 text-xs">
+                <div>
+                    <h3 class="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                        <i class="fa-solid fa-server"></i> Dukungan Sistem Operasi
+                    </h3>
+                    <div class="flex gap-2">
+                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Ubuntu 20.04.5</span>
+                        <span class="px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-300 rounded font-mono text-[11px]">Debian 10</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                        <i class="fa-solid fa-network-wired"></i> Port & Protokol Layanan
+                    </h3>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px] font-mono text-slate-300 bg-slate-950/90 p-2.5 rounded-lg border border-slate-800">
+                        <div>• TROJAN WS: <span class="text-emerald-400">443</span></div>
+                        <div>• TROJAN GRPC: <span class="text-emerald-400">443</span></div>
+                        <div>• SHADOWSOCKS: <span class="text-emerald-400">443</span></div>
+                        <div>• VLESS WS/GRPC: <span class="text-emerald-400">443</span></div>
+                        <div>• VLESS NONTLS: <span class="text-emerald-400">80</span></div>
+                        <div>• VMESS WS/GRPC: <span class="text-emerald-400">443</span></div>
+                        <div>• SSH WS/TLS: <span class="text-emerald-400">443</span></div>
+                        <div>• SSH NON TLS: <span class="text-emerald-400">8880</span></div>
+                        <div>• OVPN SSL: <span class="text-emerald-400">1194</span></div>
+                        <div>• SLOWDNS: <span class="text-emerald-400">5300</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Setting Cloudflare -->
+            <div class="glass-panel p-4 rounded-xl flex flex-col justify-between text-xs">
+                <div>
+                    <h3 class="font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5 mb-2">
+                        <i class="fa-solid fa-cloud"></i> Setting Cloudflare Domain
+                    </h3>
+                    <div class="space-y-1 text-[11px] font-mono">
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">SSL/TLS</span><span class="text-emerald-400 font-bold">FULL</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">SSL Recommender</span><span class="text-rose-400 font-bold">OFF</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">gRPC & WebSocket</span><span class="text-emerald-400 font-bold">ON</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">Always Use HTTPS</span><span class="text-rose-400 font-bold">OFF</span>
+                        </div>
+                        <div class="flex justify-between bg-slate-950/80 px-2.5 py-1 rounded border border-slate-800">
+                            <span class="text-slate-400">Under Attack Mode</span><span class="text-rose-400 font-bold">OFF</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-2 italic">*Konfigurasi wajib untuk menjaga koneksi autoscript tetap stabil.</p>
+            </div>
+        </div>
+
         <!-- Tab Pemilih: Daftar Baru vs Perpanjang IP vs Ganti IP -->
         <div class="glass-panel p-6 rounded-2xl space-y-4">
             <div class="flex flex-wrap border-b border-cyber-border gap-2 text-xs sm:text-sm font-medium text-slate-400 pb-2">
@@ -155,7 +217,7 @@
                     <i class="fa-solid fa-user-plus"></i> Daftar IP Baru
                 </button>
                 <button onclick="switchActionTab('renew')" id="tabBtnRenew" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition text-slate-400">
-                    <i class="fa-solid fa-calendar-plus"></i> Perpanjang Durasi
+                    <i class="fa-solid fa-calendar-plus"></i> Perpanjang Masa Aktif
                 </button>
                 <button onclick="switchActionTab('changeIp')" id="tabBtnChangeIp" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition text-slate-400">
                     <i class="fa-solid fa-arrows-rotate"></i> Ganti IP Client
@@ -246,7 +308,7 @@
             </form>
         </div>
 
-        <!-- Perintah Instalasi -->
+        <!-- Perintah Instalasi: HANYA MUNCUL JIKA PROSES BERHASIL -->
         <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
@@ -272,18 +334,23 @@
         let rawContentCache = "";
 
         // ================= HITUNGAN LIVE SERVER AKTIF =================
-        // Anda bisa mengganti angka 1 di bawah ini sesuai jumlah hari awal yang diinginkan
-        const startDays = 1; 
-        const pageLoadTimestamp = Date.now();
+        // Ganti tanggal di bawah ini sesuai tanggal/jam server mulai online
+        // Format: TAHUN-BULAN-TANGGAL T JAM:MENIT:DETIK
+        const serverStartDate = new Date("2026-03-25T00:00:00").getTime();
 
         function runLiveUptime() {
-            // Hitung selisih detik sejak halaman dibuka + nilai awal startDays
-            const elapsedSeconds = Math.floor((Date.now() - pageLoadTimestamp) / 1000);
-            const totalSeconds = (startDays * 86400) + elapsedSeconds;
+            const now = new Date().getTime();
+            let totalSeconds = Math.floor((now - serverStartDate) / 1000);
+
+            if (totalSeconds < 0) totalSeconds = 0;
 
             const days = Math.floor(totalSeconds / 86400);
-            const hours = Math.floor((totalSeconds % 86400) / 3600);
-            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            totalSeconds %= 86400;
+
+            const hours = Math.floor(totalSeconds / 3600);
+            totalSeconds %= 3600;
+
+            const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
 
             document.getElementById("liveServerUptime").innerText = 
@@ -295,7 +362,6 @@
             setExp(30, 'renewExpDate');
             fetchStats();
 
-            // Jalankan perhitungan live server tiap 1 detik
             runLiveUptime();
             setInterval(runLiveUptime, 1000);
         });
@@ -506,6 +572,7 @@
                     if (parts[2] === oldIp) {
                         foundIndex = i;
                         existingName = parts[0];
+                        existingExp = parts[1];
                         break;
                     }
                 }
