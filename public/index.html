@@ -73,7 +73,7 @@
 
     <div class="max-w-3xl w-full space-y-6 relative z-10">
 
-        <!-- Top Header & Angka Statistik -->
+        <!-- Top Header & Angka Statistik + Server Aktif Uptime -->
         <div class="glass-panel p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-xl bg-slate-900 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)]">
@@ -88,15 +88,30 @@
                 </div>
             </div>
 
-            <!-- Total Angka Terdaftar -->
-            <div class="flex items-center gap-3 text-right">
-                <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total Izin IP</span>
-                    <span id="statIpTotal" class="text-base font-mono font-bold text-emerald-400">0 IP</span>
+            <!-- Statistik & Server Uptime Counter -->
+            <div class="flex flex-wrap items-center gap-2 text-right">
+                <!-- Counter Server Aktif (Hari, Jam, Detik) -->
+                <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-left">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold flex items-center gap-1.5">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        Server Aktif
+                    </span>
+                    <span id="serverUptime" class="text-xs sm:text-sm font-mono font-bold text-emerald-400 tracking-tight">0d 0h 0m 0s</span>
                 </div>
-                <div class="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain CF</span>
-                    <span id="statSubTotal" class="text-base font-mono font-bold text-cyan-400">0 Sub</span>
+
+                <!-- Total IP -->
+                <div class="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Total IP</span>
+                    <span id="statIpTotal" class="text-xs sm:text-sm font-mono font-bold text-emerald-400">0 IP</span>
+                </div>
+
+                <!-- Total Subdomain -->
+                <div class="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                    <span class="text-[10px] text-slate-400 uppercase font-semibold block">Subdomain</span>
+                    <span id="statSubTotal" class="text-xs sm:text-sm font-mono font-bold text-cyan-400">0 Sub</span>
                 </div>
             </div>
         </div>
@@ -135,7 +150,7 @@
             </a>
         </div>
 
-        <!-- Tombol Mentahan Inject Kuota (BARU) -->
+        <!-- Tombol Mentahan Inject Kuota -->
         <div class="glass-panel p-4 rounded-xl border border-emerald-500/20 bg-emerald-950/10 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">
@@ -312,7 +327,7 @@
             </form>
         </div>
 
-        <!-- Perintah Instalasi: HANYA MUNCUL JIKA IZIN/PERPANJANGAN/GANTI IP BERHASIL -->
+        <!-- Perintah Instalasi: HANYA MUNCUL JIKA PROSES BERHASIL -->
         <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
@@ -333,14 +348,40 @@
 
     </div>
 
-    <!-- LOGIKA SISTEM LISENSI -->
+    <!-- LOGIKA SISTEM & TIMER UPTIME -->
     <script>
         let rawContentCache = "";
+
+        // ================= HITUNGAN SERVER AKTIF (UPTIME) =================
+        // Menggunakan waktu referensi stabil (bisa disesuaikan tanggal peluncuran server)
+        const serverStartTime = new Date("2025-01-01T00:00:00Z").getTime();
+
+        function updateServerUptime() {
+            const now = new Date().getTime();
+            let difference = Math.floor((now - serverStartTime) / 1000);
+
+            const days = Math.floor(difference / (3600 * 24));
+            difference -= days * 3600 * 24;
+
+            const hours = Math.floor(difference / 3600);
+            difference -= hours * 3600;
+
+            const minutes = Math.floor(difference / 60);
+            difference -= minutes * 60;
+
+            const seconds = difference;
+
+            document.getElementById("serverUptime").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             setExp(30, 'expDate');
             setExp(30, 'renewExpDate');
             fetchStats();
+
+            // Jalankan dan perbarui setiap 1 detik
+            updateServerUptime();
+            setInterval(updateServerUptime, 1000);
         });
 
         function switchActionTab(tab) {
@@ -562,7 +603,6 @@
                     return;
                 }
 
-                // Update IP lama ke IP baru (username & expired tetap sama)
                 lines[foundIndex] = `### ${existingName} ${existingExp} ${newIp}`;
                 const updatedContent = lines.join("\n").trim() + "\n";
 
