@@ -608,100 +608,15 @@
         }
     </script>
 
-        
-                <!-- TERMINAL LIVE UJI COBA AUTOSCRIPT (PENGGANTI FOOTER) -->
-        <div class="w-full rounded-2xl overflow-hidden border border-slate-800 bg-[#070B12] shadow-[0_20px_50px_rgba(0,0,0,0.85)] mt-10">
-            
-            <!-- Terminal Header / Titlebar -->
-            <div class="bg-slate-950/90 px-4 py-3 border-b border-slate-800/80 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block shadow-[0_0_8px_rgba(244,63,94,0.4)]"></span>
-                    <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block shadow-[0_0_8px_rgba(245,158,11,0.4)]"></span>
-                    <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-[0_0_8px_rgba(16,185,129,0.4)]"></span>
-                    <span class="text-[11px] font-mono text-slate-400 ml-2 hidden sm:inline">bash — root@autoscript-vip:~ (Terminal Output)</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        SYSTEM READY
-                    </span>
-                </div>
-            </div>
-
-            <!-- Terminal Screen Body -->
-            <div class="p-4 sm:p-6 font-mono text-xs space-y-3 leading-relaxed text-slate-300">
-                <div class="text-slate-500 select-none"># [INFO] Inisialisasi pengujian eksekusi perintah autoscript pada environment root...</div>
-
-                <!-- Input Command Dummy / Test -->
-                <div class="bg-black/60 p-3 rounded-xl border border-slate-800 flex items-start gap-2 break-all text-emerald-400">
-                    <span class="text-emerald-500 select-none font-bold">root@vps:~#</span>
-                    <span class="text-slate-200">apt update && apt install -y wget curl && wget -q <span class="text-cyan-400">setup.sh</span> && chmod +x setup.sh && ./setup.sh</span>
-                </div>
-
-                <!-- Simulasi Log Output Hasil Eksekusi Script -->
-                <div class="space-y-1.5 pt-1 text-[11px]">
-                    <div class="text-slate-400 flex items-center gap-2">
-                        <span class="text-cyan-400">[SYSTEM]</span>
-                        <span>Memeriksa arsitektur sistem operasi...</span>
-                        <span class="text-emerald-400 font-bold">[OK] Ubuntu / Debian</span>
-                    </div>
-                    <div class="text-slate-400 flex items-center gap-2">
-                        <span class="text-cyan-400">[DATABASE]</span>
-                        <span>Validasi Lisensi IP ke GitHub Raw...</span>
-                        <span class="text-emerald-400 font-bold">[200 VERIFIED]</span>
-                    </div>
-                    <div class="text-slate-400 flex items-center gap-2">
-                        <span class="text-cyan-400">[SERVICES]</span>
-                        <span>Memasang Xray-Core (Vmess, Vless, Trojan, Shadowsocks)...</span>
-                        <span class="text-emerald-400 font-bold">[RUNNING]</span>
-                    </div>
-                    <div class="text-slate-400 flex items-center gap-2">
-                        <span class="text-cyan-400">[NETWORK]</span>
-                        <span>Konfigurasi Webhook & Port (80, 443, 8880, 1194, 5300)...</span>
-                        <span class="text-emerald-400 font-bold">[ACTIVE]</span>
-                    </div>
-                </div>
-
-                <!-- Pesan Dukungan Developer -->
-                <div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-300 text-[11px] flex items-center gap-2">
-                    <i class="fa-solid fa-circle-info text-amber-400"></i>
-                    <span>Jika ada kendala pada web/scriptnya silakan hubungi developer.</span>
-                </div>
-
-                <!-- Prompt Terminal Akhir -->
-                <div class="pt-2 border-t border-slate-800/80 flex items-center gap-2 text-emerald-400 text-xs">
-                    <span class="font-bold">root@vps:~#</span>
-                    <span class="text-slate-400 animate-pulse">_</span>
-                    <span class="text-[11px] text-slate-500 ml-auto hidden sm:inline">Status instalasi: 100% Selesai & Teruji</span>
-                </div>
-            </div>
-
-            <!-- Terminal Bottom Bar / Quick Links -->
-            <div class="bg-slate-950/90 px-4 py-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
-                <div class="flex items-center gap-3">
-                    <span class="text-slate-500">Fast Jump:</span>
-                    <a href="/domain.html" class="hover:text-cyan-400 transition flex items-center gap-1">
-                        <i class="fa-solid fa-cloud text-[10px]"></i> Subdomain
-                    </a>
-                    <span>•</span>
-                    <a href="/p.html" class="hover:text-purple-400 transition flex items-center gap-1">
-                        <i class="fa-solid fa-images text-[10px]"></i> Preview SC
-                    </a>
-                    <span>•</span>
-                    <a href="https://pypxyndz.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition flex items-center gap-1">
-                        <i class="fa-solid fa-bolt text-[10px]"></i> Inject Kuota
-                    </a>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <span class="text-slate-600">© 2026 VIP Autoscript Core</span>
-                    <span>•</span>
-                    <a href="/list.html" class="text-slate-500 hover:text-emerald-400 transition">Owner Portal</a>
-                </div>
-            </div>
-
-        </div>
-
+          <!-- Footer Kontak Developer -->
+        <footer class="w-full text-center py-6 mt-10 border-t border-cyber-border">
+            <a href="https://t.me/DINN_STORE" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-emerald-400 transition group">
+                <i class="fa-brands fa-telegram text-emerald-400 text-sm group-hover:scale-110 transition-transform"></i>
+                <span>Jika ada kendala pada web/scriptnya silakan hubungi developer.</span>
+            </a>
+        </footer>
+      
+                
     
 </body>
 </html>
