@@ -608,75 +608,93 @@
         }
     </script>
 
-        <!-- FOOTER SECTION -->
-        <footer class="glass-panel p-6 rounded-2xl space-y-5 text-xs text-slate-400 mt-10">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <!-- Info Layanan -->
-                <div class="space-y-2 sm:col-span-1">
-                    <div class="flex items-center gap-2 text-white font-bold text-sm">
-                        <i class="fa-solid fa-terminal text-emerald-400"></i>
-                        <span>VIP Autoscript</span>
-                    </div>
-                    <p class="text-[11px] leading-relaxed text-slate-400">
-                        Platform manajemen lisensi otomatis dan DNS manager untuk Autoscript VPS VIP berbasis Cloudflare & GitHub API.
-                    </p>
+        
+        <!-- TERMINAL LIVE UJI COBA AUTOSCRIPT (PENGGANTI FOOTER) -->
+        <div class="w-full rounded-2xl overflow-hidden border border-slate-800 bg-[#070B12] shadow-[0_20px_50px_rgba(0,0,0,0.85)] mt-10">
+            
+            <!-- Terminal Header / Titlebar -->
+            <div class="bg-slate-950/90 px-4 py-3 border-b border-slate-800/80 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block shadow-[0_0_8px_rgba(244,63,94,0.4)]"></span>
+                    <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block shadow-[0_0_8px_rgba(245,158,11,0.4)]"></span>
+                    <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block shadow-[0_0_8px_rgba(16,185,129,0.4)]"></span>
+                    <span class="text-[11px] font-mono text-slate-400 ml-2 hidden sm:inline">bash — root@autoscript-vip:~ (Test Bench)</span>
                 </div>
-
-                <!-- Tautan Cepat -->
-                <div class="space-y-2">
-                    <span class="text-white font-semibold text-xs uppercase tracking-wider block">Navigasi</span>
-                    <ul class="space-y-1.5 text-[11px]">
-                        <li>
-                            <a href="/domain.html" class="hover:text-cyan-400 transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-angle-right text-[10px] text-slate-600"></i> Subdomain Manager
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/p.html" class="hover:text-purple-400 transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-angle-right text-[10px] text-slate-600"></i> Galeri Script
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://pypxyndz.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition flex items-center gap-1.5">
-                                <i class="fa-solid fa-angle-right text-[10px] text-slate-600"></i> Mentahan Inject
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Status Sistem & Keamanan -->
-                <div class="space-y-2">
-                    <span class="text-white font-semibold text-xs uppercase tracking-wider block">Status Sistem</span>
-                    <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 space-y-1 text-[11px] font-mono">
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-400">API Status:</span>
-                            <span class="text-emerald-400 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-400">DNS Sync:</span>
-                            <span class="text-cyan-400">Cloudflare</span>
-                        </div>
-                    </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        CORE READY
+                    </span>
                 </div>
             </div>
 
-            <!-- Garis Batas Bawah & Hak Cipta -->
-            <div class="border-t border-slate-800/80 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
-                <p>© 2026 VIP Autoscript Portal. Hak cipta dilindungi undang-undang.</p>
+            <!-- Terminal Screen Body -->
+            <div class="p-4 sm:p-6 font-mono text-xs space-y-3 leading-relaxed text-slate-300">
+                <div class="text-slate-500 select-none"># [INFO] Inisialisasi pengujian eksekusi perintah autoscript pada environment root...</div>
+
+                <!-- Input Command Dummy / Test -->
+                <div class="bg-black/60 p-3 rounded-xl border border-slate-800 flex items-start gap-2 break-all text-emerald-400">
+                    <span class="text-emerald-500 select-none font-bold">root@vps:~#</span>
+                    <span class="text-slate-200">apt update && apt install -y wget curl && wget -q <span class="text-cyan-400">setup.sh</span> && chmod +x setup.sh && ./setup.sh</span>
+                </div>
+
+                <!-- Simulasi Log Output Hasil Eksekusi Script -->
+                <div class="space-y-1.5 pt-1 text-[11px]">
+                    <div class="text-slate-400 flex items-center gap-2">
+                        <span class="text-cyan-400">[SYSTEM]</span>
+                        <span>Memeriksa arsitektur sistem operasi...</span>
+                        <span class="text-emerald-400 font-bold">[OK] Ubuntu / Debian</span>
+                    </div>
+                    <div class="text-slate-400 flex items-center gap-2">
+                        <span class="text-cyan-400">[DATABASE]</span>
+                        <span>Validasi Lisensi IP ke GitHub Raw...</span>
+                        <span class="text-emerald-400 font-bold">[200 VERIFIED]</span>
+                    </div>
+                    <div class="text-slate-400 flex items-center gap-2">
+                        <span class="text-cyan-400">[SERVICES]</span>
+                        <span>Memasang Xray-Core (Vmess, Vless, Trojan, Shadowsocks)...</span>
+                        <span class="text-emerald-400 font-bold">[RUNNING]</span>
+                    </div>
+                    <div class="text-slate-400 flex items-center gap-2">
+                        <span class="text-cyan-400">[NETWORK]</span>
+                        <span>Konfigurasi Webhook & Port (80, 443, 8880, 1194, 5300)...</span>
+                        <span class="text-emerald-400 font-bold">[ACTIVE]</span>
+                    </div>
+                </div>
+
+                <!-- Hasil Akhir Uji Coba / Prompt Siap -->
+                <div class="pt-2 border-t border-slate-800/80 flex items-center gap-2 text-emerald-400 text-xs">
+                    <span class="font-bold">root@vps:~#</span>
+                    <span class="text-slate-400 animate-pulse">_</span>
+                    <span class="text-[11px] text-slate-500 ml-auto hidden sm:inline">Status instalasi: 100% Selesai & Teruji</span>
+                </div>
+            </div>
+
+            <!-- Terminal Bottom Bar / Quick Links -->
+            <div class="bg-slate-950/90 px-4 py-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
                 <div class="flex items-center gap-3">
-                    <span class="flex items-center gap-1">
-                        <i class="fa-solid fa-lock text-[10px] text-emerald-400"></i> 256-bit Encrypted
-                    </span>
+                    <span class="text-slate-500">Fast Jump:</span>
+                    <a href="/domain.html" class="hover:text-cyan-400 transition flex items-center gap-1">
+                        <i class="fa-solid fa-cloud text-[10px]"></i> Subdomain
+                    </a>
                     <span>•</span>
-                    <a href="/list.html" class="hover:text-slate-300 transition flex items-center gap-1">
-                        <i class="fa-solid fa-key text-[10px]"></i> Owner Portal
+                    <a href="/p.html" class="hover:text-purple-400 transition flex items-center gap-1">
+                        <i class="fa-solid fa-images text-[10px]"></i> Preview SC
+                    </a>
+                    <span>•</span>
+                    <a href="https://pypxyndz.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition flex items-center gap-1">
+                        <i class="fa-solid fa-bolt text-[10px]"></i> Inject Kuota
                     </a>
                 </div>
-            </div>
-        </footer>
 
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-600">© 2026 VIP Autoscript Core</span>
+                    <span>•</span>
+                    <a href="/list.html" class="text-slate-500 hover:text-emerald-400 transition">Owner Portal</a>
+                </div>
+            </div>
+
+        </div>
 
     
 </body>
