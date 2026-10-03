@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoscript - License Portal</title>
+    <title>VIP Autoscript - License Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -79,8 +79,8 @@
                 </div>
                 <div>
                     <h1 class="text-base sm:text-lg font-bold text-white flex items-center gap-2 tracking-wide">
-                        REGISTRASI
-                        <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">AUTOSCRIPT</span>
+                        REGISTRASI LISENSI
+                        <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">AUTOSCRIPT VIP</span>
                     </h1>
                     <p class="text-xs text-slate-400">Pendaftaran Izin IP Baru, Perpanjangan Masa Aktif & Ganti Alamat IP VPS</p>
                 </div>
@@ -143,7 +143,7 @@
                 </div>
                 <div class="text-left">
                     <p class="text-xs font-semibold text-white">Mentahan Inject</p>
-                    <p class="text-[10px] text-slate-400">Bug & Payload</p>
+                    <p class="text-[10px] text-slate-400">Config & Payload</p>
                 </div>
             </a>
         </div>
@@ -246,7 +246,7 @@
                         <button type="button" onclick="setExp(365, 'expDate')" class="px-2.5 py-1 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs rounded text-slate-300 transition">+1 Thn</button>
                     </div>
                     <button type="submit" id="btnSubmitRegister" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan & Dapatkan Skrip
                     </button>
                 </div>
             </form>
@@ -301,12 +301,12 @@
         <div id="commandCard" class="hidden glass-panel border border-emerald-500/50 bg-emerald-950/30 p-5 rounded-2xl space-y-3 shadow-2xl">
             <div class="flex items-center justify-between">
                 <span id="commandStatusTitle" class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check"></i> IP Berhasil Disimpan ke Server!
+                    <i class="fa-solid fa-circle-check"></i> Izin IP Berhasil Disimpan ke GitHub!
                 </span>
                 <span id="targetDetail" class="text-xs font-mono text-emerald-300 px-2.5 py-0.5 bg-emerald-900/60 rounded"></span>
             </div>
             
-            <p class="text-xs text-slate-300">Jalankan perintah ini di VPS untuk menginstal autoscript:</p>
+            <p class="text-xs text-slate-300">Jalankan perintah ini di VPS root untuk menginstal autoscript:</p>
             
             <div class="relative bg-slate-950 border border-emerald-500/30 rounded-xl p-3.5 font-mono text-xs text-emerald-400 break-all leading-relaxed">
                 <span id="finalInstallCmd"></span>
@@ -315,6 +315,75 @@
                 </button>
             </div>
         </div>
+
+        <!-- FOOTER SECTION -->
+        <footer class="glass-panel p-6 rounded-2xl space-y-5 text-xs text-slate-400 mt-10">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- Info Layanan -->
+                <div class="space-y-2 sm:col-span-1">
+                    <div class="flex items-center gap-2 text-white font-bold text-sm">
+                        <i class="fa-solid fa-terminal text-emerald-400"></i>
+                        <span>VIP Autoscript</span>
+                    </div>
+                    <p class="text-[11px] leading-relaxed text-slate-400">
+                        Platform manajemen lisensi otomatis dan DNS manager untuk Autoscript VPS VIP berbasis Cloudflare & GitHub API.
+                    </p>
+                </div>
+
+                <!-- Tautan Cepat -->
+                <div class="space-y-2">
+                    <span class="text-white font-semibold text-xs uppercase tracking-wider block">Navigasi</span>
+                    <ul class="space-y-1.5 text-[11px]">
+                        <li>
+                            <a href="/domain.html" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-angle-right text-[10px] text-slate-600"></i> Subdomain Manager
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/p.html" class="hover:text-purple-400 transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-angle-right text-[10px] text-slate-600"></i> Galeri Script
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://pypxyndz.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-angle-right text-[10px] text-slate-600"></i> Mentahan Inject
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Status Sistem & Keamanan -->
+                <div class="space-y-2">
+                    <span class="text-white font-semibold text-xs uppercase tracking-wider block">Status Sistem</span>
+                    <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 space-y-1 text-[11px] font-mono">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400">API Status:</span>
+                            <span class="text-emerald-400 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-400">DNS Sync:</span>
+                            <span class="text-cyan-400">Cloudflare</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garis Batas Bawah & Hak Cipta -->
+            <div class="border-t border-slate-800/80 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
+                <p>© 2026 VIP Autoscript Portal. Hak cipta dilindungi undang-undang.</p>
+                <div class="flex items-center gap-3">
+                    <span class="flex items-center gap-1">
+                        <i class="fa-solid fa-lock text-[10px] text-emerald-400"></i> 256-bit Encrypted
+                    </span>
+                    <span>•</span>
+                    <a href="/list.html" class="hover:text-slate-300 transition flex items-center gap-1">
+                        <i class="fa-solid fa-key text-[10px]"></i> Owner Portal
+                    </a>
+                </div>
+            </div>
+        </footer>
 
     </div>
 
@@ -416,7 +485,7 @@
 
             const btn = document.getElementById("btnSubmitRegister");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke Server...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan ke GitHub...`;
 
             try {
                 const newLine = `### ${name} ${exp} ${ip}`;
@@ -529,7 +598,7 @@
 
             const btn = document.getElementById("btnSubmitChangeIp");
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengganti IP...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Mengganti IP di GitHub...`;
 
             try {
                 const getRes = await fetch("/api/ip");
